@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_1"
+    tools:context=".TelaEntrar">
+
+    <TextView
+        android:id="@+id/txtCadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="94dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="95dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloSemConta"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEntrarGoogle" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="51dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnEntrarInicial"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEsqSenha" />
+
+    <TextView
+        android:id="@+id/tituloLogin"
+        android:layout_width="278dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="87dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tituloLogin"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoLogin" />
+
+    <TextView
+        android:id="@+id/subtituloLogin"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginEnd="82dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloLogin"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloLogin" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="82dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblEmailLogin"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloLogin" />
+
+    <TextView
+        android:id="@+id/lblSenha"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="82dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblSenhaLogin"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailLogin" />
+
+    <TextView
+        android:id="@+id/lblOuCom"
+        android:layout_width="140dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblOuCom"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/imgEntrarGoogle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <TextView
+        android:id="@+id/txtEsqSenha"
+        android:layout_width="320dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="51dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblEsqueceuSenha"
+        android:textAlignment="textEnd"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSenhaLogin" />
+
+    <EditText
+        android:id="@+id/txtEmailLogin"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginEnd="51dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:drawableTint="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintEmailLogin"
+        android:inputType="textEmailAddress"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailLogin" />
+
+    <EditText
+        android:id="@+id/txtSenhaLogin"
+        android:layout_width="315dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="51dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintSenhaLogin"
+        android:inputType="textPassword"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSenha" />
+
+    <ImageView
+        android:id="@+id/imgEntrarGoogle"
+        android:layout_width="67dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtCadastrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblOuCom"
+        app:srcCompat="@drawable/google" />
+
+    <ImageView
+        android:id="@+id/imgLogoLogin"
+        android:layout_width="191dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

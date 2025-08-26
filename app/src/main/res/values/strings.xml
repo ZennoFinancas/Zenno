@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Zenno Finanças</string>
+
+    // Tela Inicial
+    <string name="tituloInicial">Seu aliado pra fazer o dinheiro durar.</string>
+    <string name="btnEntrarInicial">Entrar</string>
+    <string name="btnCadastrarInicial">Não tem uma conta? Cadastre-se</string>
+    <string name="subtituloInicial">Administrador</string>
+
+    // Tela Login
+    <string name="tituloLogin">Bem vindo de volta!</string>
+    <string name="subtituloLogin">Faça login com a suas credenciais.</string>
+    <string name="lblEmailLogin">E-mail</string>
+    <string name="lblSenhaLogin">Senha</string>
+    <string name="hintEmailLogin">seuemail@gmail.com</string>
+    <string name="hintSenhaLogin">*******</string>
+    <string name="lblEsqueceuSenha">Esqueceu a senha?</string>
+    <string name="lblOuCom">Ou entre com:</string>
+    <string name="subtituloSemConta">Não possui uma conta? <b>Cadastre-se</b></string>
+
+    // Tela Criar Conta
+    <string name="tituloCriarConta">Crie sua conta <b>ZENNO!</b></string>
+    <string name="btnCriarGoogle">Criar com Google</string>
+    <string name="btnCriarEmail">Criar com E-mail</string>
+    <string name="subtituloCriarConta">Ja possui uma conta? <b>Entrar</b></string>
+
+    // Tela Criar Conta Email
+    <string name="titulo_4">Cadastre-se agora!</string>
+    <string name="subTit_5">Crie uma conta e tenha acesso a todos os recursos do nosso app!</string>
+    <string name="labelNome">Como quer ser chamado(a)?</string>
+    <string name="hintNome">seu nome</string>
+    <string name="hintSenha_2">mínimo de 8 caracteres</string>
+    <string name="labelSenha_2">Confirme a senha</string>
+    <string name="hintSenha_3">repita a senha</string>
+    <string name="btnCadastrar_2">Cadastrar</string>
+</resources>

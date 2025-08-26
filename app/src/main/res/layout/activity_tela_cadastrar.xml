@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_1"
+    tools:context=".TelaCadastrar">
+
+    <TextView
+        android:id="@+id/txtEntrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="169dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloCriarConta"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCadastrarEmail" />
+
+    <Button
+        android:id="@+id/btnCadastrarEmail"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#712aaf"
+        android:drawableLeft="@android:drawable/ic_dialog_email"
+        android:drawableTint="#FFFFFF"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnCriarEmail"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCriarGoogle" />
+
+    <Button
+        android:id="@+id/btnCriarGoogle"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableLeft="@drawable/google_icon"
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:includeFontPadding="false"
+        android:text="@string/btnCriarGoogle"
+        android:textColor="#323030"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloCadastrar" />
+
+    <TextView
+        android:id="@+id/tituloCadastrar"
+        android:layout_width="281dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="66dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tituloCriarConta"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoCadastrar" />
+
+    <ImageView
+        android:id="@+id/imgLogoCadastrar"
+        android:layout_width="265dp"
+        android:layout_height="228dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="73dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
