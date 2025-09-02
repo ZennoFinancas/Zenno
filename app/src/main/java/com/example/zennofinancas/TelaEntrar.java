@@ -30,8 +30,25 @@ public class TelaEntrar extends ActivityBase
             public void onClick(View view) {
 
                 String Email = "";
-                authManager authManager = new authManager();
-                authManager.registerUser(Email, "Vini123",TelaEntrar.this );
+                apiSupabase APISUPABASE = new apiSupabase();
+
+                APISUPABASE.postData("");
+
+                new Thread(() -> {
+                    // Chama o método postData na thread separada
+                    String response = APISUPABASE.postData("");
+
+                    // Atualiza a UI com o resultado da requisição
+                    runOnUiThread(() -> {
+                        if (response != null) {
+                            // Se a resposta for válida, mostrar um Toast de sucesso
+                            Toast.makeText(TelaEntrar.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Se a resposta for null, mostrar um Toast de erro
+                            Toast.makeText(TelaEntrar.this, "Erro de login!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }).start(); // Inicia a thread de fundo
 
 
             }
