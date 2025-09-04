@@ -20,7 +20,7 @@ public class apiSupabase {
     }
 
     public String postData(String jsonData) {
-        String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", "vini2@email.com", "vini1234");
+        String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", "vini5@email.com", "vini1234");
         RequestBody body = RequestBody.create(json, JSON);
 
         Request request = new Request.Builder()

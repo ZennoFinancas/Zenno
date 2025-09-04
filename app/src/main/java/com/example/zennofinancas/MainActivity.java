@@ -10,7 +10,6 @@ public class MainActivity extends ActivityBase
 {
     // Atributos
     Button btnEntrar, btnCadastrar;
-    TextView txtAdm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,7 +20,7 @@ public class MainActivity extends ActivityBase
         // Inicializando Elementos
         btnEntrar = (Button) findViewById(R.id.btnEntrarInicial);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrarInicial);
-        txtAdm = (TextView) findViewById(R.id.txtAdm);
+
 
         // Evento Botão Entrar
         btnEntrar.setOnClickListener(new View.OnClickListener()
@@ -49,18 +48,6 @@ public class MainActivity extends ActivityBase
             }
         });
 
-        // Evento para Login Adimistrativo
-        txtAdm.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent it = new Intent(MainActivity.this,
-                        TelaConversao.class);
-                startActivity(it);
-            }
 
-
-        });
     }
 }
