@@ -41,11 +41,10 @@ public class MainActivity extends ActivityBase
             @Override
             public void onClick(View view)
             {
-                Intent it = new Intent(MainActivity.this,TelaConversao.class);
-                startActivity(it);
-                /*Intent it = new Intent(MainActivity.this,
+
+                Intent it = new Intent(MainActivity.this,
                         TelaCadastrar.class);
-                startActivity(it);*/
+                startActivity(it);
 
             }
         });

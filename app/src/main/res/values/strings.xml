@@ -27,7 +27,7 @@
     // Tela Criar Conta Email
     <string name="titulo_4">Cadastre-se agora!</string>
     <string name="subTit_5">Crie uma conta e tenha acesso a todos os recursos do nosso app!</string>
-    <string name="labelNome">Como quer ser chamado(a)?</string>
+    <string name="labelNome">Nome completo (sem abreviações)</string>
     <string name="hintNome">seu nome</string>
     <string name="hintSenha_2">mínimo de 8 caracteres</string>
     <string name="labelSenha_2">Confirme a senha</string>
