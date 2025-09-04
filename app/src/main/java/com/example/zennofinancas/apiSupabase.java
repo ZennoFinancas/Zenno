@@ -9,18 +9,18 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class apiSupabase {
-    private static final String SUPABASE_URL = "https://pmtlqpsdkgbmukqhwfed.supabase.co/auth/v1/signup";
-    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdGxxcHNka2dibXVrcWh3ZmVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODI4OTYsImV4cCI6MjA2OTA1ODg5Nn0.NeV7JuQPZrbHdvBGIgfKRMAIyIJN9oV9XcZeg-siHuQ";
+    private static final String SUPABASE_URL = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios";
+    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtkc3V2bGFlZXB3anpxbmZ2eHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTMwMTIsImV4cCI6MjA3MTcyOTAxMn0.iuOiaoqm3BhPyEMs6mtn2KlA2CIuYdnkcfmc36_Z8t8";
 
     private OkHttpClient client;
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json");
 
     public apiSupabase() {
         client = new OkHttpClient();
     }
 
     public String postData(String jsonData) {
-        String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", "vini5@email.com", "vini1234");
+        String json = String.format("{\"nome_user\":\"%s\", \"senha_user\":\"%s\"}", "Lucas Pereira", "vini166234");
         RequestBody body = RequestBody.create(json, JSON);
 
         Request request = new Request.Builder()

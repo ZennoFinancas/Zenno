@@ -39,9 +39,9 @@ public class TelaConversao extends AppCompatActivity {
         lblResultado = findViewById(R.id.lblResultado);
 
         Moeda[] moedas = {
-                new Moeda("USD", "Dólar Americano \uD83C\uDDE7\uD83C\uDDF7"),
+                new Moeda("USD", "Dólar Americano \uD83C\uDDFA\uD83C\uDDF8 "),
                 new Moeda("EUR", "Euro"),
-                new Moeda("BRL", "Real Brasileiro"),
+                new Moeda("BRL", "Real Brasileiro \uD83C\uDDE7\uD83C\uDDF7"),
                 new Moeda("JPY", "Iene Japonês"),
                 new Moeda("GBP", "Libra Esterlina"),
                 new Moeda("AUD", "Dólar Australiano"),
