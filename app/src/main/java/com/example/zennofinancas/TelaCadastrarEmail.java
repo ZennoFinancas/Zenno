@@ -71,24 +71,31 @@ public class TelaCadastrarEmail extends ActivityBase {
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .setJsonObjectBody(json)  // corpo em JSON
-                .asJsonArray() // o Supabase retorna uma array com os registros inseridos
-                .setCallback(new FutureCallback<JsonArray>() {
+                .asString() // Change this line
+                .setCallback(new FutureCallback<String>() {
                     @Override
-                    public void onCompleted(Exception e, com.google.gson.JsonArray result) {
+                    public void onCompleted(Exception e, String result) {
+
+                        // BD nao valida se o email já foi cadastrado ou não.
                         if (e != null) {
                             e.printStackTrace();
                             Toast.makeText(TelaCadastrarEmail.this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        if (result != null && result.size() > 0) {
-                            // Inserção realizada com sucesso
-
+                        else
+                        {
+                            // Se não houver erro de exceção, a requisição foi bem-sucedida
+                            // Independentemente da resposta do servidor (vazia ou não)
+                            Toast.makeText(TelaCadastrarEmail.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(TelaCadastrarEmail.this, MainActivity.class);
                             startActivity(trocar);
-                        } else {
-                            Toast.makeText(TelaCadastrarEmail.this, "Erro ao inserir: resultado vazio", Toast.LENGTH_LONG).show();
                         }
+
+
+
+
+
                     }
                 });
     }
