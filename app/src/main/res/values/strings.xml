@@ -33,4 +33,34 @@
     <string name="labelSenha_2">Confirme a senha</string>
     <string name="hintSenha_3">repita a senha</string>
     <string name="btnCadastrar_2">Cadastrar</string>
+
+    // Tela Meu Perfil
+    <string name="lblEditarPerfil">Editar informações do perfil</string>
+    <string name="lblNotificacoes">Notificações</string>
+    <string name="lblSuporte">Ajuda e suporte</string>
+    <string name="lblSobre">Sobre o app</string>
+    <string name="lblTermos">Termos e políticas</string>
+    <string name="lblSair">Sair da conta</string>
+
+    // Tela Editar Perfil
+    <string name="tituloEditarPerfil">Editar Perfil</string>
+    <string name="lblNome">Nome completo</string>
+    <string name="lblCelular">Número de celular</string>
+    <string name="lblPais">País</string>
+    <string name="lblGenero">Gênero</string>
+    <string name="lblCEP">CEP</string>
+    <string name="lblNumEndereco">Número</string>
+    <string name="lblEndereco">Endereço completo</string>
+    <string name="btnEditar">Editar</string>
+
+    // Tela Notificações
+    <string name="lblGeral">Geral</string>
+    <string name="lblDesativar">Desativar todas as notificações</string>
+    <string name="lblSons">Sons</string>
+    <string name="lblVibrações">Vibrações</string>
+    <string name="lblSistema">Sistema & atualizações</string>
+    <string name="lblVencConta">Vencimento de conta</string>
+    <string name="lblOutras">Outras notificações</string>
+    <string name="lblNovasFunc">Novas funcionalidades</string>
+    <string name="lblMovMoedas">Movimentações das moedas</string>
 </resources>

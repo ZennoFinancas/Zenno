@@ -15,6 +15,15 @@
         android:theme="@style/Theme.ZennoFinancas"
         tools:targetApi="31">
         <activity
+            android:name=".TelaNotificacoes"
+            android:exported="false" />
+        <activity
+            android:name=".TelaEditarPerfil"
+            android:exported="false" />
+        <activity
+            android:name=".TelaMeuPerfil"
+            android:exported="false" />
+        <activity
             android:name=".TelaConversao"
             android:exported="false" />
         <activity

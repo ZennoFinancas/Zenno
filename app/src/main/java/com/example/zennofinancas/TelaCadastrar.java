@@ -43,9 +43,4 @@ public class TelaCadastrar extends ActivityBase
             }
         });
     }
-
-
-
-    //Classe para inserir os DADOS
-
 }

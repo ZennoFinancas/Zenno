@@ -30,10 +30,7 @@ public class TelaCadastrarEmail extends ActivityBase {
         txtEmail = (TextView) findViewById(R.id.txtEmailCadastro);
         txtSenha = (TextView) findViewById(R.id.txtSenhaCadastro);
         txtConfSenha = (TextView) findViewById(R.id.txtConfSenhaCadastro);
-
         btnCadastrarUser = (Button) findViewById(R.id.btnCadastrar);
-
-
 
         btnCadastrarUser.setOnClickListener(new View.OnClickListener() {
             @Override

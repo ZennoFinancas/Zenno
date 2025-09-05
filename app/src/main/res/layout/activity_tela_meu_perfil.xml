@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_1"
+    tools:context=".TelaMeuPerfil">
+
+    <TextView
+        android:id="@+id/lblEmailLogin2"
+        android:layout_width="214dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblEditarPerfil"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="335dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin3"
+        android:layout_width="106dp"
+        android:layout_height="24dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblNotificacoes"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="378dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin4"
+        android:layout_width="127dp"
+        android:layout_height="24dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblSuporte"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin5"
+        android:layout_width="112dp"
+        android:layout_height="21dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblSair"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="576dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin6"
+        android:layout_width="143dp"
+        android:layout_height="23dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblTermos"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="534dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin7"
+        android:layout_width="102dp"
+        android:layout_height="22dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblSobre"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="493dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="335dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="378dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="451dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="490dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="532dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="572dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin8"
+        android:layout_width="371dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="253dp" />
+
+    <TextView
+        android:id="@+id/tituloLogin2"
+        android:layout_width="371dp"
+        android:layout_height="36dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="217dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="37dp"
+        app:srcCompat="@drawable/voltar"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="31dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="52dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/metas"
+        tools:layout_editor_absoluteX="326dp"
+        tools:layout_editor_absoluteY="28dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="140dp"
+        tools:layout_editor_absoluteY="79dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
