@@ -25,42 +25,42 @@
     <string name="subtituloCriarConta">Ja possui uma conta? <b>Entrar</b></string>
 
     // Tela Criar Conta Email
-    <string name="titulo_4">Cadastre-se agora!</string>
-    <string name="subTit_5">Crie uma conta e tenha acesso a todos os recursos do nosso app!</string>
-    <string name="labelNome">Nome completo (sem abreviações)</string>
-    <string name="hintNome">seu nome</string>
-    <string name="hintSenha_2">mínimo de 8 caracteres</string>
-    <string name="labelSenha_2">Confirme a senha</string>
-    <string name="hintSenha_3">repita a senha</string>
-    <string name="btnCadastrar_2">Cadastrar</string>
+    <string name="tituloCriarContaEmail">Cadastre-se agora!</string>
+    <string name="subtituloCriarContaEmail">Crie uma conta e tenha acesso a todos os recursos do nosso app!</string>
+    <string name="lblNomeCompleto">Nome completo (sem abreviações)</string>
+    <string name="hintNomeCriarConta">seu nome</string>
+    <string name="hintSenhaCriarConta">mínimo de 8 caracteres</string>
+    <string name="lblConfirmarSenha">Confirme a senha</string>
+    <string name="hintConfSenhaCriarConta">repita a senha</string>
+    <string name="btnCriarConta">Cadastrar</string>
 
     // Tela Meu Perfil
     <string name="lblEditarPerfil">Editar informações do perfil</string>
     <string name="lblNotificacoes">Notificações</string>
     <string name="lblSuporte">Ajuda e suporte</string>
-    <string name="lblSobre">Sobre o app</string>
-    <string name="lblTermos">Termos e políticas</string>
-    <string name="lblSair">Sair da conta</string>
+    <string name="lblSobreApp">Sobre o app</string>
+    <string name="lblTermosPoliticas">Termos e políticas</string>
+    <string name="lblSairConta">Sair da conta</string>
 
     // Tela Editar Perfil
     <string name="tituloEditarPerfil">Editar Perfil</string>
-    <string name="lblNome">Nome completo</string>
-    <string name="lblCelular">Número de celular</string>
-    <string name="lblPais">País</string>
-    <string name="lblGenero">Gênero</string>
-    <string name="lblCEP">CEP</string>
-    <string name="lblNumEndereco">Número</string>
-    <string name="lblEndereco">Endereço completo</string>
-    <string name="btnEditar">Editar</string>
+    <string name="lblCelularUser">Número de celular</string>
+    <string name="lblPaisUser">País</string>
+    <string name="lblGeneroUser">Gênero</string>
+    <string name="lblCEPUser">CEP</string>
+    <string name="lblNumEnderecoUser">Número</string>
+    <string name="lblEnderecoUser">Endereço completo</string>
+    <string name="btnEditarUser">Editar</string>
 
     // Tela Notificações
-    <string name="lblGeral">Geral</string>
-    <string name="lblDesativar">Desativar todas as notificações</string>
-    <string name="lblSons">Sons</string>
-    <string name="lblVibrações">Vibrações</string>
-    <string name="lblSistema">Sistema E atualizações</string>
-    <string name="lblVencConta">Vencimento de conta</string>
-    <string name="lblOutras">Outras notificações</string>
-    <string name="lblNovasFunc">Novas funcionalidades</string>
-    <string name="lblMovMoedas">Movimentações das moedas</string>
+    <string name="subtituloGeralNotif">Geral</string>
+    <string name="lblDesativarNotif">Desativar todas as notificações</string>
+    <string name="lblSonsNotif">Sons</string>
+    <string name="lblVibraçõesNotif">Vibrações</string>
+    <string name="subtituloSistemaNotif">Sistema E atualizações</string>
+    <string name="lblVencContaNotif">Vencimento de conta</string>
+    <string name="subtituloOutrasNotif">Outras notificações</string>
+    <string name="lblNovasFuncNotif">Novas funcionalidades</string>
+    <string name="lblMovMoedasNotif">Movimentações das moedas</string>
+    <string name="btnSalvarNotif">Salvar</string>
 </resources>

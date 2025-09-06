@@ -13,11 +13,11 @@
         android:layout_height="55dp"
         android:backgroundTint="#1c9d6a"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnCadastrar_2"
+        android:text="@string/btnSalvarNotif"
         android:textSize="20sp"
         app:cornerRadius="12dp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="660dp" />
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="643dp" />
 
     <ImageView
         android:id="@+id/imageView11"
@@ -51,18 +51,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="184dp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="311dp"
-        android:layout_height="27dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblDesativar"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="232dp" />
+        tools:layout_editor_absoluteY="155dp" />
 
     <Switch
         android:id="@+id/switch2"
@@ -73,7 +62,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="272dp" />
+        tools:layout_editor_absoluteY="243dp" />
 
     <Switch
         android:id="@+id/switch3"
@@ -84,7 +73,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="312dp" />
+        tools:layout_editor_absoluteY="283dp" />
 
     <TextView
         android:id="@+id/tituloCadastro5"
@@ -97,7 +86,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="380dp" />
+        tools:layout_editor_absoluteY="351dp" />
 
     <Switch
         android:id="@+id/switch4"
@@ -108,7 +97,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="433dp" />
+        tools:layout_editor_absoluteY="404dp" />
 
     <TextView
         android:id="@+id/tituloCadastro6"
@@ -121,7 +110,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="508dp" />
+        tools:layout_editor_absoluteY="479dp" />
 
     <Switch
         android:id="@+id/switch6"
@@ -132,7 +121,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="558dp" />
+        tools:layout_editor_absoluteY="529dp" />
 
     <Switch
         android:id="@+id/switch5"
@@ -143,6 +132,17 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="598dp" />
+        tools:layout_editor_absoluteY="569dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="311dp"
+        android:layout_height="27dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblDesativar"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="203dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
