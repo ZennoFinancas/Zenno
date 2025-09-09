@@ -40,15 +40,15 @@ public class TelaConversao extends AppCompatActivity {
 
         Moeda[] moedas = {
                 new Moeda("USD", "Dólar Americano \uD83C\uDDFA\uD83C\uDDF8 "),
-                new Moeda("EUR", "Euro"),
+                new Moeda("EUR", "Euro \uD83C\uDDEA\uD83C\uDDFA"),
                 new Moeda("BRL", "Real Brasileiro \uD83C\uDDE7\uD83C\uDDF7"),
-                new Moeda("JPY", "Iene Japonês"),
-                new Moeda("GBP", "Libra Esterlina"),
-                new Moeda("AUD", "Dólar Australiano"),
-                new Moeda("CAD", "Dólar Canadense"),
-                new Moeda("CHF", "Franco Suíço"),
-                new Moeda("CNY", "Yuan Chinês"),
-                new Moeda("NZD", "Dólar Neozelandês")
+                new Moeda("JPY", "Iene Japonês \uD83C\uDDEF\uD83C\uDDF5"),
+                new Moeda("GBP", "Libra Esterlina \uD83C\uDDEC\uD83C\uDDE7"),
+                new Moeda("AUD", "Dólar Australiano \uD83C\uDFF4\uDB40\uDC61\uDB40\uDC75\uDB40\uDC73\uDB40\uDC61\uDB40\uDC7F"),
+                new Moeda("CAD", "Dólar Canadense \uD83C\uDDE8\uD83C\uDDE6  "),
+                new Moeda("CHF", "Franco Suíço \uD83C\uDDE8\uD83C\uDDED"),
+                new Moeda("CNY", "Yuan Chinês \uD83C\uDDE8\uD83C\uDDF3"),
+                new Moeda("NZD", "Dólar Neozelandês \uD83C\uDDF3\uD83C\uDDFF")
         };
 
         ArrayAdapter<Moeda> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, moedas);

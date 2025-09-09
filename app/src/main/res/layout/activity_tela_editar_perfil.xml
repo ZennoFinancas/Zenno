@@ -8,7 +8,7 @@
     tools:context=".TelaEditarPerfil">
 
     <Button
-        android:id="@+id/btnLogin2"
+        android:id="@+id/btnConverter"
         android:layout_width="315dp"
         android:layout_height="55dp"
         android:backgroundTint="#712aaf"

@@ -86,4 +86,16 @@
     <string name="swtNovasFuncNotif">Novas funcionalidades</string>
     <string name="swtMovMoedasNotif">Movimentações das moedas</string>
     <string name="btnSalvarNotif">Salvar</string>
+
+    // Tela Cotação
+    <string name="txtTituloCotacao">Faça uma cotação!\n</string>
+    <string name="txtSubTituloCotacao">Selecione a moeda desejada para cotação.</string>
+    <string name="txtQuantia">Quantia:\n</string>
+    <string name="txtvalor">Digite o valor</string>
+    <string name="txtValor">Valor</string>
+    <string name="txtMoedaOrigem">MoedaOrigem</string>
+    <string name="txtConverter">Converter</string>
+    <string name="lblResultado"> --------  </string>
+    <string name="btnLogin2">Converter</string>
+
 </resources>
