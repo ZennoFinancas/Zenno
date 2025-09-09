@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_1"
+    tools:context=".TelaRedefinirSenha">
+
+    <TextView
+        android:id="@+id/subtituloRedSenha"
+        android:layout_width="306dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="71dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloRedefinirSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloRedSenha" />
+
+    <TextView
+        android:id="@+id/tituloRedSenha"
+        android:layout_width="278dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="99dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tituloRedefinirSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoRedSenha" />
+
+    <EditText
+        android:id="@+id/txtRedSenha"
+        android:layout_width="357dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintSenhaLogin"
+        android:inputType="textPassword"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblRedSenha" />
+
+    <TextView
+        android:id="@+id/lblConfRedSenha"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="101dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblRepitaNovaSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRedSenha" />
+
+    <Button
+        android:id="@+id/btnRedSenha"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnRedefinirSenha"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtConfRedSenha" />
+
+    <TextView
+        android:id="@+id/lblRedSenha"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="101dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblNovaSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloRedSenha" />
+
+    <EditText
+        android:id="@+id/txtConfRedSenha"
+        android:layout_width="357dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintConfSenhaCriarConta"
+        android:inputType="textPassword"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblConfRedSenha" />
+
+    <ImageView
+        android:id="@+id/imgVoltarRedSenha"
+        android:layout_width="50dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/voltar" />
+
+    <ImageView
+        android:id="@+id/imgLogoRedSenha"
+        android:layout_width="191dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_3" />
+</androidx.constraintlayout.widget.ConstraintLayout>

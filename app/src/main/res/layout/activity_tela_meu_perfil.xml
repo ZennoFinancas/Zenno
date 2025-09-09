@@ -8,170 +8,209 @@
     tools:context=".TelaMeuPerfil">
 
     <TextView
-        android:id="@+id/lblEmailLogin2"
+        android:id="@+id/lblEditarPerfil"
         android:layout_width="214dp"
         android:layout_height="25dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="73dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblEditarPerfil"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="335dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloEmailTelMeuPerfil" />
 
     <TextView
-        android:id="@+id/lblEmailLogin3"
+        android:id="@+id/lblNotificacoes"
         android:layout_width="106dp"
         android:layout_height="24dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="181dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblNotificacoes"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="378dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblEditarPerfil" />
 
     <TextView
-        android:id="@+id/lblEmailLogin4"
+        android:id="@+id/lblSuporte"
         android:layout_width="127dp"
         android:layout_height="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="160dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblSuporte"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="452dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblNotificacoes" />
 
     <TextView
-        android:id="@+id/lblEmailLogin5"
+        android:id="@+id/lblSairConta"
         android:layout_width="112dp"
         android:layout_height="21dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="175dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSair"
+        android:text="@string/lblSairConta"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="576dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTermosPoliticas" />
 
     <TextView
-        android:id="@+id/lblEmailLogin6"
+        android:id="@+id/lblTermosPoliticas"
         android:layout_width="143dp"
         android:layout_height="23dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="144dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblTermos"
+        android:text="@string/lblTermosPoliticas"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="534dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSobreApp" />
 
     <TextView
-        android:id="@+id/lblEmailLogin7"
+        android:id="@+id/lblSobreApp"
         android:layout_width="102dp"
         android:layout_height="22dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="185dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSobre"
+        android:text="@string/lblSobreApp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="493dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSuporte" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imgEditarPerfil"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="335dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="57dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloEmailTelMeuPerfil"
+        tools:srcCompat="@drawable/editar" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/imgNotificacoes"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="378dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEditarPerfil"
+        tools:srcCompat="@drawable/notificacoes" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/imgSuporte"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="451dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgNotificacoes"
+        tools:srcCompat="@drawable/suporte" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/imgSobreApp"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="490dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgSuporte"
+        tools:srcCompat="@drawable/sobre" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imgTermosPoliticas"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="532dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgSobreApp"
+        tools:srcCompat="@drawable/termos" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/imgSairConta"
         android:layout_width="29dp"
         android:layout_height="25dp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="572dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgTermosPoliticas"
+        tools:srcCompat="@drawable/sair" />
 
     <TextView
-        android:id="@+id/lblEmailLogin8"
+        android:id="@+id/subtituloEmailTelMeuPerfil"
         android:layout_width="371dp"
         android:layout_height="25dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="21dp"
         android:fontFamily="@font/montserrat_medium"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="253dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloNomeMeuPerfil" />
 
     <TextView
-        android:id="@+id/tituloLogin2"
+        android:id="@+id/tituloNomeMeuPerfil"
         android:layout_width="371dp"
         android:layout_height="36dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="21dp"
         android:fontFamily="@font/montserrat_medium"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="217dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoMeuPerfil" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgVoltarMeuPerfil"
         android:layout_width="50dp"
         android:layout_height="37dp"
-        app:srcCompat="@drawable/voltar"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="31dp" />
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="31dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/voltar" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgMetas"
         android:layout_width="52dp"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/metas"
-        tools:layout_editor_absoluteX="326dp"
-        tools:layout_editor_absoluteY="28dp" />
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="33dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/metas" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imgFotoMeuPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="79dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginEnd="143dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

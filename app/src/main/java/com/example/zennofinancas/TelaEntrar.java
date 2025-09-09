@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -24,6 +25,7 @@ public class TelaEntrar extends ActivityBase
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtkc3V2bGFlZXB3anpxbmZ2eHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTMwMTIsImV4cCI6MjA3MTcyOTAxMn0.iuOiaoqm3BhPyEMs6mtn2KlA2CIuYdnkcfmc36_Z8t8";
     private String url,ret;
     EditText txtEmail, txtSenha;
+    TextView lblEsqSenha;
     Button btnEntrar;
 
     @Override
@@ -36,8 +38,9 @@ public class TelaEntrar extends ActivityBase
         btnEntrar = (Button) findViewById(R.id.btnLogin);
         txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
         txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
+        lblEsqSenha = (TextView) findViewById(R.id.lblEsqSenha);
 
-
+        // Evento do botão entrar
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +60,18 @@ public class TelaEntrar extends ActivityBase
                 }).start();*/
 
 
+            }
+        });
+
+        // Evento da label esqueceu a senha
+        lblEsqSenha.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent it = new Intent(TelaEntrar.this,
+                        TelaEsqueceuASenha.class);
+                startActivity(it);
             }
         });
     }

@@ -5,7 +5,6 @@
     <string name="tituloInicial">Seu aliado pra fazer o dinheiro durar.</string>
     <string name="btnEntrarInicial">Entrar</string>
     <string name="btnCadastrarInicial">Não tem uma conta? Cadastre-se</string>
-    <string name="subtituloInicial">Administrador</string>
 
     // Tela Login
     <string name="tituloLogin">Bem vindo de volta!</string>
@@ -17,6 +16,30 @@
     <string name="lblEsqueceuSenha">Esqueceu a senha?</string>
     <string name="lblOuCom">Ou entre com:</string>
     <string name="subtituloSemConta">Não possui uma conta? <b>Cadastre-se</b></string>
+
+    // Tela Esqueceu a Senha
+    <string name="tituloEsqueceuSenha">Esqueceu a senha?</string>
+    <string name="subtituloEsqueceuSenha">Não se preocupe! Acontece. Por favor digite o e-mail associado a sua conta.</string>
+    <string name="btnEsqueceuSenha">Enviar código</string>
+    <string name="lblLembrarSuaSenha">Lembra sua senha? <b>Entre</b></string>
+
+    // Tela Verificar código e-mail
+    <string name="tituloChecarCodigo">Cheque seu e-mail</string>
+    <string name="subtituloChecarCodigo"> Nós enviamos um código de recuperação para <b>seuemail@gmail.com</b></string>
+    <string name="hintChecarCodigo">Digite o código</string>
+    <string name="btnChecarCodigo">Verificar</string>
+
+    // Tela Redefinir senha
+    <string name="tituloRedefinirSenha">Redefinir a senha</string>
+    <string name="subtituloRedefinirSenha">Por favor escreva algo que você vai se lembrar.</string>
+    <string name="lblNovaSenha">Nova senha</string>
+    <string name="lblRepitaNovaSenha">Repita a nova senha</string>
+    <string name="btnRedefinirSenha">Redefinir senha</string>
+
+    // Tela Senha alterada
+    <string name="tituloSenhaAlterada">Senha alterada!</string>
+    <string name="subtituloSenhaAlterada">Sua senha foi alterada com sucesso!</string>
+    <string name="btnSenhaAlterada">Voltar ao login</string>
 
     // Tela Criar Conta
     <string name="tituloCriarConta">Crie sua conta <b>ZENNO!</b></string>
@@ -54,13 +77,13 @@
 
     // Tela Notificações
     <string name="subtituloGeralNotif">Geral</string>
-    <string name="lblDesativarNotif">Desativar todas as notificações</string>
-    <string name="lblSonsNotif">Sons</string>
-    <string name="lblVibraçõesNotif">Vibrações</string>
+    <string name="swtDesativarNotif">Desativar todas as notificações</string>
+    <string name="swtSonsNotif">Sons</string>
+    <string name="swtVibraçõesNotif">Vibrações</string>
     <string name="subtituloSistemaNotif">Sistema E atualizações</string>
-    <string name="lblVencContaNotif">Vencimento de conta</string>
+    <string name="swtVencContaNotif">Vencimento de conta</string>
     <string name="subtituloOutrasNotif">Outras notificações</string>
-    <string name="lblNovasFuncNotif">Novas funcionalidades</string>
-    <string name="lblMovMoedasNotif">Movimentações das moedas</string>
+    <string name="swtNovasFuncNotif">Novas funcionalidades</string>
+    <string name="swtMovMoedasNotif">Movimentações das moedas</string>
     <string name="btnSalvarNotif">Salvar</string>
 </resources>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo_1"
+    tools:context=".TelaEsqueceuASenha">
+
+    <TextView
+        android:id="@+id/lblLembrarSuaSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="169dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblLembrarSuaSenha"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCadastrarEmail" />
+
+    <EditText
+        android:id="@+id/txtEmailEsqSenha"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="49dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:drawableTint="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintEmailLogin"
+        android:inputType="textEmailAddress"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailEsqSenha" />
+
+    <Button
+        android:id="@+id/btnEsqSenha"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnEsqueceuSenha"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailEsqSenha" />
+
+    <TextView
+        android:id="@+id/lblEmailEsqSenha"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="80dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblEmailLogin"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloEsqSenha" />
+
+    <TextView
+        android:id="@+id/subtituloEsqSenha"
+        android:layout_width="306dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="71dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloEsqueceuSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloEsqSenha" />
+
+    <TextView
+        android:id="@+id/tituloEsqSenha"
+        android:layout_width="278dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="99dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tituloEsqueceuSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoEsqSenha" />
+
+    <ImageView
+        android:id="@+id/imgVoltarEsqSenha"
+        android:layout_width="50dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="33dp"
+        app:layout_constraintEnd_toStartOf="@+id/imgLogoEsqSenha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/voltar" />
+
+    <ImageView
+        android:id="@+id/imgLogoEsqSenha"
+        android:layout_width="191dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_3" />
+</androidx.constraintlayout.widget.ConstraintLayout>

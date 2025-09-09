@@ -20,67 +20,87 @@
         tools:layout_editor_absoluteY="643dp" />
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/imgVoltarNotificacoes"
         android:layout_width="50dp"
         android:layout_height="37dp"
-        app:srcCompat="@drawable/voltar"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="31dp" />
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="336dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/voltar" />
 
     <TextView
-        android:id="@+id/tituloCadastro3"
+        android:id="@+id/tituloNotificacoes"
         android:layout_width="278dp"
         android:layout_height="38dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="61dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblNotificacoes"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="76dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgVoltarNotificacoes" />
 
     <TextView
-        android:id="@+id/tituloCadastro4"
+        android:id="@+id/subtituloGeralNotif"
         android:layout_width="278dp"
         android:layout_height="38dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="83dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblGeral"
+        android:text="@string/subtituloGeralNotif"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="155dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloNotificacoes" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/swtSonsNotif"
         android:layout_width="311dp"
         android:layout_height="27dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSons"
+        android:text="@string/swtSonsNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="243dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swtDesativarNotif" />
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/swtVibraçõesNotif"
         android:layout_width="311dp"
         android:layout_height="27dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblVibrações"
+        android:text="@string/swtVibraçõesNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="283dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swtSonsNotif" />
 
     <TextView
-        android:id="@+id/tituloCadastro5"
+        android:id="@+id/subtituloSistemaNotif"
         android:layout_width="278dp"
         android:layout_height="38dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSistema"
+        android:text="@string/subtituloSistemaNotif"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -135,14 +155,14 @@
         tools:layout_editor_absoluteY="569dp" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/swtDesativarNotif"
         android:layout_width="311dp"
         android:layout_height="27dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblDesativar"
+        android:text="@string/swtDesativarNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="203dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

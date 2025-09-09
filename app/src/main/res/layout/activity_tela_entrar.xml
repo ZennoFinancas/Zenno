@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEsqSenha" />
+        app:layout_constraintTop_toBottomOf="@+id/lblEsqSenha" />
 
     <TextView
         android:id="@+id/tituloLogin"
@@ -107,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subtituloLogin" />
 
     <TextView
-        android:id="@+id/lblSenha"
+        android:id="@+id/lblSenhaLogin"
         android:layout_width="283dp"
         android:layout_height="27dp"
         android:layout_marginStart="46dp"
@@ -143,7 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
-        android:id="@+id/txtEsqSenha"
+        android:id="@+id/lblEsqSenha"
         android:layout_width="320dp"
         android:layout_height="16dp"
         android:layout_marginStart="40dp"
@@ -202,7 +202,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSenha" />
+        app:layout_constraintTop_toBottomOf="@+id/lblSenhaLogin" />
 
     <ImageView
         android:id="@+id/imgEntrarGoogle"
