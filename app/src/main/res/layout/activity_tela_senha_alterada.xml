@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgLogoSenhaAlt" />
 
     <Button
-        android:id="@+id/btnSenhaAlt"
+        android:id="@+id/btnVoltarAoLogin"
         android:layout_width="315dp"
         android:layout_height="55dp"
         android:layout_marginStart="48dp"
@@ -33,7 +33,7 @@
         android:layout_marginEnd="48dp"
         android:backgroundTint="#712aaf"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnSenhaAlterada"
+        android:text="@string/btnVoltarAoLogin"
         android:textSize="20sp"
         app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"

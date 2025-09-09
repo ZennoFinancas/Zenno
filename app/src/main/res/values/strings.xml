@@ -39,7 +39,7 @@
     // Tela Senha alterada
     <string name="tituloSenhaAlterada">Senha alterada!</string>
     <string name="subtituloSenhaAlterada">Sua senha foi alterada com sucesso!</string>
-    <string name="btnSenhaAlterada">Voltar ao login</string>
+    <string name="btnVoltarAoLogin">Voltar ao login</string>
 
     // Tela Criar Conta
     <string name="tituloCriarConta">Crie sua conta <b>ZENNO!</b></string>
@@ -86,4 +86,10 @@
     <string name="swtNovasFuncNotif">Novas funcionalidades</string>
     <string name="swtMovMoedasNotif">Movimentações das moedas</string>
     <string name="btnSalvarNotif">Salvar</string>
+
+    // Tela Política de Privacidade
+    <string name="tituloPoliticaPrivac">Política de privacidade</string>
+    <string name="subtituloDadosColetados">1. Dados Coletados</string>
+    <string name="lblDadosColetados">O Zenno Finanças pode armazenar informações como dados de uso inserido pelo próprio usuário (ex: nome, metas financeiras, receitas e despesas).</string>
+
 </resources>
