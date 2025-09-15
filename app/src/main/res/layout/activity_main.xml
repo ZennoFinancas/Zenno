@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo_1"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imgLogoInicial"
@@ -15,7 +15,7 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="73dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_1" />
@@ -24,7 +24,6 @@
         android:id="@+id/btnEntrarInicial"
         android:layout_width="315dp"
         android:layout_height="55dp"
-        android:layout_marginStart="48dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="48dp"
         android:backgroundTint="#1C9D6A"
@@ -37,7 +36,7 @@
         app:iconTint="#1C9D6A"
         app:layout_constraintBottom_toTopOf="@+id/btnCadastrarInicial"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tituloInicial"
         app:strokeColor="#1C9D6A" />
@@ -74,7 +73,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoInicial" />
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navegacao_home">
+
+    <fragment
+        android:id="@+id/navegacao_home"
+        android:name="com.example.zennofinancas.ui.home.HomeFragmento"
+        tools:layout="@layout/fragmento_home" />
+
+    <fragment
+        android:id="@+id/navegacao_extrato"
+        android:name="com.example.zennofinancas.ui.extrato.ExtratoFragmento"
+        tools:layout="@layout/fragmento_extrato" />
+
+    <fragment
+        android:id="@+id/navegacao_conversor"
+        android:name="com.example.zennofinancas.ui.conversor.ConversorFragmento"
+        tools:layout="@layout/fragmento_conversor" />
+
+    <fragment
+        android:id="@+id/navegacao_chatbot"
+        android:name="com.example.zennofinancas.ui.chatbot.ChatBotFragmento"
+        tools:layout="@layout/fragmento_chat_bot" />
+
+</navigation>

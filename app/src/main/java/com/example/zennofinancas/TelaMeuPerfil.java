@@ -29,7 +29,7 @@ public class TelaMeuPerfil extends AppCompatActivity {
                 startActivity(it);
             }
         });
-        lblNotificacoes.setOnClickListener(new View.OnClickListener() {
+        /*lblNotificacoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(TelaMeuPerfil.this,
@@ -73,7 +73,7 @@ public class TelaMeuPerfil extends AppCompatActivity {
                 finish();
 
             }
-        });
+        });*/
 
 
 

@@ -57,6 +57,9 @@
     <string name="hintConfSenhaCriarConta">repita a senha</string>
     <string name="btnCriarConta">Cadastrar</string>
 
+    // Botões de navegação
+
+
     // Tela Meu Perfil
     <string name="lblEditarPerfil">Editar informações do perfil</string>
     <string name="lblNotificacoes">Notificações</string>
@@ -87,7 +90,6 @@
     <string name="swtMovMoedasNotif">Movimentações das moedas</string>
     <string name="btnSalvarNotif">Salvar</string>
 
-<<<<<<< HEAD
     // Tela Cotação
     <string name="txtTituloCotacao">Faça uma cotação!\n</string>
     <string name="txtSubTituloCotacao">Selecione a moeda desejada para cotação.</string>
@@ -98,11 +100,45 @@
     <string name="txtConverter">Converter</string>
     <string name="lblResultado"> --------  </string>
     <string name="btnLogin2">Converter</string>
-=======
+
     // Tela Política de Privacidade
     <string name="tituloPoliticaPrivac">Política de privacidade</string>
-    <string name="subtituloDadosColetados">1. Dados Coletados</string>
-    <string name="lblDadosColetados">O Zenno Finanças pode armazenar informações como dados de uso inserido pelo próprio usuário (ex: nome, metas financeiras, receitas e despesas).</string>
->>>>>>> e0027bf666279f489bd49bc6725e4cd000300abd
+    <string name="lblPoliticaPrivac">
+    1. Dados Coletados\n
+    O Zenno Finanças pode armazenar informações como dados de uso inseridos pelo próprio usuário (ex: nome, metas financeiras, receitas e despesas).\n\n
+    2. Uso dos Dados\n
+    Todas as informações inseridas têm como objetivo permitir o funcionamento do app e ajudar o usuário a organizar e acompanhar sua vida financeira.\n\n
+    3. Armazenamento e Segurança\n
+    Os dados ficam salvos apenas no banco de dados do Zenno Finanças, com acesso restrito e protegido. Não utilizamos os dados para fins comerciais, nem os compartilhamos com terceiros.\n\n
+    4. Compartilhamento de Informações\n
+    O Zenno Finanças não compartilha nenhuma informação pessoal com terceiros, sob nenhuma circunstância.\n\n
+    5. Seus Direitos\n
+    Você pode solicitar a exclusão definitiva dos seus dados, entrando em contato pelo e-mail: financaszenno@gmail.com.\n
+    Caso haja mudanças nesta política, avisaremos os usuários dentro do próprio app.
+    </string>
+    <string name="btnPoliticaPrivac">Aceitar</string>
+
+    // Tela Sobre o App
+    <string name="lblSobreOApp">
+    Versão: <b>1.0.0</b> \n
+    Última atualização: <b>11/06/2025</b> \n
+
+    \n O <b>Zenno Finanças</b> foi criado para ajudar você a organizar suas finanças pessoais de forma simples, rápida e segura. \n
+
+    \nCom ele, você pode: \n
+    • <b>Registrar receitas e despesas;</b> \n
+    • <b>Estabelecer metas financeiras;</b> \n
+    • <b>Acompanhar sua evolução mensal.</b> \n
+
+    \n Todos os dados inseridos ficam armazenados com <b>segurança</b> no próprio banco de dados do app, <b>sem</b> compartilhamento com terceiros. \n
+
+    \n Desenvolvido por: <b>Lincoln Silva Vieira, Matheus de Lima Ribeiro, Matheus Norberto dos Reis, Pedro Costa Pereira, Vinicius Alves de Souza e Vinicius Csetnek de Araujo.</b>
+    </string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

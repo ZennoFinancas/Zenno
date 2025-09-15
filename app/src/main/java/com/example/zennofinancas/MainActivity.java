@@ -29,7 +29,7 @@ public class MainActivity extends ActivityBase
             public void onClick(View view)
             {
                 Intent it = new Intent(MainActivity.this,
-                                        TelaEntrar.class);
+                                        TelaInicial.class);
                 startActivity(it);
 
             }
@@ -43,7 +43,7 @@ public class MainActivity extends ActivityBase
             {
 
                 Intent it = new Intent(MainActivity.this,
-                        TelaCadastrar.class);
+                        TelaSobreOApp.class);
                 startActivity(it);
 
             }
