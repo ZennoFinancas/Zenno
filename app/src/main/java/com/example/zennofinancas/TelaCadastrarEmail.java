@@ -61,9 +61,10 @@ public class TelaCadastrarEmail extends ActivityBase {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios";
 
         JsonObject json = new JsonObject();
-        json.addProperty("nome_user", txtNome.getText().toString().trim());
-        json.addProperty("email_user", txtEmail.getText().toString().trim());
-        json.addProperty("senha_user", txtSenha.getText().toString());
+        json.addProperty("nome_usuario", txtNome.getText().toString().trim());
+        json.addProperty("email_usuario", txtEmail.getText().toString().trim());
+        json.addProperty("numero_usuario", txtEmail.getText().toString().trim()); //Alterar campo no front
+        json.addProperty("senha_usuario", txtSenha.getText().toString().trim());
 
         Ion.with(TelaCadastrarEmail.this)
                 .load("POST", url)
@@ -88,8 +89,8 @@ public class TelaCadastrarEmail extends ActivityBase {
                             // Se não houver erro de exceção, a requisição foi bem-sucedida
                             // Independentemente da resposta do servidor (vazia ou não)
                             Toast.makeText(TelaCadastrarEmail.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
-                            Intent trocar = new Intent(TelaCadastrarEmail.this, MainActivity.class);
-                            startActivity(trocar);
+                            /*Intent trocar = new Intent(TelaCadastrarEmail.this, MainActivity.class);
+                            startActivity(trocar);*/
                         }
 
 
