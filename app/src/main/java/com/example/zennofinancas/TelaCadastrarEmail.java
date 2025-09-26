@@ -58,13 +58,21 @@ public class TelaCadastrarEmail extends ActivityBase {
     //Erro
 
     private void inserir() {
+
+        //Gerando numero de verificação para o usuario.
+        double numeroAleatorio = Math.random() * 10000;
+        int codigoVerificacao = (int) numeroAleatorio;
+
+
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios";
 
         JsonObject json = new JsonObject();
         json.addProperty("nome_usuario", txtNome.getText().toString().trim());
         json.addProperty("email_usuario", txtEmail.getText().toString().trim());
-        json.addProperty("numero_usuario", txtEmail.getText().toString().trim()); //Alterar campo no front
+        json.addProperty("numero_usuario","(11)98876-2290"); //Alterar campo no front
         json.addProperty("senha_usuario", txtSenha.getText().toString().trim());
+        json.addProperty("codigo_usuario", codigoVerificacao);
+
 
         Ion.with(TelaCadastrarEmail.this)
                 .load("POST", url)
@@ -88,9 +96,9 @@ public class TelaCadastrarEmail extends ActivityBase {
                         {
                             // Se não houver erro de exceção, a requisição foi bem-sucedida
                             // Independentemente da resposta do servidor (vazia ou não)
-                            Toast.makeText(TelaCadastrarEmail.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
-                            /*Intent trocar = new Intent(TelaCadastrarEmail.this, MainActivity.class);
-                            startActivity(trocar);*/
+                            Toast.makeText(TelaCadastrarEmail.this, "Cadastro realizado com sucesso! " + codigoVerificacao , Toast.LENGTH_LONG).show();
+                            Intent trocar = new Intent(TelaCadastrarEmail.this, MainActivity.class);
+                            startActivity(trocar);
                         }
 
 
