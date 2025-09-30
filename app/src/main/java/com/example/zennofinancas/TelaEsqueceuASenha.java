@@ -16,8 +16,6 @@ import com.koushikdutta.ion.Ion;
 
 public class TelaEsqueceuASenha extends ActivityBase
 {
-
-    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtkc3V2bGFlZXB3anpxbmZ2eHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTMwMTIsImV4cCI6MjA3MTcyOTAxMn0.iuOiaoqm3BhPyEMs6mtn2KlA2CIuYdnkcfmc36_Z8t8";
     Button btnEsqSenha;
     TextView txtEmailEsqSenha;
 
@@ -33,48 +31,21 @@ public class TelaEsqueceuASenha extends ActivityBase
             @Override
             public void onClick(View view) {
 
+                String email = txtEmailEsqSenha.getText().toString().trim();
 
-                VerificarEmail();
-                Intent it = new Intent(TelaEsqueceuASenha.this,
-                        TelaChecarCodigo.class);
-                startActivity(it);
+                // Instanciando classe do Banco de Dados
+                clsMetodos supabase = new clsMetodos();
+
+                if (email.isEmpty())
+                {
+                    Toast.makeText(TelaEsqueceuASenha.this, "Digite Seu Email!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    // Método inserir
+                    supabase.VerificarEmail(TelaEsqueceuASenha.this, email);
+                }
+
             }
         });
-    }
-
-        private void VerificarEmail(){
-        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + txtEmailEsqSenha.getText().toString().trim();
-
-        Ion.with(TelaEsqueceuASenha.this)
-                .load("GET", url)
-                .addHeader("Authorization", "Bearer " + API_KEY)
-                .addHeader("apikey", API_KEY)
-                .addHeader("Content-Type", "application/json")
-                .asJsonArray() // o Supabase retorna uma array com os registros inseridos
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if (e != null) {
-                            e.printStackTrace();
-                            Toast.makeText(TelaEsqueceuASenha.this, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        // Se a array de resultados não for nula e tiver pelo menos um item, o login foi um sucesso
-                        if (result != null && result.size() > 0) {
-
-                            //Pegar os dados do usuario encontrado
-                            JsonObject usuario = result.get(0).getAsJsonObject();
-
-                            Toast.makeText(TelaEsqueceuASenha.this, "Email encontrado com sucesso! ", Toast.LENGTH_LONG).show();
-                            Intent trocar = new Intent(TelaEsqueceuASenha.this, TelaChecarCodigo.class);
-                            startActivity(trocar);
-
-                        } else {
-
-                            Toast.makeText(TelaEsqueceuASenha.this, "Usuário ou senha inválidos.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 }
