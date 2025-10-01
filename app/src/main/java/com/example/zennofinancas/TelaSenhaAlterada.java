@@ -1,7 +1,5 @@
 package com.example.zennofinancas;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +15,7 @@ public class TelaSenhaAlterada extends ActivityBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_senha_alterada);
 
-        btnVoltarAoLogin = (Button) findViewById(R.id.btnVoltarAoLogin);
+        btnVoltarAoLogin = (Button) findViewById(R.id.btnTudoPronto);
 
         btnVoltarAoLogin.setOnClickListener(new View.OnClickListener()
         {

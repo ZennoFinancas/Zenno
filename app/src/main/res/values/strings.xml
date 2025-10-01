@@ -136,9 +136,12 @@
     </string>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    // Tela Tudo pronto
+    <string name="tituloTudoPronto">Tudo pronto para usar o Zenno!</string>
+    <string name="btnTudoPronto">Ir para tela inicial</string>
 
 
 </resources>
