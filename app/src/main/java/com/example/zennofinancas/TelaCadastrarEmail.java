@@ -49,7 +49,10 @@ public class TelaCadastrarEmail extends ActivityBase {
                     Toast.makeText(TelaCadastrarEmail.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else if (!senha.equals(confSenha)) {
                     Toast.makeText(TelaCadastrarEmail.this, "Senhas não conferem!", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (senha.length() < 7) {
+                    Toast.makeText(TelaCadastrarEmail.this, "Senha deve conter ao menos 7 caracteres!", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Toast.makeText(TelaCadastrarEmail.this, "AQUIIII", Toast.LENGTH_SHORT).show();
                     // Método inserir
                     supabase.Inserir(TelaCadastrarEmail.this, nome, email, "(11)9999-2222", senha );

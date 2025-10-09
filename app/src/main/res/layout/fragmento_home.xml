@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/txtDespesa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo_4"
@@ -12,49 +11,59 @@
         android:id="@+id/lblSaldoAtual"
         android:layout_width="129dp"
         android:layout_height="50dp"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="110dp"
         android:text="R$ 0.00"
         android:textColor="@color/cor_nav"
         android:textSize="34sp"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="110dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgAddReceita"
         android:layout_width="84dp"
         android:layout_height="71dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="103dp"
         android:rotation="91"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="185dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:srcCompat="@drawable/voltar" />
 
     <ImageView
         android:id="@+id/imgAddDespesa"
         android:layout_width="84dp"
         android:layout_height="71dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="57dp"
         android:rotation="-91"
-        tools:layout_editor_absoluteX="270dp"
-        tools:layout_editor_absoluteY="172dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
         tools:srcCompat="@drawable/voltar" />
 
     <EditText
         android:id="@+id/txtReceita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="83dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="372dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHome" />
 
     <EditText
         android:id="@+id/txtDespesa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="76dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="494dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtReceita" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -80,8 +89,10 @@
         android:id="@+id/textHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="138dp"
+        android:layout_marginTop="110dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="138dp"
-        tools:layout_editor_absoluteY="270dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSaldoAtual" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

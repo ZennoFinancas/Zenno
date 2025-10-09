@@ -146,4 +146,46 @@ public class clsMetodos {
     public static void EnviarEmail(){
 
     }
+
+
+    public static void AlterarSenha(Context contexto, String emailUsuario, String novaSenha) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios?email_usuario=eq." + emailUsuario;
+
+        // Cria o objeto JSON com a nova senha para o corpo da requisição
+        JsonObject jsonBody = new JsonObject();
+        jsonBody.addProperty("senha_usuario", novaSenha);
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .setJsonObjectBody(jsonBody) // Define o corpo JSON com a nova senha
+                .asJsonArray() // O Supabase retorna uma array com os registros atualizados
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Se a array de resultados não for nula e tiver pelo menos um item, a senha foi alterada com sucesso
+                        if (result != null && result.size() > 0) {
+                            Toast.makeText(contexto, "Senha alterada com sucesso!", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            // Se a requisição foi bem-sucedida, mas nenhum registro foi retornado,
+                            // significa que o usuário não foi encontrado ou não houve alteração.
+                            Toast.makeText(contexto, "Falha ao alterar senha.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+
+
 }
