@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="188dp"
-        android:layout_marginBottom="148dp"
+        android:layout_marginBottom="176dp"
         android:text="@string/lblResultado"
         android:textColor="#F4F4F4"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,8 +72,10 @@
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblResultado" />
+        app:layout_constraintTop_toBottomOf="@+id/lblResultado"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView"

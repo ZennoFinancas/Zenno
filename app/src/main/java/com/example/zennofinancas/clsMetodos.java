@@ -41,10 +41,15 @@ public class clsMetodos {
                             JsonObject usuario = result.get(0).getAsJsonObject();
 
                             // Salvar nome do usuario
-                            String nomeDoUsuario = usuario.get("nome_usuario").getAsString();
+                            String idUsuario = usuario.get("id_usuario").getAsString();
+                            String nomeUsuario = usuario.get("nome_usuario").getAsString();
 
-                            Toast.makeText(contexto, "Bem-vindo, " + nomeDoUsuario, Toast.LENGTH_LONG).show();
+
+
+                            Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario + idUsuario, Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(contexto, TelaInicial.class);
+
+                            trocar.putExtra("idUsuario", idUsuario);
                             contexto.startActivity(trocar);
 
                         } else {
@@ -187,5 +192,54 @@ public class clsMetodos {
     }
 
 
+
+
+
+     //inserir receita
+    public static void InserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+
+
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
+
+        JsonObject json = new JsonObject();
+        json.addProperty("id_usuario", idUsuario);
+        json.addProperty("id_categoria", idCategoria);
+        json.addProperty("valor_receita", valorReceita); //Alterar campo no front
+        json.addProperty("descricao_receita", descricaoReceita);
+        json.addProperty("data_receita", dataReceita);
+
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)  // corpo em JSON
+                .asString() // Change this line
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+
+                        // BD nao valida se o email já foi cadastrado ou não.
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        else
+                        {
+                            // Se não houver erro de exceção, a requisição foi bem-sucedida
+                            // Independentemente da resposta do servidor (vazia ou não)
+                            Toast.makeText(contexto, "Cadastro realizado com sucesso! ", Toast.LENGTH_LONG).show();
+                            Intent trocar = new Intent(contexto, MainActivity.class);
+                            contexto.startActivity(trocar);
+                        }
+
+                    }
+                });
+
+    }
 
 }

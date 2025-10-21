@@ -31,16 +31,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class HomeFragmento extends Fragment { // Permanece como Fragment
+public class HomeFragmento extends Fragment {
 
     private TextView lblSaldoAtual;
     private EditText txtReceita, txtDespesa;
     private ImageView imgAddReceita, imgAddDespesa;
 
-
     private final OkHttpClient client = new OkHttpClient();
 
-    private static final String SUPABASE_URL = "";
+    private static final String SUPABASE_URL = "https://kdsuvlaeepwjzqnfvxxr.supabase.co";
     private static final String SUPABASE_KEY = "";
     private static final String USER_ID = "";
     private static final String USER_TOKEN = "";
@@ -52,7 +51,6 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Infla o layout XML e o retorna. O binding não é mais usado.
         return inflater.inflate(R.layout.fragmento_home, container, false);
     }
 
@@ -68,20 +66,29 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
 
         carregarSaldo();
 
-        imgAddReceita.setOnClickListener(v -> {
-            String valorTexto = txtReceita.getText().toString();
-            adicionarTransacao(valorTexto, "receita");
+
+        imgAddReceita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String valorTexto = txtReceita.getText().toString();
+                adicionarTransacao(valorTexto, "receita");
+            }
         });
 
-        imgAddDespesa.setOnClickListener(v -> {
-            String valorTexto = txtDespesa.getText().toString();
-            adicionarTransacao(valorTexto, "despesa");
+
+        imgAddDespesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String valorTexto = txtDespesa.getText().toString();
+                adicionarTransacao(valorTexto, "despesa");
+            }
         });
     }
 
+
     private void carregarSaldo() {
-        if (USER_ID.isEmpty() || USER_TOKEN.isEmpty()) {
-            mostrarToast("Configure o ID e Token do usuário no código!");
+        if (USER_ID.isEmpty() || USER_TOKEN.isEmpty() || SUPABASE_URL.isEmpty() || SUPABASE_KEY.isEmpty()) {
+            mostrarToast("Configure as credenciais do Supabase e dados do usuário no código!");
             return;
         }
 
@@ -108,10 +115,15 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
                         JSONArray jsonArray = new JSONArray(jsonData);
                         if (jsonArray.length() > 0) {
                             JSONObject perfil = jsonArray.getJSONObject(0);
-                            double saldo = perfil.getDouble("saldo");
-                            // Em um Fragment, usamos getActivity() para rodar na UI thread
+                            final double saldo = perfil.getDouble("saldo");
                             if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> atualizarTextoSaldo(saldo));
+                                // CORRIGIDO: Convertido para sintaxe antiga (sem lambda)
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        atualizarTextoSaldo(saldo);
+                                    }
+                                });
                             }
                         } else {
                             mostrarToast("Perfil de usuário não encontrado.");
@@ -120,19 +132,21 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
                         e.printStackTrace();
                         mostrarToast("Erro ao processar dados do saldo.");
                     }
+                } else {
+                    mostrarToast("Erro ao carregar saldo: " + response.message());
                 }
             }
         });
     }
 
-    private void adicionarTransacao(String valorTexto, String tipo) {
+    private void adicionarTransacao(final String valorTexto, final String tipo) {
         if (valorTexto.isEmpty()) {
             mostrarToast("Por favor, insira um valor.");
             return;
         }
         double valor;
         try {
-            valor = Double.parseDouble(valorTexto);
+            valor = Double.parseDouble(valorTexto.replace(",", "."));
         } catch (NumberFormatException e) {
             mostrarToast("Valor inválido.");
             return;
@@ -168,12 +182,11 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    final String resultado = response.body().string();
-                    try {
-                        double novoSaldo = Double.parseDouble(resultado);
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> {
-                                atualizarTextoSaldo(novoSaldo);
+                    if (getActivity() != null) {
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
                                 if (tipo.equals("receita")) {
                                     txtReceita.getText().clear();
                                 } else {
@@ -181,10 +194,10 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
                                 }
                                 String tipoCapitalizado = tipo.substring(0, 1).toUpperCase() + tipo.substring(1);
                                 Toast.makeText(getContext(), tipoCapitalizado + " adicionada com sucesso!", Toast.LENGTH_SHORT).show();
-                            });
-                        }
-                    } catch (NumberFormatException e) {
-                        mostrarToast("Erro ao processar a resposta do servidor.");
+
+                                carregarSaldo();
+                            }
+                        });
                     }
                 } else {
                     mostrarToast("Erro na transação: " + response.message());
@@ -201,16 +214,21 @@ public class HomeFragmento extends Fragment { // Permanece como Fragment
         }
     }
 
-    private void mostrarToast(String mensagem) {
+    private void mostrarToast(final String mensagem) {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> Toast.makeText(getContext(), mensagem, Toast.LENGTH_LONG).show());
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), mensagem, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         lblSaldoAtual = null;
         txtReceita = null;
         txtDespesa = null;
