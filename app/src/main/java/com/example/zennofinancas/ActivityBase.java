@@ -22,6 +22,6 @@ public class ActivityBase extends AppCompatActivity
 
         getWindow().getDecorView().setSystemUiVisibility(visibilidadeSistema);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().setNavigationBarColor(Color.TRANSPARENT);//8
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
     }
 }
