@@ -1,9 +1,12 @@
 package com.example.zennofinancas.ui.home;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.zennofinancas.R;
+import com.example.zennofinancas.TelaConversao;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -36,6 +40,8 @@ public class HomeFragmento extends Fragment {
     private TextView lblSaldoAtual;
     private EditText txtReceita, txtDespesa;
     private ImageView imgAddReceita, imgAddDespesa;
+
+    Button btnAddReceita;
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -62,16 +68,17 @@ public class HomeFragmento extends Fragment {
         txtReceita = view.findViewById(R.id.txtReceita);
         txtDespesa = view.findViewById(R.id.txtDespesa);
         imgAddReceita = view.findViewById(R.id.imgAddReceita);
+        btnAddReceita = view.findViewById(R.id.btnAddReceita);
         imgAddDespesa = view.findViewById(R.id.imgAddDespesa);
 
-        carregarSaldo();
+        //carregarSaldo();
 
 
         imgAddReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String valorTexto = txtReceita.getText().toString();
-                adicionarTransacao(valorTexto, "receita");
+                //adicionarTransacao(valorTexto, "receita");
             }
         });
 
@@ -80,12 +87,42 @@ public class HomeFragmento extends Fragment {
             @Override
             public void onClick(View v) {
                 String valorTexto = txtDespesa.getText().toString();
-                adicionarTransacao(valorTexto, "despesa");
+                //adicionarTransacao(valorTexto, "despesa");
+            }
+        });
+
+        btnAddReceita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
             }
         });
     }
 
+    private void showCustomDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.popup_add_gasto, null);
 
+        EditText edtName = view.findViewById(R.id.edtNome);
+        EditText edtEmail = view.findViewById(R.id.edtData);
+
+        builder.setView(view)
+                .setCancelable(false)
+                .setPositiveButton("Salvar", (dialog, id) -> {
+                    String name = edtName.getText().toString().trim();
+                    String email = edtEmail.getText().toString().trim();
+                })
+                .setNegativeButton("Cancelar", (dialog, id) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
+
+    /*
     private void carregarSaldo() {
         if (USER_ID.isEmpty() || USER_TOKEN.isEmpty() || SUPABASE_URL.isEmpty() || SUPABASE_KEY.isEmpty()) {
             mostrarToast("Configure as credenciais do Supabase e dados do usuário no código!");
@@ -224,7 +261,7 @@ public class HomeFragmento extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
     @Override
     public void onDestroyView() {

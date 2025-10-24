@@ -196,7 +196,7 @@ public class clsMetodos {
 
 
      //inserir receita
-    public static void InserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+    public static void inserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
 
 
 
