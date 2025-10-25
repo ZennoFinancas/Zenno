@@ -28,12 +28,14 @@
         android:layout_width="84dp"
         android:layout_height="71dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="130dp"
         android:layout_marginEnd="52dp"
+        android:layout_marginBottom="21dp"
         android:rotation="91"
+        app:layout_constraintBottom_toTopOf="@+id/txtReceita"
         app:layout_constraintEnd_toStartOf="@+id/textHome"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/voltar" />
 
     <ImageView
@@ -91,14 +93,14 @@
         android:id="@+id/imageView2"
         android:layout_width="77dp"
         android:layout_height="66dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/imgAddReceita"
-        app:layout_constraintEnd_toStartOf="@+id/lblSaldoAtual"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="103dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDespesa"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -124,5 +126,19 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSaldoAtual" />
+
+    <Button
+        android:id="@+id/btnAddReceita"
+        android:layout_width="113dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="167dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="73dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDespesa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
