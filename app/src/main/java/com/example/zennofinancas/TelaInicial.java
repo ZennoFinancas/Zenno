@@ -26,7 +26,7 @@ public class TelaInicial extends ActivityBase {
         binding = ActivityTelaInicialBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Ativa o modo Edge-to-Edge e controla manualmente os insets
+        // Controla manualmente os insets
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         // Ajusta os paddings do NavHostFragment conforme as barras do sistema

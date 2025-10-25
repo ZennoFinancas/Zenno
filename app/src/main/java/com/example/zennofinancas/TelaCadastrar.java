@@ -18,8 +18,7 @@ public class TelaCadastrar extends ActivityBase
 {
     // Atributos
     Button btnCadastrarEmail;
-
-
+    TextView txtEntrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +28,7 @@ public class TelaCadastrar extends ActivityBase
 
         // Inicializando Elementos
         btnCadastrarEmail = (Button) findViewById(R.id.btnCadastrarEmail);
+        txtEntrar = (TextView) findViewById(R.id.txtEntrar);
 
 
         // Evento Botão cadastrar com e-mail
@@ -39,6 +39,18 @@ public class TelaCadastrar extends ActivityBase
             {
                 Intent it = new Intent(TelaCadastrar.this,
                         TelaCadastrarEmail.class);
+                startActivity(it);
+            }
+        });
+
+        // Evento Text
+        txtEntrar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent it = new Intent(TelaCadastrar.this,
+                        TelaEntrar.class);
                 startActivity(it);
             }
         });

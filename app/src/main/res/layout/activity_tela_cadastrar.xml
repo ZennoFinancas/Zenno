@@ -7,12 +7,23 @@
     android:background="@drawable/fundo_1"
     tools:context=".TelaCadastrar">
 
+    <ImageView
+        android:id="@+id/imgLogoCadastrar"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_1" />
+
     <TextView
         android:id="@+id/txtEntrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="118dp"
-        android:layout_marginTop="169dp"
         android:layout_marginEnd="118dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/montserrat_medium"
@@ -22,16 +33,15 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCadastrarEmail" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnCadastrarEmail"
         android:layout_width="315dp"
         android:layout_height="55dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="15dp"
         android:layout_marginEnd="48dp"
+        android:layout_marginBottom="94dp"
         android:backgroundTint="#712aaf"
         android:drawableLeft="@android:drawable/ic_dialog_email"
         android:drawableTint="#FFFFFF"
@@ -39,17 +49,17 @@
         android:text="@string/btnCriarEmail"
         android:textSize="20sp"
         app:cornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtEntrar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCriarGoogle" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnCriarGoogle"
         android:layout_width="315dp"
         android:layout_height="55dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="71dp"
         android:layout_marginEnd="48dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#FFFFFF"
         android:drawableLeft="@drawable/google_icon"
         android:drawablePadding="12dp"
@@ -59,17 +69,17 @@
         android:textColor="#323030"
         android:textSize="20sp"
         app:cornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCadastrarEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloCadastrar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tituloCadastrar"
         android:layout_width="281dp"
         android:layout_height="35dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="66dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="65dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/tituloCriarConta"
         android:textAlignment="center"
@@ -78,17 +88,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoCadastrar" />
-
-    <ImageView
-        android:id="@+id/imgLogoCadastrar"
-        android:layout_width="265dp"
-        android:layout_height="228dp"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="73dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

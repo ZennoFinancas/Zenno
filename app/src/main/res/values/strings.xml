@@ -57,9 +57,6 @@
     <string name="hintConfSenhaCriarConta">repita a senha</string>
     <string name="btnCriarConta">Cadastrar</string>
 
-    // Botões de navegação
-
-
     // Tela Meu Perfil
     <string name="lblEditarPerfil">Editar informações do perfil</string>
     <string name="lblNotificacoes">Notificações</string>
