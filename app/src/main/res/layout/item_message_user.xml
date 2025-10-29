@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#7A7676"
+    android:gravity="end"
+    android:paddingVertical="4dp">
+
+    <TextView
+        android:id="@+id/tvUserMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="800px"
+        android:padding="10dp"
+        android:text="Mensagem do usuário"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+</LinearLayout>

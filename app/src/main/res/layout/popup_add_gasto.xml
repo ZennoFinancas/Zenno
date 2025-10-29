@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edtNome"
+            android:id="@+id/txtNomeReceita"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="14dp"
@@ -85,11 +85,10 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edtData"
+            android:id="@+id/txtData"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="14dp"
-            android:autoText="false"
             android:hint="__/__/____"
             android:inputType="date"
             android:paddingStart="12dp"
@@ -118,7 +117,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtValor"
+                android:id="@+id/txtValorReceita"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="34dp"
@@ -141,15 +140,34 @@
             android:textColor="#00E0B8"
             android:textStyle="bold" />
 
-    </LinearLayout>
+        <!-- BOTÕES DE AÇÃO -->
+        <LinearLayout
+            android:id="@+id/areaAcoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <!-- BOTÃO DE CONFIRMAR -->
-    <ImageView
-        android:id="@+id/btnEditConfirmar"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_below="@id/containerPopup"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:padding="18dp" />
+            <Button
+                android:id="@+id/btnCancelar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#9E9E9E"
+                android:text="Cancelar"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnSalvar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50"
+                android:text="Salvar"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

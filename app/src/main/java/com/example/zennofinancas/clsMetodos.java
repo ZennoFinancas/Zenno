@@ -3,12 +3,15 @@ package com.example.zennofinancas;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import java.util.ArrayList;
 
 public class clsMetodos {
     //Chave API para fazer requisições ao supabase
@@ -44,6 +47,12 @@ public class clsMetodos {
                             String idUsuario = usuario.get("id_usuario").getAsString();
                             String nomeUsuario = usuario.get("nome_usuario").getAsString();
 
+                            // Salvar login
+                            SharedPreferences prefs = contexto.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("nomeUsuario", nomeUsuario);
+                            editor.putString("idUsuario", idUsuario);
+                            editor.apply();
 
 
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario + idUsuario, Toast.LENGTH_LONG).show();
@@ -240,6 +249,43 @@ public class clsMetodos {
                     }
                 });
 
+    }
+
+
+    public static void buscarCategorias(Context contexto, String idUsuario, FutureCallback<ArrayList<String[]>> callback) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        Toast.makeText(contexto, "Erro ao buscar categorias", Toast.LENGTH_SHORT).show();
+                        callback.onCompleted(e, null);
+                        return;
+                    }
+
+                    ArrayList<String[]> categorias = new ArrayList<>();
+
+                    if (result != null && result.size() > 0) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject item = result.get(i).getAsJsonObject();
+
+                            String idCategoria = item.get("id_categoria").getAsString();
+                            String nomeCategoria = item.get("nome_categoria").getAsString();
+
+                            // Salvando em matriz (cada item = linha da matriz)
+                            categorias.add(new String[]{idCategoria, nomeCategoria});
+                        }
+                    }
+
+                    callback.onCompleted(null, categorias);
+                });
     }
 
 }

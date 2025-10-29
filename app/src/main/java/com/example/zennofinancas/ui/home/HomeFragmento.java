@@ -2,6 +2,7 @@ package com.example.zennofinancas.ui.home;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,23 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.zennofinancas.R;
-import com.example.zennofinancas.TelaConversao;
-import com.google.gson.JsonObject;
+import com.example.zennofinancas.clsMetodos;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class HomeFragmento extends Fragment {
 
@@ -52,6 +39,15 @@ public class HomeFragmento extends Fragment {
 
     private final String API_PERFIS_ENDPOINT = SUPABASE_URL + "/rest/v1/perfis";
     private final String API_RPC_ENDPOINT = SUPABASE_URL + "/rest/v1/rpc/modificar_saldo";
+
+
+    // Verificando se o usuário está logado
+
+
+    // Instanciando classe do Banco de Dados
+    clsMetodos supabase = new clsMetodos();
+
+
 
 
     @Nullable
@@ -74,6 +70,10 @@ public class HomeFragmento extends Fragment {
         //carregarSaldo();
 
 
+        SharedPreferences prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        String nomeUsuario = prefs.getString("nomeUsuario", null);
+        String idUsuario = prefs.getString("idUsuario", null);
+
         imgAddReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,29 +94,44 @@ public class HomeFragmento extends Fragment {
         btnAddReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCustomDialog();
+                exibirPopupReceita();
+
             }
         });
     }
 
-    private void showCustomDialog() {
+    private void exibirPopupReceita() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.popup_add_gasto, null);
+        builder.setView(view);
 
-        EditText edtName = view.findViewById(R.id.edtNome);
-        EditText edtEmail = view.findViewById(R.id.edtData);
+        // Campos do layout
+        EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
+        EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
 
-        builder.setView(view)
-                .setCancelable(false)
-                .setPositiveButton("Salvar", (dialog, id) -> {
-                    String name = edtName.getText().toString().trim();
-                    String email = edtEmail.getText().toString().trim();
-                })
-                .setNegativeButton("Cancelar", (dialog, id) -> dialog.dismiss());
 
+        Button btnSalvar = view.findViewById(R.id.btnSalvar);
+        Button btnCancelar = view.findViewById(R.id.btnCancelar);
+
+        // Cria o diálogo
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
+
+        // Eventos dos botões
+        btnSalvar.setOnClickListener(v -> {
+            String nomeReceita = txtNomeReceita.getText().toString().trim();
+            String valorReceita = txtValorReceita.getText().toString().trim();
+
+            supabase.inserirReceita(getActivity(), "22", "1", "210", "Ifood", "");
+            Toast.makeText(requireContext(), "Salvo: " + nomeReceita + " - " + valorReceita, Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+
     }
 
 
