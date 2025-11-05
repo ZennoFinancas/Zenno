@@ -35,9 +35,6 @@ public class MainActivity extends ActivityBase
 
         }
 
-
-
-
         // Evento Botão Entrar
         btnEntrar.setOnClickListener(new View.OnClickListener()
         {

@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#763d81"/> <!-- roxo da marca -->
+    <corners android:radius="16dp"
+        android:bottomRightRadius="0dp"/> <!-- canto cortado -->
+</shape>

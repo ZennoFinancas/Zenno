@@ -7,138 +7,20 @@
     android:background="@drawable/fundo_4"
     tools:context=".ui.home.HomeFragmento">
 
-    <TextView
-        android:id="@+id/lblSaldoAtual"
-        android:layout_width="129dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="146dp"
-        android:layout_marginBottom="68dp"
-        android:text="R$ 0.00"
-        android:textColor="@color/cor_nav"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textHome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgAddReceita"
-        android:layout_width="84dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="21dp"
-        android:rotation="91"
-        app:layout_constraintBottom_toTopOf="@+id/txtReceita"
-        app:layout_constraintEnd_toStartOf="@+id/textHome"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/voltar" />
-
-    <ImageView
-        android:id="@+id/imgAddDespesa"
-        android:layout_width="84dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="20dp"
-        android:rotation="-91"
-        app:layout_constraintBottom_toTopOf="@+id/txtReceita"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblSaldoAtual"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        tools:srcCompat="@drawable/voltar" />
-
-    <EditText
-        android:id="@+id/txtReceita"
-        android:layout_width="274dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Digite um Valor"
-        android:inputType="text"
-        android:textColor="#ECECEC"
-        android:textColorHint="#9C9898"
-        app:layout_constraintBottom_toTopOf="@+id/txtDespesa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textHome" />
-
-    <EditText
-        android:id="@+id/txtDespesa"
-        android:layout_width="276dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="316dp"
-        android:ems="10"
-        android:hint="Digite a descricao"
-        android:inputType="text"
-        android:textColor="#EFECEC"
-        android:textColorHint="#B6B3B3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtReceita" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="77dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="232dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="102dp"
-        android:layout_marginBottom="103dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDespesa"
-        tools:src="@tools:sample/avatars" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgFotoMeuPerfil2"
+        android:layout_width="66dp"
+        android:layout_height="63dp"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="24dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="56dp"
         android:layout_height="43dp"
-        android:layout_marginStart="218dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="60dp"
         android:src="@drawable/metas"
-        app:layout_constraintBottom_toTopOf="@+id/imgAddDespesa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="68dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSaldoAtual" />
-
-    <Button
-        android:id="@+id/btnAddReceita"
-        android:layout_width="113dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="167dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="73dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDespesa" />
+        tools:layout_editor_absoluteX="325dp"
+        tools:layout_editor_absoluteY="36dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
