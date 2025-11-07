@@ -3,7 +3,9 @@ package com.example.zennofinancas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import com.example.zennofinancas.api.clsUsuarioController;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -47,10 +49,14 @@ public class TelaEntrar extends ActivityBase
                 emailUsuario = txtEmail.getText().toString().trim();
                 senhaUsuario = txtSenha.getText().toString().trim();
 
-                // Instanciando classe do Banco de Dados
+                /* Controller responsável pelo login
+                clsUsuarioController usuarioController = new clsUsuarioController();
+
+                usuarioController.logar(TelaEntrar.this, emailUsuario, senhaUsuario);*/
+
                 clsMetodos supabase = new clsMetodos();
 
-                supabase.Logar(TelaEntrar.this, emailUsuario, senhaUsuario);
+                supabase.loginUsuario(TelaEntrar.this, emailUsuario, senhaUsuario);
 
 
             }

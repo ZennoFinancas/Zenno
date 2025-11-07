@@ -19,7 +19,7 @@ public class clsMetodos {
 
 
     // Método Realizar Login
-    public static void Logar(Context contexto, String emailUsuario, String senhaUsuario) {
+    public static void loginUsuario(Context contexto, String emailUsuario, String senhaUsuario) {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario + "&senha_usuario=eq." + senhaUsuario;
 
         Ion.with(contexto)
@@ -72,11 +72,10 @@ public class clsMetodos {
 
     // Método para cadastrar usuários
 
-    public static void Inserir(Context contexto, String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
+    public static void inserirUsuario(Context contexto, String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
 
         //Gerando numero de verificação para o usuario.
-        double numeroAleatorio = Math.random() * 10000;
-        int codigoVerificacao = (int) numeroAleatorio;
+        int codigoVerificacao = (int) (Math.random() * 10000);
 
 
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios";
@@ -102,26 +101,35 @@ public class clsMetodos {
 
                         // BD nao valida se o email já foi cadastrado ou não.
                         if (e != null) {
-                            e.printStackTrace();
                             Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        else
-                        {
-                            // Se não houver erro de exceção, a requisição foi bem-sucedida
-                            // Independentemente da resposta do servidor (vazia ou não)
-                            Toast.makeText(contexto, "Cadastro realizado com sucesso! " + codigoVerificacao , Toast.LENGTH_LONG).show();
-                            Intent trocar = new Intent(contexto, MainActivity.class);
-                            contexto.startActivity(trocar);
+                        if (result != null) {
+                            // Verifica se contém a mensagem de chave duplicada
+                            if (result.contains("duplicate key value") && result.contains("usuarios_email_key")) {
+                                Toast.makeText(contexto, "Este e-mail já está cadastrado. Tente fazer login.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         }
 
+                        Intent intent = new Intent(contexto, TelaChecarCodigo.class);
+
+                        //Enviando email para exibir na tela de checar codigo
+                        intent.putExtra("emailUsuario", emailUsuario);
+                        intent.putExtra("controleChecarCod", "cadastrar");
+                        intent.putExtra("codigoVerificacao", codigoVerificacao);
+
+
+                        Toast.makeText(contexto, "Cadastro realizado com sucesso! Verifique o código no seu email!", Toast.LENGTH_LONG).show();
+                        contexto.startActivity(intent);
                     }
-                });
+
+                    });
     }
 
     // Método Verificar Email Cadastrado
-    public static void VerificarEmail(Context contexto, String emailUsuario){
+    public static void verificarEmail(Context contexto, String emailUsuario){
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario;
 
         Ion.with(contexto)
@@ -139,13 +147,22 @@ public class clsMetodos {
                             return;
                         }
 
-                        // Se a array de resultados não for nula e tiver pelo menos um item, o email foi encontrado
+                        // Se a array de resultados tiver pelo menos um item, o email foi encontrado
                         if (result != null && result.size() > 0) {
 
                             Toast.makeText(contexto, "Email encontrado com sucesso! ", Toast.LENGTH_LONG).show();
-                            Intent trocar = new Intent(contexto, TelaChecarCodigo.class);
-                            trocar.putExtra("emailUsuario", emailUsuario);
-                            contexto.startActivity(trocar);
+
+                            //Pegar os dados do usuario encontrado
+                            JsonObject usuario = result.get(0).getAsJsonObject();
+
+                            // Pega o codigo de verifição cadastrado no BD
+                            String codigoVerificacao = usuario.get("codigo_usuario").getAsString();
+
+                            Intent i = new Intent(contexto, TelaChecarCodigo.class);
+                            i.putExtra("emailUsuario", emailUsuario);
+                            i.putExtra("controleChecarCod", "alterar");
+                            i.putExtra("codigoVerificacao", codigoVerificacao);
+                            contexto.startActivity(i);
 
                         } else {
 
@@ -156,19 +173,18 @@ public class clsMetodos {
     }
 
 
-    // Método para enviar email ao usuário
-    public static void EnviarEmail(){
 
-    }
+    public static void alterarSenha(Context contexto, String emailUsuario, String novaSenha) {
 
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario;
 
-    public static void AlterarSenha(Context contexto, String emailUsuario, String novaSenha) {
-
-        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios?email_usuario=eq." + emailUsuario;
+        // Gera novo código aleatório
+        int novoCodigo = (int) (Math.random() * 10000);
 
         // Cria o objeto JSON com a nova senha para o corpo da requisição
         JsonObject jsonBody = new JsonObject();
         jsonBody.addProperty("senha_usuario", novaSenha);
+        jsonBody.addProperty("codigo_usuario", novoCodigo);
 
         Ion.with(contexto)
                 .load("PATCH", url)
@@ -191,14 +207,57 @@ public class clsMetodos {
                         if (result != null && result.size() > 0) {
                             Toast.makeText(contexto, "Senha alterada com sucesso!", Toast.LENGTH_LONG).show();
 
+                            Intent i = new Intent(contexto, TelaEntrar.class);
+                            contexto.startActivity(i);
+
                         } else {
                             // Se a requisição foi bem-sucedida, mas nenhum registro foi retornado,
                             // significa que o usuário não foi encontrado ou não houve alteração.
-                            Toast.makeText(contexto, "Falha ao alterar senha.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(contexto, "Falha ao alterar senha." + emailUsuario, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
+
+
+    // Método para validar o e-mail do usuário (ativar conta)
+    public static void validarEmailUsuario(Context contexto, String emailUsuario) {
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios?email_usuario=eq." + emailUsuario;
+
+        // Gera novo código aleatório
+        int novoCodigo = (int) (Math.random() * 10000);
+
+        JsonObject jsonBody = new JsonObject();
+        jsonBody.addProperty("status_usuario", "Ativo");
+        jsonBody.addProperty("codigo_usuario", novoCodigo);
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .setJsonObjectBody(jsonBody)
+                .asJsonArray()
+                .setCallback((e, result) -> {
+                    if (e != null) {
+                        Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if (result != null && result.size() > 0) {
+                        Toast.makeText(contexto, "Conta ativada com sucesso!", Toast.LENGTH_LONG).show();
+
+                        // Redirecionar para tela de login
+                        Intent intent = new Intent(contexto, TelaEntrar.class);
+                        contexto.startActivity(intent);
+
+                    } else {
+                        Toast.makeText(contexto, "Erro ao validar usuário.", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
 
 
 

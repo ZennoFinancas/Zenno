@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zennofinancas.api.clsUsuarioController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -40,7 +41,8 @@ public class TelaCadastrarEmail extends ActivityBase {
                 String senha = txtSenha.getText().toString();
                 String confSenha = txtConfSenha.getText().toString();
 
-                // Instanciando classe do Banco de Dados
+
+                // Controller do usuario
                 clsMetodos supabase = new clsMetodos();
 
 
@@ -55,7 +57,7 @@ public class TelaCadastrarEmail extends ActivityBase {
                 else {
                     Toast.makeText(TelaCadastrarEmail.this, "AQUIIII", Toast.LENGTH_SHORT).show();
                     // Método inserir
-                    supabase.Inserir(TelaCadastrarEmail.this, nome, email, "(11)9999-2222", senha );
+                    supabase.inserirUsuario(TelaCadastrarEmail.this, nome, email, "(11)9999-2222", senha );
                 }
             }
         });

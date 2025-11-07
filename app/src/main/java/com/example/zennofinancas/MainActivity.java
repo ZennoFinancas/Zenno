@@ -1,5 +1,6 @@
 package com.example.zennofinancas;
 import android.content.Intent;
+import com.example.zennofinancas.classes.clsDadosUsuario;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -22,18 +23,15 @@ public class MainActivity extends ActivityBase
         btnEntrar = (Button) findViewById(R.id.btnEntrarInicial);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrarInicial);
 
-        // Verificando se o usuário está logado
-        SharedPreferences prefs = MainActivity.this.getSharedPreferences("user_prefs", MainActivity.this.MODE_PRIVATE);
-        String nomeUsuario = prefs.getString("nomeUsuario", null);
-        String idUsuario = prefs.getString("idUsuario", null);
+        /*clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(MainActivity.this);
 
-        if (idUsuario != null) {
+        if (usuario != null && usuario.getIdUsuario() != null) {
 
             Intent it = new Intent(MainActivity.this,
                     TelaInicial.class);
             startActivity(it);
 
-        }
+        }*/
 
 
 
