@@ -5,25 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B0034">
+    android:background="#1B0034"
+    tools:context=".MainActivity">
 
-    <!-- TopBar -->
-
-    <!-- RecyclerView para mensagens -->
+    <!-- 🔹 Lista de mensagens (agora começa direto do topo) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="70dp"
+        android:background="@drawable/fundo_4"
         android:clipToPadding="false"
         android:padding="12dp"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/messageBox"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_message_user" />
 
-    <!-- Caixa de mensagem -->
+    <!-- 🔹 Caixa de envio de mensagem -->
     <LinearLayout
         android:id="@+id/messageBox"
         android:layout_width="0dp"
@@ -42,19 +43,22 @@
             android:layout_weight="1"
             android:hint="Faça uma pergunta..."
             android:paddingHorizontal="16dp"
+            android:background="@drawable/edittext_bg"
             android:textColor="#FFFFFF"
             android:textColorHint="#CCCCCC"
             android:inputType="textMultiLine"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/btnSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:background="@android:drawable/ic_menu_send"
+            android:background="@drawable/round_button"
             android:contentDescription="Enviar mensagem"
-            android:src="@android:drawable/ic_menu_send" />
+            android:src="@drawable/ic_send" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

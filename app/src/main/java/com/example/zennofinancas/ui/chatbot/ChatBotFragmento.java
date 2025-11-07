@@ -1,66 +1,79 @@
 package com.example.zennofinancas.ui.chatbot;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatBotFragmento#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatBotFragmento extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerChat;
+    private EditText etMessage;
+    private ImageButton btnSend;
+    private ChatAdapter chatAdapter;
+    private final List<Message> messageList = new ArrayList<Message>();
 
     public ChatBotFragmento() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatBotFragmento.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatBotFragmento newInstance(String param1, String param2) {
-        ChatBotFragmento fragment = new ChatBotFragmento();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragmento_chat_bot, container, false);
+
+        recyclerChat = view.findViewById(R.id.recyclerChat);
+        etMessage = view.findViewById(R.id.etMessage);
+        btnSend = view.findViewById(R.id.btnSend);
+
+        // Configura RecyclerView
+        chatAdapter = new ChatAdapter(messageList);
+        recyclerChat.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerChat.setAdapter(chatAdapter);
+
+        // Enviar mensagem
+        btnSend.setOnClickListener(v -> sendMessage());
+
+        return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    private void sendMessage() {
+        String userMessage = etMessage.getText().toString().trim();
+        if (userMessage.isEmpty()) return;
+
+        // Adiciona mensagem do usuário
+        messageList.add(new Message(userMessage, true));
+        chatAdapter.notifyItemInserted(messageList.size() - 1);
+        recyclerChat.scrollToPosition(messageList.size() - 1);
+        etMessage.setText("");
+
+        // Resposta simples
+        String botReply;
+        if (userMessage.equalsIgnoreCase("oi")) {
+            botReply = "olá 👋";
+        } else {
+            botReply = "Desculpe, ainda estou aprendendo!";
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragmento_chat_bot, container, false);
+        // Adiciona resposta do bot
+        recyclerChat.postDelayed(() -> {
+            messageList.add(new Message(botReply, false));
+            chatAdapter.notifyItemInserted(messageList.size() - 1);
+            recyclerChat.scrollToPosition(messageList.size() - 1);
+        }, 500);
     }
 }
