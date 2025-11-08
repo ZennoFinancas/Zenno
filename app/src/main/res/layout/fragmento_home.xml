@@ -1,26 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fundo_4"
-    tools:context=".ui.home.HomeFragmento">
+    android:fillViewport="true">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgFotoMeuPerfil2"
-        android:layout_width="66dp"
-        android:layout_height="63dp"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="24dp"
-        tools:srcCompat="@tools:sample/avatars" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fundo_4"
+        tools:context=".ui.home.HomeFragmento">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="56dp"
-        android:layout_height="43dp"
-        android:src="@drawable/metas"
-        tools:layout_editor_absoluteX="325dp"
-        tools:layout_editor_absoluteY="36dp" />
+        <TextView
+            android:id="@+id/tituloHome"
+            android:layout_width="376dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="18dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="R$0,00"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subtituloHome" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/subtituloHome"
+            android:layout_width="309dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="51dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/tituloHome"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgFotoHome" />
+
+        <TextView
+            android:id="@+id/lblVencProxHome"
+            android:layout_width="309dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="66dp"
+            android:layout_marginBottom="9dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/subtituloHome3"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/listVencProxHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblContasHome"
+            android:layout_width="309dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="66dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/subtituloHome4"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/listContasHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtReceitasHome"
+            android:layout_width="91dp"
+            android:layout_height="21dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="46dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="R$0,00"
+            android:textAlignment="textStart"
+            android:textColor="#00BF63"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
+            app:layout_constraintEnd_toStartOf="@+id/btnDespesasHome"
+            app:layout_constraintStart_toEndOf="@+id/btnReceitasHome"
+            app:layout_constraintTop_toBottomOf="@+id/lblReceitasHome" />
+
+        <ImageView
+            android:id="@+id/btnReceitasHome"
+            android:layout_width="51dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="101dp"
+            android:layout_marginBottom="46dp"
+            android:src="@drawable/receita"
+            app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
+            app:layout_constraintEnd_toStartOf="@+id/txtReceitasHome"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+
+        <TextView
+            android:id="@+id/lblReceitasHome"
+            android:layout_width="91dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="101dp"
+            android:layout_marginEnd="37dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/subtituloHome1"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtReceitasHome"
+            app:layout_constraintEnd_toStartOf="@+id/btnDespesasHome"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/btnReceitasHome"
+            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgFotoHome"
+            android:layout_width="66dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/metasHome"
+            android:layout_width="56dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/metas"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnDespesasHome"
+            android:layout_width="51dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="101dp"
+            android:layout_marginBottom="46dp"
+            android:src="@drawable/despesa"
+            app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
+            app:layout_constraintEnd_toStartOf="@+id/lblDespesasHome"
+            app:layout_constraintStart_toEndOf="@+id/txtReceitasHome"
+            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+
+        <TextView
+            android:id="@+id/lblDespesasHome"
+            android:layout_width="91dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="101dp"
+            android:layout_marginEnd="45dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/subtituloHome2"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtDespesasHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnDespesasHome"
+            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+
+        <TextView
+            android:id="@+id/txtDespesasHome"
+            android:layout_width="91dp"
+            android:layout_height="21dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="46dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="R$0,00"
+            android:textAlignment="textStart"
+            android:textColor="#ff3131"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/btnDespesasHome"
+            app:layout_constraintTop_toBottomOf="@+id/lblDespesasHome" />
+
+        <ImageView
+            android:id="@+id/btnVerNumerosHome"
+            android:layout_width="37dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="187dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="187dp"
+            android:layout_marginBottom="137dp"
+            android:src="@drawable/vizualizar"
+            app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+
+        <ListView
+            android:id="@+id/listVencProxHome"
+            android:layout_width="340dp"
+            android:layout_height="146dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="21dp"
+            app:layout_constraintBottom_toTopOf="@+id/lblContasHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ListView
+            android:id="@+id/listContasHome"
+            android:layout_width="336dp"
+            android:layout_height="98dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="39dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblContasHome" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

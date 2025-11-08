@@ -132,7 +132,6 @@
     \n Desenvolvido por: <b>Lincoln Silva Vieira, Matheus de Lima Ribeiro, Matheus Norberto dos Reis, Pedro Costa Pereira, Vinicius Alves de Souza e Vinicius Csetnek de Araujo.</b>
     </string>
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -140,5 +139,11 @@
     <string name="tituloTudoPronto">Tudo pronto para usar o Zenno!</string>
     <string name="btnTudoPronto">Ir para tela inicial</string>
 
+    // Tela Home - Inicial
+    <string name="tituloHome">Saldo atual em conta</string>
+    <string name="subtituloHome1">Receitas</string>
+    <string name="subtituloHome2">Despesas</string>
+    <string name="subtituloHome3">Vencimentos próximos</string>
+    <string name="subtituloHome4">Contas</string>
 
 </resources>

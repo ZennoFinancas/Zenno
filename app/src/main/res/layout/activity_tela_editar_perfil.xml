@@ -7,18 +7,6 @@
     android:background="@drawable/fundo_4"
     tools:context=".TelaEditarPerfil">
 
-    <Button
-        android:id="@+id/btnConverter"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:backgroundTint="#712aaf"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnEditarUser"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="651dp" />
-
     <EditText
         android:id="@+id/txtNomeCadastro2"
         android:layout_width="314dp"
@@ -35,42 +23,6 @@
         tools:layout_editor_absoluteX="54dp"
         tools:layout_editor_absoluteY="159dp" />
 
-    <TextView
-        android:id="@+id/lblEmailLogin13"
-        android:layout_width="76dp"
-        android:layout_height="26dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblGeneroUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="248dp"
-        tools:layout_editor_absoluteY="391dp" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="130dp"
-        android:layout_height="47dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:fontFamily="@font/montserrat_medium"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="416dp" />
-
-    <TextView
-        android:id="@+id/lblEmailLogin12"
-        android:layout_width="42dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblPaisUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="391dp" />
-
     <EditText
         android:id="@+id/editTextNumber2"
         android:layout_width="130dp"
@@ -83,8 +35,8 @@
         android:textAlignment="textStart"
         android:textColor="@color/white"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="238dp"
-        tools:layout_editor_absoluteY="495dp" />
+        tools:layout_editor_absoluteX="239dp"
+        tools:layout_editor_absoluteY="414dp" />
 
     <TextView
         android:id="@+id/lblEmailLogin14"
@@ -95,8 +47,8 @@
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="470dp" />
+        tools:layout_editor_absoluteX="65dp"
+        tools:layout_editor_absoluteY="389dp" />
 
     <EditText
         android:id="@+id/editTextNumber"
@@ -110,8 +62,20 @@
         android:textAlignment="textStart"
         android:textColor="@color/white"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="495dp" />
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="414dp" />
+
+    <Button
+        android:id="@+id/btnConverter"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnEditarUser"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="570dp" />
 
     <TextView
         android:id="@+id/lblEmailLogin15"
@@ -122,8 +86,36 @@
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        tools:layout_editor_absoluteX="248dp"
-        tools:layout_editor_absoluteY="470dp" />
+        tools:layout_editor_absoluteX="249dp"
+        tools:layout_editor_absoluteY="389dp" />
+
+    <EditText
+        android:id="@+id/txtNomeCadastro4"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1c8058"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="500dp" />
+
+    <TextView
+        android:id="@+id/lblEmailLogin16"
+        android:layout_width="214dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblEnderecoUser"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="65dp"
+        tools:layout_editor_absoluteY="475dp" />
 
     <EditText
         android:id="@+id/txtEmailLogin3"
@@ -196,46 +188,6 @@
         android:textSize="12sp"
         tools:layout_editor_absoluteX="64dp"
         tools:layout_editor_absoluteY="305dp" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="130dp"
-        android:layout_height="47dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:fontFamily="@font/montserrat_medium"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="238dp"
-        tools:layout_editor_absoluteY="416dp" />
-
-    <EditText
-        android:id="@+id/txtNomeCadastro4"
-        android:layout_width="314dp"
-        android:layout_height="48dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="text"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#BFBFBF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="581dp" />
-
-    <TextView
-        android:id="@+id/lblEmailLogin16"
-        android:layout_width="214dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblEnderecoUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="556dp" />
 
     <TextView
         android:id="@+id/tituloCadastro2"

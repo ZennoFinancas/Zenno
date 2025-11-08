@@ -272,7 +272,7 @@ public class HomeFragmento extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(), mensagem, Toast.LENGTH_LONG).show();
+                    Toast.makeText(gzetContext(), mensagem, Toast.LENGTH_LONG).show();
                 }
             });
         }
