@@ -21,9 +21,16 @@ public class TelaRedefinirSenha extends ActivityBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_redefinir_senha);
 
+        // Instanciando classe do Banco de Dados
+        clsMetodos supabase = new clsMetodos();
+
+
+
         btnRedSenha = (Button) findViewById(R.id.btnRedSenha);
         txtRedSenha = (EditText) findViewById(R.id.txtRedSenha);
         txtConfRedSenha = (EditText) findViewById(R.id.txtConfRedSenha);
+
+
 
 
         btnRedSenha.setOnClickListener(new View.OnClickListener()
@@ -32,14 +39,17 @@ public class TelaRedefinirSenha extends ActivityBase
             @Override
             public void onClick(View view)
             {
-                // Instanciando classe do Banco de Dados
-                clsMetodos supabase = new clsMetodos();
 
                 String emailUsuario = "";
-                Bundle email = getIntent().getExtras();
-                if(email != null) {
-                    emailUsuario = email.getString("emailUsuario");
+
+                // Validação se o email foi enviado via intent da tela anterior
+                Bundle extras = getIntent().getExtras();
+                if (extras != null) {
+                    emailUsuario = extras.getString("emailUsuario");
+                } else {
+                    Toast.makeText(TelaRedefinirSenha.this, "Erro: email não recebido", Toast.LENGTH_SHORT).show();
                 }
+
 
                 String senha = txtRedSenha.getText().toString();
                 String confSenha = txtConfRedSenha.getText().toString();
@@ -52,10 +62,10 @@ public class TelaRedefinirSenha extends ActivityBase
                     Toast.makeText(TelaRedefinirSenha.this, "Senha deve conter ao menos 7 caracteres!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(TelaRedefinirSenha.this, "AQUIIII", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TelaRedefinirSenha.this, "AQUIIII" , Toast.LENGTH_SHORT).show();
                     // Método alterar a senha
 
-                    supabase.AlterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
+                    supabase.alterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
 
                 }
             }

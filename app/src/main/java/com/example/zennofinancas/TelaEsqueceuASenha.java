@@ -41,8 +41,9 @@ public class TelaEsqueceuASenha extends ActivityBase
                     Toast.makeText(TelaEsqueceuASenha.this, "Digite Seu Email!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    // Método inserir
-                    supabase.VerificarEmail(TelaEsqueceuASenha.this, email);
+
+                    // Verifica se o email digitado tem cadastro no BD
+                    supabase.verificarEmail(TelaEsqueceuASenha.this, email);
                 }
 
             }

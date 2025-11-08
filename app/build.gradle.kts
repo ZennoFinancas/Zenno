@@ -29,6 +29,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packaging {
+        resources {
+            resources.excludes.add("META-INF/NOTICE.md")
+            resources.excludes.add("META-INF/LICENSE.md")
+            resources.excludes.add("META-INF/INDEX.LIST")
+            resources.excludes.add("META-INF/DEPENDENCIES")
+            resources.excludes.add("META-INF/io.netty.versions.properties")
+
+            /*pickFirsts += ['META-INF/LICENSE.txt']
+            excludes += ['META-INF/NOTICE.md', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'META-INF/DEPENDENCIES', 'META-INF/io.netty.versions.properties']*/
+        }}
 }
 
 dependencies {
@@ -44,8 +55,13 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
-    implementation ("com.koushikdutta.ion:ion:3.1.0")// http
-    // sup
+    implementation ("com.koushikdutta.ion:ion:3.1.0")
+
+    // email
+    implementation ("com.sun.mail:android-mail:1.6.7")
+    implementation ("com.sun.mail:android-activation:1.6.7")
+
+
     implementation ("com.google.android.gms:play-services-base:18.0.1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
