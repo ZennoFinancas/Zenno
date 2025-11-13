@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="469dp">
+        android:layout_height="539dp">
 
         <TextView
             android:id="@+id/tituloCadastrarReceita"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Cadastrar meta"
+            android:text="Cadastrar receita"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
@@ -31,32 +31,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/subtituloCadastrarMeta"
-            android:layout_width="306dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Cadastre uma meta e fique por dentro dos seus objetivos financeiros!"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tituloCadastrarReceita" />
-
-        <TextView
             android:id="@+id/lblDescricaoCadastrarReceita"
             android:layout_width="246dp"
             android:layout_height="18dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="33dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Nome da meta"
+            android:text="Descrição"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.17"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtituloCadastrarMeta" />
+            app:layout_constraintTop_toBottomOf="@+id/tituloCadastrarReceita" />
 
         <EditText
             android:id="@+id/txtNomeReceita"
@@ -80,13 +66,55 @@
             android:id="@+id/lblTipoCadastrarReceita"
             android:layout_width="246dp"
             android:layout_height="18dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Valor necessário"
+            android:text="Tipo"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.202"
+            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+
+        <TextView
+            android:id="@+id/lblDataCadastrarReceita"
+            android:layout_width="246dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="104dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Data"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+
+        <TextView
+            android:id="@+id/lblValorCadastrarReceita"
+            android:layout_width="246dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="188dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Valor"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+
+        <TextView
+            android:id="@+id/txtEscolhaIcone"
+            android:layout_width="246dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="268dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Escolha um ícone aqui!"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
 
@@ -94,7 +122,9 @@
             android:id="@+id/txtValorReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="22dp"
             android:background="@drawable/backgroud_verde"
             android:backgroundTint="#1C9D6A"
             android:fontFamily="@font/montserrat_medium"
@@ -104,15 +134,14 @@
             android:textColorHint="#BFBFBF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblTipoCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@+id/lblValorCadastrarReceita" />
 
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="311dp"
             android:layout_height="46dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginEnd="16dp"
             android:backgroundTint="#1dc884"
             android:fontFamily="@font/montserrat_medium"
             android:text="Cadastrar"
@@ -120,9 +149,39 @@
             android:textSize="18sp"
             app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
+            tools:layout_editor_absoluteY="458dp" />
+
+        <Spinner
+            android:id="@+id/spCategoria"
+            android:layout_width="302dp"
+            android:layout_height="38dp"
+            android:background="@drawable/backgroud_verde"
+            android:backgroundTint="#1C9D6A"
+            android:fontFamily="@font/montserrat_medium"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:cornerRadius="12dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="215dp" />
+
+        <EditText
+            android:id="@+id/txtData"
+            android:layout_width="302dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/backgroud_verde"
+            android:backgroundTint="#1C9D6A"
+            android:ems="10"
+            android:hint="ex: 12/12/2012"
+            android:inputType="date"
+            android:textColorHint="#BFBFBF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtValorReceita" />
+            app:layout_constraintTop_toBottomOf="@+id/lblDataCadastrarReceita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

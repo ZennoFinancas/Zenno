@@ -23,7 +23,7 @@ public class MainActivity extends ActivityBase
         btnEntrar = (Button) findViewById(R.id.btnEntrarInicial);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrarInicial);
 
-        clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(MainActivity.this);
+        /*clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(MainActivity.this);
 
         if (usuario != null && usuario.getIdUsuario() != null) {
 
@@ -31,7 +31,7 @@ public class MainActivity extends ActivityBase
                     TelaInicial.class);
             startActivity(it);
 
-        }
+        }*/
 
         // Evento Botão Entrar
         btnEntrar.setOnClickListener(new View.OnClickListener()

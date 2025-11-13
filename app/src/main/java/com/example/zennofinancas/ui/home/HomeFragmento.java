@@ -1,8 +1,11 @@
 package com.example.zennofinancas.ui.home;
 
 import android.app.AlertDialog;
+
+import com.example.zennofinancas.TelaMetas;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +33,7 @@ public class HomeFragmento extends Fragment {
 
     TextView txtSaldoAtual;
 
-    ImageView btnAddReceita, btnAddDespesa;
+    ImageView btnAddReceita, btnAddDespesa, btnMetas;
 
     private String idUsuario;
 
@@ -59,6 +62,7 @@ public class HomeFragmento extends Fragment {
         txtSaldoAtual = view.findViewById(R.id.txtSaldoAtual);
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
+        btnMetas = view.findViewById(R.id.Metas);
 
         //carregarSaldo();
 
@@ -70,6 +74,14 @@ public class HomeFragmento extends Fragment {
             Toast.makeText(requireContext(), "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        btnMetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent metas = new Intent(getActivity(), TelaMetas.class);
+                startActivity(metas);
+            }
+        });
 
 
         // Evento para add receita. Constrói um Alert Dialog com os campos requeridos
@@ -96,7 +108,7 @@ public class HomeFragmento extends Fragment {
     private void exibirPopupReceita() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.popup_add_receita, null);
+        View view = inflater.inflate(R.layout.dialog_add_receita, null);
         builder.setView(view);
 
         // Campos do layout
@@ -105,7 +117,6 @@ public class HomeFragmento extends Fragment {
 
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
-        Button btnCancelar = view.findViewById(R.id.btnCancelar);
 
         Spinner spCategoria = view.findViewById(R.id.spCategoria);
 
@@ -172,14 +183,13 @@ public class HomeFragmento extends Fragment {
             dialog.dismiss();
         });
 
-        btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
     }
 
     private void exibirPopupDespesa() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.popup_add_despesa, null);
+        View view = inflater.inflate(R.layout.dialog_add_receita, null);
         builder.setView(view);
 
         // Campos do layout
@@ -188,7 +198,6 @@ public class HomeFragmento extends Fragment {
 
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
-        Button btnCancelar = view.findViewById(R.id.btnCancelar);
 
         // Cria o diálogo
         AlertDialog dialog = builder.create();
@@ -205,7 +214,6 @@ public class HomeFragmento extends Fragment {
             dialog.dismiss();
         });
 
-        btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
     }
 

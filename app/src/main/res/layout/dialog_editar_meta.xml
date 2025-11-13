@@ -32,7 +32,7 @@
         <!-- Nome da meta -->
 
         <TextView
-            android:id="@+id/lblNomedaMeta"
+            android:id="@+id/lblDescricaoCadastrarReceita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -47,7 +47,7 @@
         <!-- Valor necessário -->
 
         <EditText
-            android:id="@+id/txtNomeDaMeta"
+            android:id="@+id/txtNomeReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
@@ -64,10 +64,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.421"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblNomedaMeta" />
+            app:layout_constraintTop_toBottomOf="@id/lblDescricaoCadastrarReceita" />
 
         <TextView
-            android:id="@+id/lblValorMeta"
+            android:id="@+id/lblTipoCadastrarReceita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -77,12 +77,12 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNomeDaMeta" />
+            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
 
         <!-- Valor a guardar -->
 
         <EditText
-            android:id="@+id/txtValorMeta"
+            android:id="@+id/txtValorReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="4dp"
@@ -99,7 +99,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.394"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblValorMeta" />
+            app:layout_constraintTop_toBottomOf="@id/lblTipoCadastrarReceita" />
 
         <TextView
             android:id="@+id/lblValorAGuardar"
@@ -112,7 +112,7 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtValorMeta" />
+            app:layout_constraintTop_toBottomOf="@id/txtValorReceita" />
 
         <!-- Botão -->
         <EditText
@@ -136,7 +136,7 @@
             app:layout_constraintTop_toBottomOf="@id/lblValorAGuardar" />
 
         <Button
-            android:id="@+id/btnSalvarMeta"
+            android:id="@+id/btnSalvar"
             android:layout_width="311dp"
             android:layout_height="46dp"
             android:layout_marginTop="32dp"

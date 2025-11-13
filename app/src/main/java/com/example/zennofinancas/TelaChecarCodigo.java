@@ -44,7 +44,7 @@ public class TelaChecarCodigo extends ActivityBase
         String controleChecarCod = intent.getString("controleChecarCod", "");
         int codigoVerificacao = 0;
 
-        codigoVerificacao = intent.getInt("codigoVerificacao");
+        codigoVerificacao = Integer.parseInt(intent.getString("codigoVerificacao"));
 
 
 

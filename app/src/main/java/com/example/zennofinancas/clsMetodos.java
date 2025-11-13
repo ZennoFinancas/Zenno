@@ -14,13 +14,14 @@ import com.koushikdutta.ion.Ion;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class clsMetodos {
+public class clsMetodos
+{
     //Chave API para fazer requisições ao supabase
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtkc3V2bGFlZXB3anpxbmZ2eHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTMwMTIsImV4cCI6MjA3MTcyOTAxMn0.iuOiaoqm3BhPyEMs6mtn2KlA2CIuYdnkcfmc36_Z8t8";
 
-
     // Método Realizar Login
-    public static void loginUsuario(Context contexto, String emailUsuario, String senhaUsuario) {
+    public static void loginUsuario(Context contexto, String emailUsuario, String senhaUsuario)
+    {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario + "&senha_usuario=eq." + senhaUsuario;
 
         Ion.with(contexto)
@@ -29,18 +30,21 @@ public class clsMetodos {
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .asJsonArray() // o Supabase retorna uma array com os registros inseridos
-                .setCallback(new FutureCallback<JsonArray>() {
+                .setCallback(new FutureCallback<JsonArray>()
+                {
                     @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if (e != null) {
+                    public void onCompleted(Exception e, JsonArray result)
+                    {
+                        if (e != null)
+                        {
                             e.printStackTrace();
                             Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
                         // Se a array de resultados não for nula e tiver pelo menos um item, o login foi um sucesso
-                        if (result != null && result.size() > 0) {
-
+                        if (result != null && result.size() > 0)
+                        {
                             //Pegar os dados do usuario encontrado
                             JsonObject usuario = result.get(0).getAsJsonObject();
 
@@ -55,14 +59,16 @@ public class clsMetodos {
                             editor.putString("idUsuario", idUsuario);
                             editor.apply();
 
-
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario + idUsuario, Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(contexto, TelaInicial.class);
 
                             trocar.putExtra("idUsuario", idUsuario);
                             contexto.startActivity(trocar);
 
-                        } else {
+                        }
+
+                        else
+                        {
 
                             Toast.makeText(contexto, "Usuário ou senha inválidos.", Toast.LENGTH_LONG).show();
                         }
@@ -72,12 +78,10 @@ public class clsMetodos {
 
 
     // Método para cadastrar usuários
-
-    public static void inserirUsuario(Context contexto, String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
-
+    public static void inserirUsuario(Context contexto, String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario)
+    {
         //Gerando numero de verificação para o usuario.
         int codigoVerificacao = (int) (Math.random() * 10000);
-
 
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/usuarios";
 
@@ -88,7 +92,6 @@ public class clsMetodos {
         json.addProperty("senha_usuario", senhaUsuario);
         json.addProperty("codigo_usuario", codigoVerificacao);
 
-
         Ion.with(contexto)
                 .load("POST", url)
                 .addHeader("Authorization", "Bearer " + API_KEY)
@@ -96,19 +99,24 @@ public class clsMetodos {
                 .addHeader("Content-Type", "application/json")
                 .setJsonObjectBody(json)  // corpo em JSON
                 .asString() // Change this line
-                .setCallback(new FutureCallback<String>() {
+                .setCallback(new FutureCallback<String>()
+                {
                     @Override
-                    public void onCompleted(Exception e, String result) {
+                    public void onCompleted(Exception e, String result)
+                    {
 
                         // BD nao valida se o email já foi cadastrado ou não.
-                        if (e != null) {
+                        if (e != null)
+                        {
                             Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        if (result != null) {
+                        if (result != null)
+                        {
                             // Verifica se contém a mensagem de chave duplicada
-                            if (result.contains("duplicate key value") && result.contains("usuarios_email_key")) {
+                            if (result.contains("duplicate key value") && result.contains("usuarios_email_key"))
+                            {
                                 Toast.makeText(contexto, "Este e-mail já está cadastrado. Tente fazer login.", Toast.LENGTH_LONG).show();
                                 return;
                             }
@@ -121,16 +129,16 @@ public class clsMetodos {
                         intent.putExtra("controleChecarCod", "cadastrar");
                         intent.putExtra("codigoVerificacao", codigoVerificacao);
 
-
                         Toast.makeText(contexto, "Cadastro realizado com sucesso! Verifique o código no seu email!", Toast.LENGTH_LONG).show();
                         contexto.startActivity(intent);
                     }
 
-                    });
+                });
     }
 
     // Método Verificar Email Cadastrado
-    public static void verificarEmail(Context contexto, String emailUsuario){
+    public static void verificarEmail(Context contexto, String emailUsuario)
+    {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario;
 
         Ion.with(contexto)
@@ -139,17 +147,21 @@ public class clsMetodos {
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .asJsonArray() // o Supabase retorna uma array com os registros inseridos
-                .setCallback(new FutureCallback<JsonArray>() {
+                .setCallback(new FutureCallback<JsonArray>()
+                {
                     @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if (e != null) {
+                    public void onCompleted(Exception e, JsonArray result)
+                    {
+                        if (e != null)
+                        {
                             e.printStackTrace();
                             Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
                         // Se a array de resultados tiver pelo menos um item, o email foi encontrado
-                        if (result != null && result.size() > 0) {
+                        if (result != null && result.size() > 0)
+                        {
 
                             Toast.makeText(contexto, "Email encontrado com sucesso! ", Toast.LENGTH_LONG).show();
 

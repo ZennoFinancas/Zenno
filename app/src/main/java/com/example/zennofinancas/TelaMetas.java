@@ -38,9 +38,9 @@ public class TelaMetas extends ActivityBase {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_cadastrar_meta, null);
 
-        EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeDaMeta);
-        EditText txtValorMeta = view.findViewById(R.id.txtValorMeta);
-        Button btnCadastrarMeta = view.findViewById(R.id.btnSalvarMeta);
+        EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
+        EditText txtValorMeta = view.findViewById(R.id.txtValorReceita);
+        Button btnCadastrarMeta = view.findViewById(R.id.btnSalvar);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -108,10 +108,10 @@ public class TelaMetas extends ActivityBase {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.dialog_editar_meta, null);
 
-        EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeDaMeta);
-        EditText txtValorMeta = view.findViewById(R.id.txtValorMeta);
+        EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
+        EditText txtValorMeta = view.findViewById(R.id.txtValorReceita);
         EditText txtValorAGuardar = view.findViewById(R.id.txtValorAGuardar);
-        Button btnSalvarMeta = view.findViewById(R.id.btnSalvarMeta);
+        Button btnSalvarMeta = view.findViewById(R.id.btnSalvar);
 
         // Preenche os campos com os dados atuais
         txtNomeDaMeta.setText(tituloNomedaMeta.getText().toString());
