@@ -1,15 +1,19 @@
 package com.example.zennofinancas.ui.home;
 
 import android.app.AlertDialog;
+import com.example.zennofinancas.classes.clsDadosUsuario;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,25 +24,16 @@ import androidx.fragment.app.Fragment;
 import com.example.zennofinancas.R;
 import com.example.zennofinancas.clsMetodos;
 
-import okhttp3.OkHttpClient;
+import java.util.ArrayList;
 
 public class HomeFragmento extends Fragment {
 
-    private TextView lblSaldoAtual;
-    private EditText txtReceita, txtDespesa;
-    private ImageView imgAddReceita, imgAddDespesa;
+    TextView txtSaldoAtual;
 
-    Button btnAddReceita;
+    ImageView btnAddReceita, btnAddDespesa;
 
-    private final OkHttpClient client = new OkHttpClient();
+    private String idUsuario;
 
-    private static final String SUPABASE_URL = "https://kdsuvlaeepwjzqnfvxxr.supabase.co";
-    private static final String SUPABASE_KEY = "";
-    private static final String USER_ID = "";
-    private static final String USER_TOKEN = "";
-
-    private final String API_PERFIS_ENDPOINT = SUPABASE_URL + "/rest/v1/perfis";
-    private final String API_RPC_ENDPOINT = SUPABASE_URL + "/rest/v1/rpc/modificar_saldo";
 
 
     // Verificando se o usuário está logado
@@ -60,37 +55,24 @@ public class HomeFragmento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lblSaldoAtual = view.findViewById(R.id.lblSaldoAtual);
-        txtReceita = view.findViewById(R.id.txtReceita);
-        txtDespesa = view.findViewById(R.id.txtDespesa);
-        imgAddReceita = view.findViewById(R.id.imgAddReceita);
-        btnAddReceita = view.findViewById(R.id.btnAddReceita);
-        imgAddDespesa = view.findViewById(R.id.imgAddDespesa);
+
+        txtSaldoAtual = view.findViewById(R.id.txtSaldoAtual);
+        btnAddReceita = view.findViewById(R.id.btnReceitasHome);
+        btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
 
         //carregarSaldo();
 
 
-        SharedPreferences prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        String nomeUsuario = prefs.getString("nomeUsuario", null);
-        String idUsuario = prefs.getString("idUsuario", null);
-
-        imgAddReceita.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String valorTexto = txtReceita.getText().toString();
-                //adicionarTransacao(valorTexto, "receita");
-            }
-        });
+        clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
+        if (usuario != null) {
+            idUsuario = usuario.getIdUsuario();
+        } else {
+            Toast.makeText(requireContext(), "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
-        imgAddDespesa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String valorTexto = txtDespesa.getText().toString();
-                //adicionarTransacao(valorTexto, "despesa");
-            }
-        });
-
+        // Evento para add receita. Constrói um Alert Dialog com os campos requeridos
         btnAddReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,12 +80,106 @@ public class HomeFragmento extends Fragment {
 
             }
         });
+
+
+
+        // Evento para add despesa. Constrói um Alert Dialog com os campos requeridos
+        btnAddDespesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exibirPopupDespesa();
+            }
+        });
+
     }
 
     private void exibirPopupReceita() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.popup_add_gasto, null);
+        View view = inflater.inflate(R.layout.popup_add_receita, null);
+        builder.setView(view);
+
+        // Campos do layout
+        EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
+        EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
+
+
+        Button btnSalvar = view.findViewById(R.id.btnSalvar);
+        Button btnCancelar = view.findViewById(R.id.btnCancelar);
+
+        Spinner spCategoria = view.findViewById(R.id.spCategoria);
+
+        // Cria o diálogo
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+
+        // Busca as categorias do banco
+        clsMetodos.buscarCategorias(requireContext(), idUsuario, "receita", (e, categorias) -> {
+            if (e != null || categorias == null) {
+                Toast.makeText(requireContext(), "Falha ao carregar categorias.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ArrayList<String> nomesCategorias = new ArrayList<>();
+            for (String[] item : categorias) nomesCategorias.add(item[1]);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    nomesCategorias
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spCategoria.setAdapter(adapter);
+
+            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id) {
+                    String idCategoriaSelecionada = categorias.get(position)[0];
+                    spCategoria.setTag(idCategoriaSelecionada);
+                }
+                @Override public void onNothingSelected(AdapterView<?> parent) {}
+            });
+        });
+
+
+        // Eventos dos botões
+        btnSalvar.setOnClickListener(v -> {
+            String nomeReceita = txtNomeReceita.getText().toString().trim();
+            String valorReceita = txtValorReceita.getText().toString().trim();
+            String idCategoria = (String) spCategoria.getTag(); // pegamos o ID da categoria selecionada
+
+
+            if (valorReceita.isEmpty()) {
+                Toast.makeText(requireContext(), "Digite o valor da receita.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (idCategoria == null) {
+                Toast.makeText(requireContext(), "Selecione uma categoria.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //
+            supabase.inserirReceita(
+                    requireActivity(),
+                    idUsuario,
+                    idCategoria,
+                    valorReceita,
+                    nomeReceita,
+                    "");
+
+            dialog.dismiss();
+        });
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+    }
+
+    private void exibirPopupDespesa() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.popup_add_despesa, null);
         builder.setView(view);
 
         // Campos do layout
@@ -130,7 +206,6 @@ public class HomeFragmento extends Fragment {
         });
 
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
-
 
     }
 
@@ -278,13 +353,4 @@ public class HomeFragmento extends Fragment {
         }
     }*/
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        lblSaldoAtual = null;
-        txtReceita = null;
-        txtDespesa = null;
-        imgAddReceita = null;
-        imgAddDespesa = null;
-    }
 }
