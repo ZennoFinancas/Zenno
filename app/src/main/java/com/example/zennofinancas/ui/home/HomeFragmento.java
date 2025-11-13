@@ -26,7 +26,7 @@ public class HomeFragmento extends Fragment {
 
     private TextView lblSaldoAtual;
     private EditText txtReceita, txtDespesa;
-    private ImageView imgAddReceita, imgAddDespesa;
+    private ImageView imgAddReceita, imgAddDespesa, Metas;
 
     Button btnAddReceita;
 
@@ -66,6 +66,17 @@ public class HomeFragmento extends Fragment {
         imgAddReceita = view.findViewById(R.id.imgAddReceita);
         btnAddReceita = view.findViewById(R.id.btnAddReceita);
         imgAddDespesa = view.findViewById(R.id.imgAddDespesa);
+        Metas = view.findViewById(R.id.Metas);
+
+        Metas = view.findViewById(R.id.Metas);
+
+        Metas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent metas = new Intent(getActivity(), TelaMetas.class);
+                startActivity(metas);
+            }
+        });
 
         //carregarSaldo();
 

@@ -146,4 +146,9 @@
     <string name="subtituloHome3">Vencimentos próximos</string>
     <string name="subtituloHome4">Contas</string>
 
+    // Tela Metas
+    <string name="tituloMetas">Metas</string>
+    <string name="subtituloMetas">Você ainda não possui metas cadastradas.</string>
+    <string name="btnMetas">Cadastrar agora</string>
+
 </resources>
