@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class clsMetodos {
@@ -264,65 +265,70 @@ public class clsMetodos {
 
 
      //inserir receita
-    public static void inserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+     public static void inserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+
+
+         // Conversões seguras
+         int idCategoriaInt;
+         float valorReceitaFloat;
 
 
 
-        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
-
-        JsonObject json = new JsonObject();
-        json.addProperty("id_usuario", idUsuario);
-        json.addProperty("id_categoria", idCategoria);
-        json.addProperty("valor_receita", valorReceita); //Alterar campo no front
-        json.addProperty("descricao_receita", descricaoReceita);
-        json.addProperty("data_receita", dataReceita);
-
-
-        Ion.with(contexto)
-                .load("POST", url)
-                .addHeader("Authorization", "Bearer " + API_KEY)
-                .addHeader("apikey", API_KEY)
-                .addHeader("Content-Type", "application/json")
-                .setJsonObjectBody(json)  // corpo em JSON
-                .asString() // Change this line
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-
-                        // BD nao valida se o email já foi cadastrado ou não.
-                        if (e != null) {
-                            e.printStackTrace();
-                            Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        else
-                        {
-                            // Se não houver erro de exceção, a requisição foi bem-sucedida
-                            // Independentemente da resposta do servidor (vazia ou não)
-                            Toast.makeText(contexto, "Cadastro realizado com sucesso! ", Toast.LENGTH_LONG).show();
-                            Intent trocar = new Intent(contexto, MainActivity.class);
-                            contexto.startActivity(trocar);
-                        }
-
-                    }
-                });
-
-    }
+         valorReceitaFloat = Float.parseFloat(valorReceita.replace(",", "."));
+         // Criação do JSON para envio
+         JsonObject json = new JsonObject();
+         json.addProperty("id_usuario", idUsuario);
+         json.addProperty("id_categoria", idCategoria);
+         json.addProperty("valor_receita", valorReceitaFloat);
+         json.addProperty("descricao_receita", descricaoReceita);
 
 
-    public static void buscarCategorias(Context contexto, String idUsuario, FutureCallback<ArrayList<String[]>> callback) {
+         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
 
-        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias?id_usuario=eq." + idUsuario;
+         Ion.with(contexto)
+                 .load("POST", url)
+                 .addHeader("Authorization", "Bearer " + API_KEY)
+                 .addHeader("apikey", API_KEY)
+                 .addHeader("Content-Type", "application/json")
+                 .setJsonObjectBody(json)
+                 .asString()
+                 .setCallback(new FutureCallback<String>() {
+                     @Override
+                     public void onCompleted(Exception e, String result) {
+
+                         if (e != null) {
+                             e.printStackTrace();
+                             Toast.makeText(contexto, "Erro na conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                             return;
+                         }
+
+                         // Verifica se o servidor retornou erro explícito
+                         if (result != null && (result.contains("error") || result.contains("status"))) {
+                             Toast.makeText(contexto, "Falha ao cadastrar receita: " + result, Toast.LENGTH_LONG).show();
+                             return;
+                         }
+
+                         // Sucesso
+                         Toast.makeText(contexto, "Receita cadastrada com sucesso!", Toast.LENGTH_LONG).show();
+
+                     }
+                 });
+     }
+
+
+    public static void buscarCategorias(Context contexto, String idUsuario, String tipo, FutureCallback<ArrayList<String[]>> callback) {
+        // Campos corretos conforme tabela: id_categoria, id_usuario, nome, tipo
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias"
+                + "?select=id_categoria,nome&id_usuario=eq." + idUsuario + "&tipo=eq." + tipo ; //
 
         Ion.with(contexto)
                 .load("GET", url)
                 .addHeader("Authorization", "Bearer " + API_KEY)
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
                 .asJsonArray()
                 .setCallback((e, result) -> {
-
                     if (e != null) {
                         Toast.makeText(contexto, "Erro ao buscar categorias", Toast.LENGTH_SHORT).show();
                         callback.onCompleted(e, null);
@@ -334,11 +340,8 @@ public class clsMetodos {
                     if (result != null && result.size() > 0) {
                         for (int i = 0; i < result.size(); i++) {
                             JsonObject item = result.get(i).getAsJsonObject();
-
                             String idCategoria = item.get("id_categoria").getAsString();
-                            String nomeCategoria = item.get("nome_categoria").getAsString();
-
-                            // Salvando em matriz (cada item = linha da matriz)
+                            String nomeCategoria = item.get("nome").getAsString(); // <--- CORRIGIDO AQUI
                             categorias.add(new String[]{idCategoria, nomeCategoria});
                         }
                     }

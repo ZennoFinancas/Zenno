@@ -13,7 +13,7 @@
         tools:context=".ui.home.HomeFragmento">
 
         <TextView
-            android:id="@+id/tituloHome"
+            android:id="@+id/txtSaldoAtual"
             android:layout_width="376dp"
             android:layout_height="46dp"
             android:layout_marginStart="17dp"
@@ -106,7 +106,7 @@
             app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
             app:layout_constraintEnd_toStartOf="@+id/txtReceitasHome"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSaldoAtual" />
 
         <TextView
             android:id="@+id/lblReceitasHome"
@@ -123,7 +123,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btnDespesasHome"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/btnReceitasHome"
-            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSaldoAtual" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgFotoMetas"
@@ -156,7 +156,7 @@
             app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
             app:layout_constraintEnd_toStartOf="@+id/lblDespesasHome"
             app:layout_constraintStart_toEndOf="@+id/txtReceitasHome"
-            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSaldoAtual" />
 
         <TextView
             android:id="@+id/lblDespesasHome"
@@ -172,7 +172,7 @@
             app:layout_constraintBottom_toTopOf="@+id/txtDespesasHome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnDespesasHome"
-            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSaldoAtual" />
 
         <TextView
             android:id="@+id/txtDespesasHome"
@@ -204,7 +204,7 @@
             app:layout_constraintBottom_toTopOf="@+id/lblVencProxHome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloHome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSaldoAtual" />
 
         <ListView
             android:id="@+id/listVencProxHome"
