@@ -41,7 +41,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginBottom="132dp"
         android:backgroundTint="#712aaf"
         android:drawableLeft="@android:drawable/ic_dialog_email"
         android:drawableTint="#FFFFFF"
@@ -51,26 +51,7 @@
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toTopOf="@+id/txtEntrar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnCriarGoogle"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="#FFFFFF"
-        android:drawableLeft="@drawable/google_icon"
-        android:drawablePadding="12dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:includeFontPadding="false"
-        android:text="@string/btnCriarGoogle"
-        android:textColor="#323030"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCadastrarEmail"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fundo_4"
     tools:context=".ui.extrato.ExtratoFragmento">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/subtituloMetas2"
+        android:layout_width="219dp"
+        android:layout_height="48dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/txtExtrato1"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="341dp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/subtituloMetas3"
+        android:layout_width="221dp"
+        android:layout_height="37dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/txtExtrato2"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="401dp" />
+
+    <TextView
+        android:id="@+id/lblReceitasHome2"
+        android:layout_width="91dp"
+        android:layout_height="23dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/subtituloExtrato"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="190dp"
+        tools:layout_editor_absoluteY="192dp" />
+
+    <ImageView
+        android:id="@+id/btnReceitasHome2"
+        android:layout_width="42dp"
+        android:layout_height="43dp"
+        android:background="@drawable/cadeado"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="192dp" />
+
+    <TextView
+        android:id="@+id/txtReceitasHome2"
+        android:layout_width="91dp"
+        android:layout_height="21dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="R$0,00"
+        android:textAlignment="textStart"
+        android:textColor="#00BF63"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="190dp"
+        tools:layout_editor_absoluteY="215dp" />
+
+    <TextView
+        android:id="@+id/tituloCadastrarReceita2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tituloExtrato"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="172dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <Spinner
+        android:id="@+id/spCategoriaExtrato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1C9D6A"
+        android:fontFamily="@font/montserrat_medium"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="30dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="27dp"
+        android:layout_height="20dp"
+        android:src="@drawable/seta_direcional"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="27dp"
+        android:layout_height="20dp"
+        android:rotationY="181"
+        android:src="@drawable/seta_direcional"
+        tools:layout_editor_absoluteX="345dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

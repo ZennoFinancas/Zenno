@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="340dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:padding="20dp"
     android:backgroundTint="#712aaf"
-    app:cardCornerRadius="35dp"
     app:cardElevation="8dp"
-    android:padding="20dp">
+    app:cardCornerRadius="35dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="539dp">
+        android:layout_height="531dp">
 
+        <!-- TÍTULO -->
         <TextView
             android:id="@+id/tituloCadastrarReceita"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Cadastrar receita"
             android:textAlignment="center"
@@ -26,29 +26,32 @@
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- LABEL DESCRIÇÃO -->
+
+        <!-- DESCRIÇÃO INPUT -->
+
         <TextView
             android:id="@+id/lblDescricaoCadastrarReceita"
-            android:layout_width="246dp"
+            android:layout_width="147dp"
             android:layout_height="18dp"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Descrição"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintHorizontal_bias="0.098"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/tituloCadastrarReceita" />
 
         <EditText
             android:id="@+id/txtNomeReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/backgroud_verde"
             android:backgroundTint="#1C9D6A"
             android:fontFamily="@font/montserrat_medium"
@@ -58,73 +61,93 @@
             android:textColorHint="#BFBFBF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.421"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblDescricaoCadastrarReceita" />
 
+        <!-- LABEL TIPO -->
+
+        <!-- SPINNER TIPO -->
         <TextView
             android:id="@+id/lblTipoCadastrarReceita"
-            android:layout_width="246dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="180dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Tipo"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
 
+        <Spinner
+            android:id="@+id/spCategoria"
+            android:layout_width="302dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/backgroud_verde"
+            android:backgroundTint="#1C9D6A"
+            android:fontFamily="@font/montserrat_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblTipoCadastrarReceita" />
+
+        <!-- LABEL DATA -->
+
+        <!-- INPUT DATA -->
         <TextView
             android:id="@+id/lblDataCadastrarReceita"
-            android:layout_width="246dp"
+            android:layout_width="184dp"
             android:layout_height="18dp"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Data"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintHorizontal_bias="0.121"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+            app:layout_constraintTop_toBottomOf="@id/spCategoria" />
 
+        <EditText
+            android:id="@+id/txtData"
+            android:layout_width="302dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/backgroud_verde"
+            android:backgroundTint="#1C9D6A"
+            android:fontFamily="@font/montserrat_medium"
+            android:hint="ex: 12/12/2012"
+            android:inputType="date"
+            android:textColorHint="#BFBFBF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblDataCadastrarReceita" />
+
+        <!-- LABEL VALOR -->
+
+        <!-- INPUT VALOR -->
         <TextView
             android:id="@+id/lblValorCadastrarReceita"
-            android:layout_width="246dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="188dp"
+            android:layout_width="182dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Valor"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
+            app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
-
-        <TextView
-            android:id="@+id/txtEscolhaIcone"
-            android:layout_width="246dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="268dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Escolha um ícone aqui!"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+            app:layout_constraintTop_toBottomOf="@id/txtData" />
 
         <EditText
             android:id="@+id/txtValorReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="22dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/backgroud_verde"
             android:backgroundTint="#1C9D6A"
             android:fontFamily="@font/montserrat_medium"
@@ -135,13 +158,32 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblValorCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/lblValorCadastrarReceita" />
+
+        <!-- TEXTO ÍCONE -->
+
+        <!-- BOTÃO SALVAR -->
+
+        <TextView
+            android:id="@+id/txtEscolhaIcone"
+            android:layout_width="237dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Escolha um ícone aqui!"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtValorReceita" />
 
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="311dp"
             android:layout_height="46dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="#1dc884"
             android:fontFamily="@font/montserrat_medium"
             android:text="Cadastrar"
@@ -149,39 +191,10 @@
             android:textSize="18sp"
             app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="458dp" />
-
-        <Spinner
-            android:id="@+id/spCategoria"
-            android:layout_width="302dp"
-            android:layout_height="38dp"
-            android:background="@drawable/backgroud_verde"
-            android:backgroundTint="#1C9D6A"
-            android:fontFamily="@font/montserrat_medium"
-            android:textAlignment="textStart"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:cornerRadius="12dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="215dp" />
-
-        <EditText
-            android:id="@+id/txtData"
-            android:layout_width="302dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="22dp"
-            android:background="@drawable/backgroud_verde"
-            android:backgroundTint="#1C9D6A"
-            android:ems="10"
-            android:hint="ex: 12/12/2012"
-            android:inputType="date"
-            android:textColorHint="#BFBFBF"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.517"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblDataCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/txtEscolhaIcone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

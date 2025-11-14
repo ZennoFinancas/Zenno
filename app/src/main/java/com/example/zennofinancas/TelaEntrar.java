@@ -23,7 +23,6 @@ import java.io.IOException;
 
 public class TelaEntrar extends ActivityBase
 {
-
     EditText txtEmail, txtSenha;
     TextView lblEsqSenha;
     Button btnEntrar;
@@ -34,11 +33,59 @@ public class TelaEntrar extends ActivityBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_entrar);
 
-
         btnEntrar = (Button) findViewById(R.id.btnLogin);
         txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
         txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
         lblEsqSenha = (TextView) findViewById(R.id.lblEsqSenha);
+
+        // Evento que mostra a senha
+        txtSenha.setOnTouchListener((v, event) ->
+        {
+            final int DRAWABLE_RIGHT = 2;
+
+            if (event.getAction() == android.view.MotionEvent.ACTION_UP)
+            {
+                if (event.getRawX() >= (txtSenha.getRight()
+                        - txtSenha.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()))
+                {
+
+                    // Verifica se está ocultando ou mostrando
+                    boolean senhaOculta =
+                            txtSenha.getInputType() ==
+                                    (android.text.InputType.TYPE_CLASS_TEXT |
+                                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                    if (senhaOculta)
+                    {
+                        // Mostrar senha
+                        txtSenha.setInputType(
+                                android.text.InputType.TYPE_CLASS_TEXT |
+                                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        );
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar, 0);
+
+                    }
+
+                    else
+                    {
+                        // Ocultar senha
+                        txtSenha.setInputType(
+                                android.text.InputType.TYPE_CLASS_TEXT |
+                                        android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        );
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar, 0);
+                    }
+
+                    // Mantém cursor no final
+                    txtSenha.setSelection(txtSenha.getText().length());
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+
 
         // Evento do botão entrar
         btnEntrar.setOnClickListener(new View.OnClickListener() {

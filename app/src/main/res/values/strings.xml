@@ -151,4 +151,10 @@
     <string name="subtituloMetas">Você ainda não possui metas cadastradas.</string>
     <string name="btnMetas">Cadastrar agora</string>
 
+    // Tela Extrato
+    <string name="tituloExtrato">MêsAtual</string>
+    <string name="subtituloExtrato">Saldo atual</string>
+    <string name="txtExtrato1">Você não possui transações registradas.</string>
+    <string name="txtExtrato2">Adicione suas movimentações na home!</string>
+
 </resources>
