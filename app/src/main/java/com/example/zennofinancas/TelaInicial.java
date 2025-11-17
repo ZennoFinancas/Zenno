@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.zennofinancas.classes.clsGerenciadorNotificacoes;
+
 public class TelaInicial extends ActivityBase {
 
     private static final int REQUEST_POST_NOTIFICATIONS = 101;
@@ -61,15 +63,18 @@ public class TelaInicial extends ActivityBase {
                         new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
                         REQUEST_POST_NOTIFICATIONS
                 );
+
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == REQUEST_POST_NOTIFICATIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            }
         }
     }
-}
 }
