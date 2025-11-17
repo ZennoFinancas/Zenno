@@ -58,6 +58,9 @@ public class HomeFragmento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Variaveis de controle
+        String totalReceitas = "";
+
 
         txtSaldoAtual = view.findViewById(R.id.txtSaldoAtual);
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
@@ -67,6 +70,8 @@ public class HomeFragmento extends Fragment {
         //carregarSaldo();
 
 
+
+
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
         if (usuario != null) {
             idUsuario = usuario.getIdUsuario();
@@ -74,6 +79,20 @@ public class HomeFragmento extends Fragment {
             Toast.makeText(requireContext(), "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
+        // Busca o total de receitas cadastradas
+        clsMetodos.buscarSaldo(getContext(),idUsuario);
+
+        // Recebe os valores enviados via Intent
+        Bundle intent = requireActivity().getIntent().getExtras();
+
+        if (intent != null) {
+            totalReceitas = intent.getString("totalReceitas");
+        }
+
+        txtSaldoAtual.setText("R$" + totalReceitas);
+
 
         btnMetas.setOnClickListener(new View.OnClickListener() {
             @Override

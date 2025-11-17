@@ -59,7 +59,7 @@ public class clsMetodos
                             editor.putString("idUsuario", idUsuario);
                             editor.apply();
 
-                            Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario + idUsuario, Toast.LENGTH_LONG).show();
+                            Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(contexto, TelaInicial.class);
 
                             trocar.putExtra("idUsuario", idUsuario);
@@ -127,7 +127,7 @@ public class clsMetodos
                         //Enviando email para exibir na tela de checar codigo
                         intent.putExtra("emailUsuario", emailUsuario);
                         intent.putExtra("controleChecarCod", "cadastrar");
-                        intent.putExtra("codigoVerificacao", codigoVerificacao);
+                        intent.putExtra("codigoVerificacao", String.valueOf(codigoVerificacao));
 
                         Toast.makeText(contexto, "Cadastro realizado com sucesso! Verifique o código no seu email!", Toast.LENGTH_LONG).show();
                         contexto.startActivity(intent);
@@ -361,5 +361,65 @@ public class clsMetodos
                     callback.onCompleted(null, categorias);
                 });
     }
+
+
+    // Carregar Saldo na tela
+
+    public static void buscarSaldo(Context contexto, String idUsuario)
+    {
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>()
+                {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result)
+                    {
+                        if (e != null)
+                        {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        if (result != null && result.size() > 0)
+                        {
+                            double somaReceitas = 0.0;
+
+                            // LOOP PARA SOMAR TODAS AS RECEITAS
+                            for (int i = 0; i < result.size(); i++)
+                            {
+                                JsonObject linha = result.get(i).getAsJsonObject();
+
+                                // pegar valor_receita como double
+                                if (linha.has("valor_receita") && !linha.get("valor_receita").isJsonNull()) {
+                                    somaReceitas += linha.get("valor_receita").getAsDouble();
+                                }
+                            }
+
+                            // Aqui você decide o que fazer com a soma
+                            Toast.makeText(contexto, "Total de receitas: R$ " + somaReceitas, Toast.LENGTH_LONG).show();
+
+                            Intent trocar = new Intent();
+                            trocar.putExtra("idUsuario", idUsuario);
+                            trocar.putExtra("totalReceitas", somaReceitas);
+
+                            // Precisa exibir na tela o resultado.
+                        }
+                        else
+                        {
+                            Toast.makeText(contexto, "Nenhuma receita encontrada.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+
+
 
 }
