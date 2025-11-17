@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866390408666",
+    "project_id": "zennofinancasnotificacoes",
+    "storage_bucket": "zennofinancasnotificacoes.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866390408666:android:4eebf11ca7878b9dadd4e3",
+        "android_client_info": {
+          "package_name": "com.example.zennofinancas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkLRD-LShJDjDhfiA54ZkQNwSQyjGAts8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

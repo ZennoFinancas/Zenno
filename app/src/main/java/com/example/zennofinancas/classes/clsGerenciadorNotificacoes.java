@@ -47,10 +47,10 @@ public class clsGerenciadorNotificacoes {
 
         if (desativarTudo) return;
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
+
                 return;
             }
         }
