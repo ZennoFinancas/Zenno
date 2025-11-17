@@ -33,7 +33,7 @@ public class TelaMeuPerfil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaNotificacoes.class);
+                        TelaNotificacoes.java.class);
                 startActivity(it);
             }
         });
