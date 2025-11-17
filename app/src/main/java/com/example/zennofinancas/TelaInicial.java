@@ -1,45 +1,41 @@
 package com.example.zennofinancas;
 
 import android.os.Bundle;
-import android.view.View;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Build;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import com.example.zennofinancas.databinding.ActivityTelaInicialBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class TelaInicial extends ActivityBase {
 
-    private ActivityTelaInicialBinding binding;
+    private static final int REQUEST_POST_NOTIFICATIONS = 101;
+    private com.example.zennofinancas.databinding.ActivityTelaInicialBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityTelaInicialBinding.inflate(getLayoutInflater());
+        binding = com.example.zennofinancas.databinding.ActivityTelaInicialBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Controla manualmente os insets
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        ViewCompat.setOnApplyWindowInsetsListener(
+                findViewById(R.id.nav_host_fragment_activity_tela_inicial),
+                (v, insets) -> {
+                    Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(0, sys.top, 0, sys.bottom);
+                    return insets;
+                });
 
-        // Ajusta os paddings do NavHostFragment conforme as barras do sistema
-        View navHost = findViewById(R.id.nav_host_fragment_activity_tela_inicial);
-
-        ViewCompat.setOnApplyWindowInsetsListener(navHost, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, systemBars.top, 0, systemBars.bottom);
-            return insets;
-        });
-
-
-        // Configuração normal do Navigation Component
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navegacao_home,
                 R.id.navegacao_extrato,
@@ -49,5 +45,31 @@ public class TelaInicial extends ActivityBase {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_tela_inicial);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        solicitarPermissaoNotificacoes();
     }
+
+    private void solicitarPermissaoNotificacoes() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_POST_NOTIFICATIONS
+                );
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_POST_NOTIFICATIONS) {
+        }
+    }
+}
 }
