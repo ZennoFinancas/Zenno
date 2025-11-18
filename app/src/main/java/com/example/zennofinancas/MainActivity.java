@@ -6,18 +6,21 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends ActivityBase {
-
 
     Button btnEntrar, btnCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+
+        FirebaseApp.initializeApp(this);
+
+        setContentView(R.layout.activity_main);
 
         btnEntrar = findViewById(R.id.btnEntrarInicial);
         btnCadastrar = findViewById(R.id.btnCadastrarInicial);
@@ -29,25 +32,21 @@ public class MainActivity extends ActivityBase {
             startActivity(it);
         }
 
-
         btnEntrar.setOnClickListener(view -> {
             Intent it = new Intent(MainActivity.this, TelaEntrar.class);
             startActivity(it);
         });
-
 
         btnCadastrar.setOnClickListener(view -> {
             Intent it = new Intent(MainActivity.this, TelaCadastrar.class);
             startActivity(it);
         });
 
-
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;
 
                     String token = task.getResult();
-
                     System.out.println("Token FCM: " + token);
                 });
     }
