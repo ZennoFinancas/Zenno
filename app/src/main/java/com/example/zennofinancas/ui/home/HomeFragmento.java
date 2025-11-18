@@ -3,6 +3,8 @@ package com.example.zennofinancas.ui.home;
 import android.app.AlertDialog;
 
 import com.example.zennofinancas.TelaMetas;
+import com.example.zennofinancas.TelaMeuPerfil;
+import com.example.zennofinancas.TelaNotificacoes;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +35,7 @@ public class HomeFragmento extends Fragment {
 
     TextView txtSaldoAtual;
 
-    ImageView btnAddReceita, btnAddDespesa, btnMetas;
+    ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoMetas;
 
     private String idUsuario;
 
@@ -66,6 +68,7 @@ public class HomeFragmento extends Fragment {
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
+        imgFotoMetas = view.findViewById(R.id.imgFotoMetas);
 
         //carregarSaldo();
 
@@ -112,6 +115,13 @@ public class HomeFragmento extends Fragment {
             }
         });
 
+        imgFotoMetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent imgFotoMetas = new Intent(getActivity(), TelaMeuPerfil.class);
+                startActivity(imgFotoMetas);
+            }
+        });
 
 
         // Evento para add despesa. Constrói um Alert Dialog com os campos requeridos

@@ -29,15 +29,14 @@ public class TelaMeuPerfil extends AppCompatActivity {
                 startActivity(it);
             }
         });
-        /*lblNotificacoes.setOnClickListener(new View.OnClickListener() {
+        lblNotificacoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaNotificacoes.java.class);
+                Intent it = new Intent(TelaMeuPerfil.this, TelaNotificacoes.class);
                 startActivity(it);
             }
         });
-
+/*
         lblSuporte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
