@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtQuantia" />
 
     <Button
-        android:id="@+id/btnConverter"
+        android:id="@+id/btnSalvarAlteracoes"
         android:layout_width="319dp"
         android:layout_height="58dp"
         android:layout_marginStart="48dp"

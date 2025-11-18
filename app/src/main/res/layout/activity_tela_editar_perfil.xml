@@ -7,120 +7,24 @@
     android:background="@drawable/fundo_4"
     tools:context=".TelaEditarPerfil">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgFotoEditPerfil"
+        android:layout_width="108dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="152dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloEditPerfil"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <EditText
-        android:id="@+id/txtNomeCadastro2"
+        android:id="@+id/txtEmailEditPerfil"
         android:layout_width="314dp"
         android:layout_height="48dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="text"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#BFBFBF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="159dp" />
-
-    <EditText
-        android:id="@+id/editTextNumber2"
-        android:layout_width="130dp"
-        android:layout_height="47dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="number"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="239dp"
-        tools:layout_editor_absoluteY="414dp" />
-
-    <TextView
-        android:id="@+id/lblEmailLogin14"
-        android:layout_width="42dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblCEPUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="389dp" />
-
-    <EditText
-        android:id="@+id/editTextNumber"
-        android:layout_width="130dp"
-        android:layout_height="47dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="number"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="414dp" />
-
-    <Button
-        android:id="@+id/btnConverter"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:backgroundTint="#712aaf"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnEditarUser"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="570dp" />
-
-    <TextView
-        android:id="@+id/lblEmailLogin15"
-        android:layout_width="85dp"
-        android:layout_height="26dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblNumEnderecoUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="249dp"
-        tools:layout_editor_absoluteY="389dp" />
-
-    <EditText
-        android:id="@+id/txtNomeCadastro4"
-        android:layout_width="314dp"
-        android:layout_height="48dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1c8058"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="text"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#BFBFBF"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="500dp" />
-
-    <TextView
-        android:id="@+id/lblEmailLogin16"
-        android:layout_width="214dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblEnderecoUser"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="475dp" />
-
-    <EditText
-        android:id="@+id/txtEmailLogin3"
-        android:layout_width="314dp"
-        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="49dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1c8058"
         android:drawableTint="#FFFFFF"
@@ -131,27 +35,32 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#BFBFBF"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="243dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailEditPerfil" />
 
     <TextView
-        android:id="@+id/lblEmailLogin10"
+        android:id="@+id/lblEmailEditPerfil"
         android:layout_width="214dp"
         android:layout_height="25dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="139dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblEmailLogin"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="218dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomeEditPerfil" />
 
     <TextView
-        android:id="@+id/lblEmailLogin9"
+        android:id="@+id/lblNomeEditPerfil"
         android:layout_width="301dp"
         android:layout_height="25dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="208dp"
         android:layout_marginEnd="46dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblNomeCompleto"
@@ -159,13 +68,16 @@
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloCadastro2" />
+        app:layout_constraintTop_toBottomOf="@+id/tituloEditPerfil" />
 
     <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/txtCelularEditPerfil"
         android:layout_width="314dp"
         android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="49dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1c8058"
         android:ems="10"
@@ -174,50 +86,93 @@
         android:textAlignment="textStart"
         android:textColor="@color/white"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="330dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblCelularEditPerfil" />
 
     <TextView
-        android:id="@+id/lblEmailLogin11"
+        android:id="@+id/lblCelularEditPerfil"
         android:layout_width="214dp"
         android:layout_height="25dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="139dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblCelularUser"
+        android:text="@string/lblCelularEditPerfil"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="305dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailEditPerfil" />
+
+    <Button
+        android:id="@+id/btnSalvarAlteracoes"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="49dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnSalvarAlteracoes"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCelularEditPerfil" />
+
+    <Button
+        android:id="@+id/btnTrocarFoto"
+        android:layout_width="158dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="127dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnTrocarFoto"
+        android:textSize="10sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoEditPerfil" />
+
+    <EditText
+        android:id="@+id/txtNomeEditPerfil"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="53dp"
+        android:background="@drawable/backgroud_verde"
+        android:backgroundTint="#1c8058"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblNomeEditPerfil" />
 
     <TextView
-        android:id="@+id/tituloCadastro2"
+        android:id="@+id/tituloEditPerfil"
         android:layout_width="278dp"
         android:layout_height="38dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="76dp"
         android:layout_marginEnd="61dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/tituloEditarPerfil"
+        android:text="@string/tituloEditPerfil"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgVoltar" />
-
-    <ImageView
-        android:id="@+id/imgVoltar"
-        android:layout_width="50dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="336dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tituloCadastro2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/voltar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,9 @@
         android:id="@+id/subtituloMetas2"
         android:layout_width="219dp"
         android:layout_height="48dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="96dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/txtExtrato1"
         android:textAlignment="center"
@@ -18,96 +21,145 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="341dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtReceitasHome2" />
 
     <TextView
         android:id="@+id/subtituloMetas3"
         android:layout_width="221dp"
         android:layout_height="37dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="94dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/txtExtrato2"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="401dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloMetas2" />
 
     <TextView
         android:id="@+id/lblReceitasHome2"
         android:layout_width="91dp"
         android:layout_height="23dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="130dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/subtituloExtrato"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
-        tools:layout_editor_absoluteX="190dp"
-        tools:layout_editor_absoluteY="192dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txtReceitasHome2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnReceitasHome2"
+        app:layout_constraintTop_toBottomOf="@+id/tituloCadastrarReceita2" />
 
     <ImageView
         android:id="@+id/btnReceitasHome2"
         android:layout_width="42dp"
         android:layout_height="43dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginBottom="106dp"
         android:background="@drawable/cadeado"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="192dp" />
+        app:layout_constraintBottom_toTopOf="@+id/subtituloMetas2"
+        app:layout_constraintEnd_toStartOf="@+id/lblReceitasHome2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloCadastrarReceita2" />
 
     <TextView
         android:id="@+id/txtReceitasHome2"
         android:layout_width="91dp"
         android:layout_height="21dp"
+        android:layout_marginEnd="130dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="R$0,00"
         android:textAlignment="textStart"
         android:textColor="#00BF63"
         android:textSize="14sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="190dp"
-        tools:layout_editor_absoluteY="215dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblReceitasHome2" />
+
 
     <TextView
         android:id="@+id/tituloCadastrarReceita2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="107dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/tituloExtrato"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="172dp"
-        tools:layout_editor_absoluteY="128dp" />
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
-    <Spinner
-        android:id="@+id/spCategoriaExtrato"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="150dp"
         android:layout_height="38dp"
-        android:background="@drawable/backgroud_verde"
-        android:backgroundTint="#1C9D6A"
-        android:fontFamily="@font/montserrat_medium"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="30dp" />
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="131dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spCategoriaExtrato"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgroud_verde"
+            android:backgroundTint="#1C9D6A"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+        <ImageView
+            android:id="@+id/imgCategorias"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            app:srcCompat="@drawable/seta_spinner" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="27dp"
         android:layout_height="20dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginBottom="583dp"
         android:src="@drawable/seta_direcional"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="128dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="27dp"
         android:layout_height="20dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="583dp"
         android:rotationY="181"
         android:src="@drawable/seta_direcional"
-        tools:layout_editor_absoluteX="345dp"
-        tools:layout_editor_absoluteY="128dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

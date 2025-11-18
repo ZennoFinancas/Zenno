@@ -66,14 +66,10 @@
     <string name="lblSairConta">Sair da conta</string>
 
     // Tela Editar Perfil
-    <string name="tituloEditarPerfil">Editar Perfil</string>
-    <string name="lblCelularUser">Número de celular</string>
-    <string name="lblPaisUser">País</string>
-    <string name="lblGeneroUser">Gênero</string>
-    <string name="lblCEPUser">CEP</string>
-    <string name="lblNumEnderecoUser">Número</string>
-    <string name="lblEnderecoUser">Endereço completo</string>
-    <string name="btnEditarUser">Editar</string>
+    <string name="tituloEditPerfil">Editar Perfil</string>
+    <string name="lblCelularEditPerfil">Número de celular</string>
+    <string name="btnTrocarFoto">Trocar foto</string>
+    <string name="btnSalvarAlteracoes">Salvar Alterações</string>
 
     // Tela Notificações
     <string name="subtituloGeralNotif">Geral</string>
