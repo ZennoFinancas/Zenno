@@ -88,7 +88,7 @@ public class ConversorFragmento extends Fragment {
         txtValor = view.findViewById(R.id.txtValor);
         spinnerMoedaOrigem = view.findViewById(R.id.spinnerMoedaOrigem);
         spinnerMoedaDestino = view.findViewById(R.id.spinnerMoedaDestino);
-        btnConverter = view.findViewById(R.id.btnConverter);
+        btnConverter = view.findViewById(R.id.btnSalvarAlteracoes);
         lblResultado = view.findViewById(R.id.lblResultado);
 
         // Configuração do Spinner
