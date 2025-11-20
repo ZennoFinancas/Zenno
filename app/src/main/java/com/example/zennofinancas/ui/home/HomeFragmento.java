@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
 
 public class HomeFragmento extends Fragment {
 
-    TextView txtSaldoAtual;
+    TextView txtSaldoAtual, txtReceitasHome, txtDespesasHome;
 
     ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoMetas;
 
@@ -65,6 +67,8 @@ public class HomeFragmento extends Fragment {
 
 
         txtSaldoAtual = view.findViewById(R.id.txtSaldoAtual);
+        txtReceitasHome = view.findViewById(R.id.txtReceitasHome);
+        txtDespesasHome = view.findViewById(R.id.txtDespesasHome);
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
@@ -85,16 +89,9 @@ public class HomeFragmento extends Fragment {
 
 
         // Busca o total de receitas cadastradas
-        clsMetodos.buscarSaldo(getContext(),idUsuario);
+        calcularSaldo();
 
-        // Recebe os valores enviados via Intent
-        Bundle intent = requireActivity().getIntent().getExtras();
 
-        if (intent != null) {
-            totalReceitas = intent.getString("totalReceitas");
-        }
-
-        txtSaldoAtual.setText("R$" + totalReceitas);
 
 
         btnMetas.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +140,45 @@ public class HomeFragmento extends Fragment {
         // Campos do layout
         EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
         EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
+        EditText txtDataReceita = view.findViewById(R.id.txtData);
 
+        txtDataReceita.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating = false;
+            private String old = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) {
+                    isUpdating = false;
+                    return;
+                }
+
+                String str = s.toString().replaceAll("[^\\d]", "");
+
+                StringBuilder formatted = new StringBuilder();
+                int len = str.length();
+
+                if (len > 0) {
+                    formatted.append(str.substring(0, Math.min(2, len)));
+                    if (len >= 3) {
+                        formatted.append("/").append(str.substring(2, Math.min(4, len)));
+                    }
+                    if (len >= 5) {
+                        formatted.append("/").append(str.substring(4, Math.min(8, len)));
+                    }
+                }
+
+                isUpdating = true;
+                txtDataReceita.setText(formatted.toString());
+                txtDataReceita.setSelection(formatted.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
 
@@ -187,6 +222,7 @@ public class HomeFragmento extends Fragment {
         btnSalvar.setOnClickListener(v -> {
             String nomeReceita = txtNomeReceita.getText().toString().trim();
             String valorReceita = txtValorReceita.getText().toString().trim();
+            String dataReceita = txtDataReceita.getText().toString().trim();
             String idCategoria = (String) spCategoria.getTag(); // pegamos o ID da categoria selecionada
 
 
@@ -207,7 +243,9 @@ public class HomeFragmento extends Fragment {
                     idCategoria,
                     valorReceita,
                     nomeReceita,
-                    "");
+                    dataReceita);
+
+            calcularSaldo();
 
             dialog.dismiss();
         });
@@ -247,147 +285,29 @@ public class HomeFragmento extends Fragment {
     }
 
 
+    private void calcularSaldo() {
+
+        clsMetodos.buscarSaldo(requireContext(), idUsuario, receitas -> {
+
+            clsMetodos.buscarDespesas(requireContext(), idUsuario, despesas -> {
+
+                // Exibe o total de receitas
+                txtReceitasHome.setText("R$" + receitas);
+                // Exibe o total de despesas
+                txtDespesasHome.setText("R$" + despesas);
 
 
-    /*
-    private void carregarSaldo() {
-        if (USER_ID.isEmpty() || USER_TOKEN.isEmpty() || SUPABASE_URL.isEmpty() || SUPABASE_KEY.isEmpty()) {
-            mostrarToast("Configure as credenciais do Supabase e dados do usuário no código!");
-            return;
-        }
+                double saldoFinal = receitas - despesas;
+                String saldoFormatado = String.format("R$ %.2f", saldoFinal);
 
-        String url = API_PERFIS_ENDPOINT + "?select=saldo&id=eq." + USER_ID;
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("apikey", SUPABASE_KEY)
-                .addHeader("Authorization", "Bearer " + USER_TOKEN)
-                .get()
-                .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-                mostrarToast("Falha ao carregar saldo: " + e.getMessage());
-            }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    final String jsonData = response.body().string();
-                    try {
-                        JSONArray jsonArray = new JSONArray(jsonData);
-                        if (jsonArray.length() > 0) {
-                            JSONObject perfil = jsonArray.getJSONObject(0);
-                            final double saldo = perfil.getDouble("saldo");
-                            if (getActivity() != null) {
-                                // CORRIGIDO: Convertido para sintaxe antiga (sem lambda)
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        atualizarTextoSaldo(saldo);
-                                    }
-                                });
-                            }
-                        } else {
-                            mostrarToast("Perfil de usuário não encontrado.");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        mostrarToast("Erro ao processar dados do saldo.");
-                    }
-                } else {
-                    mostrarToast("Erro ao carregar saldo: " + response.message());
-                }
-            }
-        });
-    }
-
-    private void adicionarTransacao(final String valorTexto, final String tipo) {
-        if (valorTexto.isEmpty()) {
-            mostrarToast("Por favor, insira um valor.");
-            return;
-        }
-        double valor;
-        try {
-            valor = Double.parseDouble(valorTexto.replace(",", "."));
-        } catch (NumberFormatException e) {
-            mostrarToast("Valor inválido.");
-            return;
-        }
-        if (valor <= 0) {
-            mostrarToast("O valor deve ser positivo.");
-            return;
-        }
-
-        if (tipo.equals("despesa")) {
-            valor = -valor;
-        }
-
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        JsonObject jsonBody = new JsonObject();
-        jsonBody.addProperty("valor_transacao", valor);
-        RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
-
-        Request request = new Request.Builder()
-                .url(API_RPC_ENDPOINT)
-                .addHeader("apikey", SUPABASE_KEY)
-                .addHeader("Authorization", "Bearer " + USER_TOKEN)
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-                mostrarToast("Erro ao salvar transação: " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    if (getActivity() != null) {
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (tipo.equals("receita")) {
-                                    txtReceita.getText().clear();
-                                } else {
-                                    txtDespesa.getText().clear();
-                                }
-                                String tipoCapitalizado = tipo.substring(0, 1).toUpperCase() + tipo.substring(1);
-                                Toast.makeText(getContext(), tipoCapitalizado + " adicionada com sucesso!", Toast.LENGTH_SHORT).show();
-
-                                carregarSaldo();
-                            }
-                        });
-                    }
-                } else {
-                    mostrarToast("Erro na transação: " + response.message());
-                }
-            }
-        });
-    }
-
-    private void atualizarTextoSaldo(double valor) {
-        Locale localeBR = new Locale("pt", "BR");
-        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(localeBR);
-        if (lblSaldoAtual != null) {
-            lblSaldoAtual.setText(formatoMoeda.format(valor));
-        }
-    }
-
-    private void mostrarToast(final String mensagem) {
-        if (getActivity() != null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(gzetContext(), mensagem, Toast.LENGTH_LONG).show();
-                }
+                // Exibe o saldo final
+                txtSaldoAtual.setText(saldoFormatado);
             });
-        }
-    }*/
+
+        });
+    }
+
 
 }

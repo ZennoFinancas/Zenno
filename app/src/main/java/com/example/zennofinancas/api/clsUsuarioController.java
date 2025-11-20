@@ -25,7 +25,7 @@ public class clsUsuarioController {
                 String id = usuario.get("id_usuario").getAsString();
                 String nome = usuario.get("nome_usuario").getAsString();
 
-                clsDadosUsuario.salvarUsuario(contexto, nome, id);
+                clsDadosUsuario.salvarUsuario(contexto, nome, id,email);
                 Toast.makeText(contexto, "Bem-vindo, " + nome, Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(contexto, TelaInicial.class);

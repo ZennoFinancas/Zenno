@@ -57,6 +57,7 @@ public class clsMetodos
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("nomeUsuario", nomeUsuario);
                             editor.putString("idUsuario", idUsuario);
+                            editor.putString("emailUsuario", emailUsuario);
                             editor.apply();
 
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
@@ -293,6 +294,7 @@ public class clsMetodos
          json.addProperty("id_categoria", idCategoria);
          json.addProperty("valor_receita", valorReceitaFloat);
          json.addProperty("descricao_receita", descricaoReceita);
+         json.addProperty("data_receita", dataReceita);
 
 
          String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
@@ -365,8 +367,11 @@ public class clsMetodos
 
     // Carregar Saldo na tela
 
-    public static void buscarSaldo(Context contexto, String idUsuario)
-    {
+    public interface SaldoCallback {
+        void onResultado(double saldo);
+    }
+
+    public static void buscarSaldo(Context contexto, String idUsuario, SaldoCallback callback) {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas?id_usuario=eq." + idUsuario;
 
         Ion.with(contexto)
@@ -375,49 +380,166 @@ public class clsMetodos
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>()
-                {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result)
-                    {
-                        if (e != null)
-                        {
-                            e.printStackTrace();
-                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
+                .setCallback((e, result) -> {
 
-                        if (result != null && result.size() > 0)
-                        {
-                            double somaReceitas = 0.0;
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
-                            // LOOP PARA SOMAR TODAS AS RECEITAS
-                            for (int i = 0; i < result.size(); i++)
-                            {
-                                JsonObject linha = result.get(i).getAsJsonObject();
+                    double soma = 0.0;
 
-                                // pegar valor_receita como double
-                                if (linha.has("valor_receita") && !linha.get("valor_receita").isJsonNull()) {
-                                    somaReceitas += linha.get("valor_receita").getAsDouble();
-                                }
+                    if (result != null) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject linha = result.get(i).getAsJsonObject();
+                            if (linha.has("valor_receita") && !linha.get("valor_receita").isJsonNull()) {
+                                soma += linha.get("valor_receita").getAsDouble();
                             }
-
-                            // Aqui você decide o que fazer com a soma
-                            Toast.makeText(contexto, "Total de receitas: R$ " + somaReceitas, Toast.LENGTH_LONG).show();
-
-                            Intent trocar = new Intent();
-                            trocar.putExtra("idUsuario", idUsuario);
-                            trocar.putExtra("totalReceitas", somaReceitas);
-
-                            // Precisa exibir na tela o resultado.
-                        }
-                        else
-                        {
-                            Toast.makeText(contexto, "Nenhuma receita encontrada.", Toast.LENGTH_LONG).show();
                         }
                     }
+
+                    // 🔥 devolve o resultado para quem chamou
+                    callback.onResultado(soma);
                 });
     }
+
+    public interface DespesaCallback {
+        void onResultado(double totalDespesas);
+    }
+
+    public static void buscarDespesas(Context contexto, String idUsuario, DespesaCallback callback) {
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/despesas?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao buscar despesas: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    double soma = 0.0;
+
+                    if (result != null) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject item = result.get(i).getAsJsonObject();
+
+                            if (item.has("valor_despesa") && !item.get("valor_despesa").isJsonNull()) {
+                                soma += item.get("valor_despesa").getAsDouble();
+                            }
+                        }
+                    }
+
+                    callback.onResultado(soma);
+                });
+    }
+
+    //Objetivos
+
+    public static void inserirObjetivo(Context contexto,
+                                       String idUsuario,
+                                       String nomeObjetivo,
+                                       String valorDesejado,
+                                       String dataObjetivo) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos";
+
+        // Converter o valor desejado para padrão numérico
+        float valor = 0;
+        try {
+            valor = Float.parseFloat(valorDesejado.replace(",", "."));
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Valor inválido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Criar JSON
+        JsonObject json = new JsonObject();
+        json.addProperty("id_usuario", idUsuario);
+        json.addProperty("nome_objetivo", nomeObjetivo);
+        json.addProperty("valor_desejado", valor); // Inserir data
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao cadastrar objetivo: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Objetivo cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
+
+    public interface MetasCallback {
+        void onResultado(Exception e, ArrayList<String[]> metas);
+    }
+
+
+    public static void buscarObjetivos(Context contexto, String idUsuario, MetasCallback callback) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        callback.onResultado(e, null);
+                        return;
+                    }
+
+                    if (result == null || result.size() == 0) {
+                        callback.onResultado(null, new ArrayList<>());
+                        return;
+                    }
+
+                    ArrayList<String[]> listaMetas = new ArrayList<>();
+
+                    for (int i = 0; i < result.size(); i++) {
+                        JsonObject linha = result.get(i).getAsJsonObject();
+
+                        String idMeta = linha.has("id") && !linha.get("id").isJsonNull()
+                                ? linha.get("id").getAsString()
+                                : "";
+
+                        String nomeObjetivo = linha.has("nome_objetivo") && !linha.get("nome_objetivo").isJsonNull()
+                                ? linha.get("nome_objetivo").getAsString()
+                                : "";
+
+                        String valorDesejado = linha.has("valor_desejado") && !linha.get("valor_desejado").isJsonNull()
+                                ? linha.get("valor_desejado").getAsString()
+                                : "0";
+
+                        // agora retorna id, nome, valor
+                        listaMetas.add(new String[]{idMeta, nomeObjetivo, valorDesejado});
+                    }
+
+                    callback.onResultado(null, listaMetas);
+                });
+    }
+
+
+
 
 
 

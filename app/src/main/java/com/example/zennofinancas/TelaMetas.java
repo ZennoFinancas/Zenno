@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ProgressBar;
 
+import com.example.zennofinancas.classes.clsDadosUsuario;
+
 public class TelaMetas extends ActivityBase {
 
     Button btnAbrirCadastro;
     LinearLayout containerMetas;
+    String idUsuario;
     TextView subtituloMetas;
     ScrollView scrollMetas;
 
@@ -30,6 +33,18 @@ public class TelaMetas extends ActivityBase {
         containerMetas = findViewById(R.id.containerMetas);
         subtituloMetas = findViewById(R.id.subtituloMetas);
         scrollMetas = findViewById(R.id.scrollMetas);
+
+
+        clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaMetas.this);
+        if (usuario != null) {
+            idUsuario = usuario.getIdUsuario();
+        } else {
+            Toast.makeText(TelaMetas.this, "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Busca as metas ja cadastradas
+        buscarMetas();
 
         btnAbrirCadastro.setOnClickListener(v -> mostrarDialogCadastrarMeta());
     }
@@ -57,16 +72,17 @@ public class TelaMetas extends ActivityBase {
                 return;
             }
 
-            // Cria e exibe o card da meta
-            adicionarMetaNaTela(nome, valor);
-
+            // Cria e exibe as metas cadastradas
+            clsMetodos.inserirObjetivo(TelaMetas.this, idUsuario,nome,valor,"");
+            buscarMetas();
             dialog.dismiss();
         });
 
         dialog.show();
     }
 
-    private void adicionarMetaNaTela(String nome, String valorStr) {
+    private void adicionarMetaNaTela(String idMeta, String nome, String valorStr) {
+
         // infla o item_meta.xml (nome do seu layout do card)
         LayoutInflater inflater = LayoutInflater.from(this);
         View cardView = inflater.inflate(R.layout.item_meta, containerMetas, false);
@@ -171,21 +187,49 @@ public class TelaMetas extends ActivityBase {
         dialog.show();
     }
 
+    // Atualiza as metas
+    private void buscarMetas(){
+        // LIMPA ANTES DE CARREGAR DE NOV
+        containerMetas.removeAllViews();
+
+        clsMetodos.buscarObjetivos(this, idUsuario, (e, metas) -> {
+            if (e != null || metas == null) return;
+
+            for (String[] meta : metas) {
+                String idMeta = meta[0];     // ✔ ID da meta
+                String nome = meta[1];
+                String valor = meta[2];
+
+                adicionarMetaNaTela(idMeta, nome, valor);
+            }
+
+        });
+
+    }
+
 
     private double parseCurrencyToDouble(String s) {
-        if (s == null) return 0.0;
-        // remove "R", "$", espaços e quaisquer caracteres extras
-        s = s.replace("R", "").replace("r", "")
-                .replace("$", "").replace(" ", "")
-                .replace("¢", "").trim();
+        if (s == null || s.isEmpty()) return 0.0;
 
-        // aceita formatos: "3", "3,00", "3.00", "R$ 1.234,56"
-        s = s.replace(".", "").replace(",", ".");
+        s = s.trim();
+
+        // Remove símbolos monetários
+        s = s.replace("R$", "")
+                .replace("R", "")
+                .replace("$", "")
+                .trim();
+
+        // Se contiver vírgula, significa que está no formato BR "33,50"
+        if (s.contains(",")) {
+            s = s.replace(".", "");   // remove separador de milhar
+            s = s.replace(",", ".");  // converte decimal
+        }
 
         try {
             return Double.parseDouble(s);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return 0.0;
         }
     }
+
 }
