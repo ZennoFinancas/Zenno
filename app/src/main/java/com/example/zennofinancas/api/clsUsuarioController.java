@@ -24,8 +24,9 @@ public class clsUsuarioController {
                 JsonObject usuario = result.get(0).getAsJsonObject();
                 String id = usuario.get("id_usuario").getAsString();
                 String nome = usuario.get("nome_usuario").getAsString();
+                String foto = usuario.get("foto_usuario").getAsString();
 
-                clsDadosUsuario.salvarUsuario(contexto, nome, id,email);
+                clsDadosUsuario.salvarUsuario(contexto, nome, id, email, foto);
                 Toast.makeText(contexto, "Bem-vindo, " + nome, Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(contexto, TelaInicial.class);

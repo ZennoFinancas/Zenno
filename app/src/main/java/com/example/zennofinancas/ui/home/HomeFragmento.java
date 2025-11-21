@@ -4,14 +4,15 @@ import android.app.AlertDialog;
 
 import com.example.zennofinancas.TelaMetas;
 import com.example.zennofinancas.TelaMeuPerfil;
-import com.example.zennofinancas.TelaNotificacoes;
 import com.example.zennofinancas.classes.clsDadosUsuario;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class HomeFragmento extends Fragment {
 
     TextView txtSaldoAtual, txtReceitasHome, txtDespesasHome;
 
-    ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoMetas;
+    ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoUsuario;
 
     private String idUsuario;
 
@@ -72,7 +73,7 @@ public class HomeFragmento extends Fragment {
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
-        imgFotoMetas = view.findViewById(R.id.imgFotoMetas);
+        imgFotoUsuario = view.findViewById(R.id.imgFotoUsuario);
 
         //carregarSaldo();
 
@@ -80,13 +81,24 @@ public class HomeFragmento extends Fragment {
 
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
-        if (usuario != null) {
-            idUsuario = usuario.getIdUsuario();
-        } else {
-            Toast.makeText(requireContext(), "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
+        if (usuario != null ) {
+            idUsuario = usuario.getIdUsuario().toString();
+
+            // Valida se o user colocou uma foto ou não
+            if (usuario.getFotoUsuario() != null) {
+                Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
+                imgFotoUsuario.setImageBitmap(fotoBitmap);
+            }
+            // Caso nn tenha foto, define foto padrão
+            else {
+                imgFotoUsuario.setImageResource(R.drawable.chat_bot);
+            }
+        }
+        else {
+
+            Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
+        }
 
         // Busca o total de receitas cadastradas
         calcularSaldo();
@@ -112,7 +124,7 @@ public class HomeFragmento extends Fragment {
             }
         });
 
-        imgFotoMetas.setOnClickListener(new View.OnClickListener() {
+        imgFotoUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent imgFotoMetas = new Intent(getActivity(), TelaMeuPerfil.class);
@@ -308,6 +320,19 @@ public class HomeFragmento extends Fragment {
 
         });
     }
+
+
+    // Converter a imagem em Base64 para bitmap
+    private Bitmap getBitmapFromBase64(String base64String) {
+        try {
+            byte[] decodedBytes = Base64.decode(base64String, Base64.NO_WRAP);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }

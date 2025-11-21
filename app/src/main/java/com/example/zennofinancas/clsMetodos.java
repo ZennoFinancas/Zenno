@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.example.zennofinancas.ui.home.HomeFragmento;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -51,14 +53,16 @@ public class clsMetodos
                             // Salvar nome do usuario
                             String idUsuario = usuario.get("id_usuario").getAsString();
                             String nomeUsuario = usuario.get("nome_usuario").getAsString();
+                            String fotoUsuario = usuario.get("foto_usuario").getAsString();
 
                             // Salvar login
-                            SharedPreferences prefs = contexto.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("nomeUsuario", nomeUsuario);
-                            editor.putString("idUsuario", idUsuario);
-                            editor.putString("emailUsuario", emailUsuario);
-                            editor.apply();
+                            clsDadosUsuario.salvarUsuario(
+                                    contexto,
+                                    nomeUsuario,
+                                    idUsuario,
+                                    emailUsuario,
+                                    fotoUsuario
+                            );
 
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(contexto, TelaInicial.class);
@@ -134,6 +138,49 @@ public class clsMetodos
                         contexto.startActivity(intent);
                     }
 
+                });
+    }
+
+    public static void alterarDados(Context contexto, String emailUsuario, String nomeUsuario, String numeroUsuario, String imgUsuario) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario;
+
+
+        // Cria o objeto JSON com a nova senha para o corpo da requisição
+        JsonObject jsonBody = new JsonObject();
+        jsonBody.addProperty("email_usuario", emailUsuario);
+        jsonBody.addProperty("nome_usuario", nomeUsuario);
+        jsonBody.addProperty("numero_usuario", numeroUsuario);
+        jsonBody.addProperty("foto_usuario", imgUsuario);
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .setJsonObjectBody(jsonBody) // Define o corpo JSON com a nova senha
+                .asJsonArray() // O Supabase retorna uma array com os registros atualizados
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Se a array de resultados não for nula e tiver pelo menos um item, a senha foi alterada com sucesso
+                        if (result != null && result.size() > 0) {
+                            Toast.makeText(contexto, "Perfil editado com sucesso!", Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(contexto, TelaInicial.class);
+                            contexto.startActivity(intent);
+                        } else {
+
+                            Toast.makeText(contexto, "Falha ao alterar dados.", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 });
     }
 

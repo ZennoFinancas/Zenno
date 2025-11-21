@@ -8,7 +8,7 @@
     tools:context=".TelaMetas">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgFotoMetas"
+        android:id="@+id/imgFotoUsuario"
         android:layout_width="66dp"
         android:layout_height="63dp"
         android:layout_marginStart="36dp"
@@ -30,7 +30,7 @@
         android:fontFamily="@font/montserrat_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgFotoMetas" />
+        app:layout_constraintTop_toBottomOf="@id/imgFotoUsuario" />
 
     <TextView
         android:id="@+id/subtituloMetas"
