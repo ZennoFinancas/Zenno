@@ -376,9 +376,60 @@ public class clsMetodos
                  });
      }
 
+    public static void inserirDespesa(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+
+
+        // Conversões seguras
+        int idCategoriaInt;
+        float valorReceitaFloat;
+
+
+
+        valorReceitaFloat = Float.parseFloat(valorReceita.replace(",", "."));
+        // Criação do JSON para envio
+        JsonObject json = new JsonObject();
+        json.addProperty("id_usuario", idUsuario);
+        json.addProperty("id_categoria", idCategoria);
+        json.addProperty("valor_despesa", valorReceitaFloat);
+        json.addProperty("descricao_despesa", descricaoReceita);
+        json.addProperty("data_despesa", dataReceita);
+
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/despesas";
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro na conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Verifica se o servidor retornou erro explícito
+                        if (result != null && (result.contains("error") || result.contains("status"))) {
+                            Toast.makeText(contexto, "Falha ao cadastrar receita: " + result, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Sucesso
+                        Toast.makeText(contexto, "Receita cadastrada com sucesso!", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+    }
+
 
     public static void buscarCategorias(Context contexto, String idUsuario, String tipo, FutureCallback<ArrayList<String[]>> callback) {
-        // Campos corretos conforme tabela: id_categoria, id_usuario, nome, tipo
+
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias"
                 + "?select=id_categoria,nome&id_usuario=eq." + idUsuario + "&tipo=eq." + tipo ; //
 
@@ -446,7 +497,7 @@ public class clsMetodos
                         }
                     }
 
-                    // 🔥 devolve o resultado para quem chamou
+
                     callback.onResultado(soma);
                 });
     }
@@ -565,8 +616,8 @@ public class clsMetodos
                     for (int i = 0; i < result.size(); i++) {
                         JsonObject linha = result.get(i).getAsJsonObject();
 
-                        String idMeta = linha.has("id") && !linha.get("id").isJsonNull()
-                                ? linha.get("id").getAsString()
+                        String idMeta = linha.has("id_objetivo") && !linha.get("id_objetivo").isJsonNull()
+                                ? linha.get("id_objetivo").getAsString()
                                 : "";
 
                         String nomeObjetivo = linha.has("nome_objetivo") && !linha.get("nome_objetivo").isJsonNull()
@@ -585,7 +636,107 @@ public class clsMetodos
                 });
     }
 
+    public static void inserirAporteObjetivo(Context contexto,
+                                       String idObjetivo,
+                                       String valorDesejado)
+    {
 
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo";
+
+        // Converter o valor desejado para padrão numérico
+        float valor = 0;
+        try {
+            valor = Float.parseFloat(valorDesejado.replace(",", "."));
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Valor inválido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Criar JSON
+        JsonObject json = new JsonObject();
+        json.addProperty("id_objetivo", idObjetivo);
+        json.addProperty("valor", valor);
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao cadastrar objetivo: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Dinheiro guardado com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
+
+    public interface AportesCallback {
+        void onResultado(Exception e, double totalAportes);
+    }
+
+    public static void buscarAportesObjetivo(Context contexto, String idObjetivo, AportesCallback callback) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo?id_objetivo=eq." + idObjetivo;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        callback.onResultado(e, 0.0);
+                        return;
+                    }
+
+                    double totalAportes = 0.0;
+
+                    if (result != null && result.size() > 0) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject item = result.get(i).getAsJsonObject();
+
+                            if (item.has("valor") && !item.get("valor").isJsonNull()) {
+                                totalAportes += item.get("valor").getAsDouble();
+                            }
+                        }
+                    }
+
+                    callback.onResultado(null, totalAportes);
+                });
+    }
+
+
+    public static void deletarObjetivo(Context contexto, String idObjetivo) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_objetivo=eq." + idObjetivo;
+
+        Ion.with(contexto)
+                .load("DELETE", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao deletar meta: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Meta deletada com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
 
 
 

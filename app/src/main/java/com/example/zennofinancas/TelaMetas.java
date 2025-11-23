@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zennofinancas.classes.clsDadosUsuario;
-// Mantenha seus imports de ActivityBase e clsMetodos aqui
 
 public class TelaMetas extends ActivityBase {
 
@@ -52,7 +51,6 @@ public class TelaMetas extends ActivityBase {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_cadastrar_meta, null);
 
-        // Tentei usar os IDs novos. Se o seu dialog_cadastrar for antigo, mude para txtNomeReceita aqui
         EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
         EditText txtValorMeta = view.findViewById(R.id.txtValorMeta);
         Button btnCadastrarMeta = view.findViewById(R.id.btnSalvar);
@@ -84,47 +82,68 @@ public class TelaMetas extends ActivityBase {
         LayoutInflater inflater = LayoutInflater.from(this);
         View cardView = inflater.inflate(R.layout.item_meta, containerMetas, false);
 
+        cardView.setTag("meta_id_" + idMeta);
+
         TextView tituloNomedaMeta = cardView.findViewById(R.id.lblEditarMeta);
         TextView valorMeta = cardView.findViewById(R.id.valorMeta);
         ProgressBar progressoMetas = cardView.findViewById(R.id.progressoMetas);
         ImageView imgGuardarDinheiro = cardView.findViewById(R.id.imgGuardarDinheiro);
+        ImageView imgExcluirMeta = cardView.findViewById(R.id.imgExcluirMeta);
 
         tituloNomedaMeta.setText(nome);
 
         double valorNecessario = parseCurrencyToDouble(valorStr);
         String valorFormatado = String.format(java.util.Locale.getDefault(), "R$%.2f", valorNecessario);
 
-        // Exibe R$0.00 guardado | R$ Total
-        valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  %s", 0.0, valorFormatado));
-
         int maxCents = (int) Math.round(valorNecessario * 100.0);
         if (maxCents <= 0) maxCents = 100;
         progressoMetas.setMax(maxCents);
-        progressoMetas.setProgress(0);
 
-        // --- LÓGICA CORRIGIDA ---
+        // 🔥 BUSCAR OS APORTES CADASTRADOS PARA ESTA META
+        int finalMaxCents = maxCents;
+        clsMetodos.buscarAportesObjetivo(this, idMeta, (e, totalAportes) -> {
+            if (e != null) {
+                Toast.makeText(TelaMetas.this, "Erro ao buscar aportes", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        // 1. Clicar no CIFRÃO ($) -> Abre 'item_guardar_meta' para depositar valor
+            // Converter o total de aportes para centavos
+            int progressoAtual = (int) Math.round(totalAportes * 100.0);
+
+            // Se ultrapassar o máximo, limitar ao máximo
+            if (progressoAtual > finalMaxCents) progressoAtual = finalMaxCents;
+
+            progressoMetas.setProgress(progressoAtual);
+
+            // Atualizar o texto exibindo os valores
+            double valorGuardadoReais = progressoAtual / 100.0;
+            valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  %s", valorGuardadoReais, valorFormatado));
+        });
+
         imgGuardarDinheiro.setOnClickListener(v -> abrirDialogGuardarDinheiro(
-                tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario));
+                cardView, tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
 
-        // 2. Clicar no NOME DA META -> Abre 'dialog_editar_meta' para mudar nome/valor total
         tituloNomedaMeta.setOnClickListener(v -> abrirDialogEditarMeta(
-                tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario));
+                cardView, tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
 
-        // ------------------------
+        imgExcluirMeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clsMetodos.deletarObjetivo(TelaMetas.this, idMeta);
+                buscarMetas();
+            }
+        });
 
         subtituloMetas.setVisibility(View.GONE);
         scrollMetas.setVisibility(View.VISIBLE);
         containerMetas.addView(cardView);
     }
 
-    // Abre o layout item_guardar_meta.xml
-    private void abrirDialogGuardarDinheiro(TextView tituloNomedaMeta, TextView valorMeta, ProgressBar progressoMetas, double valorNecessario) {
+    private void abrirDialogGuardarDinheiro(View cardView, TextView tituloNomedaMeta, TextView valorMeta,
+                                            ProgressBar progressoMetas, double valorNecessario, String idMeta) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.item_guardar_meta, null);
 
-        // CORREÇÃO: No seu XML item_guardar_meta, o campo de digitar valor está com ID txtNomeMeta
         EditText txtValorAGuardar = view.findViewById(R.id.txtNomeReceita);
         Button btnGuardar = view.findViewById(R.id.btnSalvar);
 
@@ -143,7 +162,12 @@ public class TelaMetas extends ActivityBase {
 
             double valorGuardar = parseCurrencyToDouble(valorGuardarStr);
 
-            // Soma o novo valor ao progresso atual
+            // CORREÇÃO 3: Usar o idMeta recebido como parâmetro
+            if (idMeta == null || idMeta.isEmpty()) {
+                Toast.makeText(this, "Erro: ID da meta não encontrado!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int progressoAtual = progressoMetas.getProgress() + (int) Math.round(valorGuardar * 100.0);
             int maximo = progressoMetas.getMax();
 
@@ -156,13 +180,8 @@ public class TelaMetas extends ActivityBase {
             if (progressoAtual >= maximo) {
                 Toast.makeText(this, "🎉 Meta concluída! Parabéns!", Toast.LENGTH_LONG).show();
 
-                // Remove o card
-                View card = (View) tituloNomedaMeta.getParent().getParent(); // RelativeLayout -> CardView
-                if (card != null && card.getParent() instanceof LinearLayout) {
-                    ((LinearLayout) card.getParent()).removeView(card);
-                } else if (tituloNomedaMeta.getParent() instanceof View) {
-                    // Fallback caso a hierarquia seja diferente
-                    containerMetas.removeView((View) tituloNomedaMeta.getParent());
+                if (cardView.getParent() instanceof LinearLayout) {
+                    ((LinearLayout) cardView.getParent()).removeView(cardView);
                 }
 
                 if (containerMetas.getChildCount() == 0) {
@@ -171,6 +190,9 @@ public class TelaMetas extends ActivityBase {
                 }
             } else {
                 Toast.makeText(this, "Valor guardado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                // CORREÇÃO 4: Passar o idMeta correto para inserir o aporte
+                clsMetodos.inserirAporteObjetivo(TelaMetas.this, idMeta, valorGuardarStr);
             }
             dialog.dismiss();
         });
@@ -178,12 +200,11 @@ public class TelaMetas extends ActivityBase {
         dialog.show();
     }
 
-    // Abre o layout dialog_editar_meta.xml
-    private void abrirDialogEditarMeta(TextView tituloNomedaMeta, TextView valorMeta, ProgressBar progressoMetas, double valorNecessarioAntigo) {
+    private void abrirDialogEditarMeta(View cardView, TextView tituloNomedaMeta, TextView valorMeta,
+                                       ProgressBar progressoMetas, double valorNecessarioAntigo, String idMeta) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.dialog_editar_meta, null);
 
-        // CORREÇÃO: Usando os IDs corretos do seu XML dialog_editar_meta
         EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
         EditText txtValorTotalMeta = view.findViewById(R.id.txtValorMeta);
         Button btnSalvarEdicao = view.findViewById(R.id.btnSalvar);
@@ -209,7 +230,6 @@ public class TelaMetas extends ActivityBase {
 
             tituloNomedaMeta.setText(novoNome);
 
-            // Recalcula a barra de progresso com o novo total
             int novoMax = (int) Math.round(novoValorTotal * 100.0);
             int progressoAtual = progressoMetas.getProgress();
 

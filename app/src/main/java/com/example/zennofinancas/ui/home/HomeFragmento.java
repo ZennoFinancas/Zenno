@@ -268,30 +268,122 @@ public class HomeFragmento extends Fragment {
     private void exibirPopupDespesa() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_add_receita, null);
+        View view = inflater.inflate(R.layout.dialog_add_despesa, null);
         builder.setView(view);
 
         // Campos do layout
-        EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorReceita = view.findViewById(R.id.txtValorMeta);
+        EditText txtNomeDespesa= view.findViewById(R.id.txtNomeDespesa);
+        EditText txtValorDespesa = view.findViewById(R.id.txtValorDespesa);
+        EditText txtDataDespesa = view.findViewById(R.id.txtDataDespesa);
 
+        txtDataDespesa.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating = false;
+            private String old = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) {
+                    isUpdating = false;
+                    return;
+                }
+
+                String str = s.toString().replaceAll("[^\\d]", "");
+
+                StringBuilder formatted = new StringBuilder();
+                int len = str.length();
+
+                if (len > 0) {
+                    formatted.append(str.substring(0, Math.min(2, len)));
+                    if (len >= 3) {
+                        formatted.append("/").append(str.substring(2, Math.min(4, len)));
+                    }
+                    if (len >= 5) {
+                        formatted.append("/").append(str.substring(4, Math.min(8, len)));
+                    }
+                }
+
+                isUpdating = true;
+                txtDataDespesa.setText(formatted.toString());
+                txtDataDespesa.setSelection(formatted.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
+
+        Spinner spCategoria = view.findViewById(R.id.spTipoDespesa);
 
         // Cria o diálogo
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
+        // Busca as categorias do banco
+        clsMetodos.buscarCategorias(requireContext(), idUsuario, "gasto", (e, categorias) -> {
+            if (e != null || categorias == null) {
+                Toast.makeText(requireContext(), "Falha ao carregar categorias.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ArrayList<String> nomesCategorias = new ArrayList<>();
+            for (String[] item : categorias) nomesCategorias.add(item[1]);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    nomesCategorias
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spCategoria.setAdapter(adapter);
+
+            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id) {
+                    String idCategoriaSelecionada = categorias.get(position)[0];
+                    spCategoria.setTag(idCategoriaSelecionada);
+                }
+                @Override public void onNothingSelected(AdapterView<?> parent) {}
+            });
+        });
+
+
         // Eventos dos botões
         btnSalvar.setOnClickListener(v -> {
-            String nomeReceita = txtNomeReceita.getText().toString().trim();
-            String valorReceita = txtValorReceita.getText().toString().trim();
+            String nomeDespesa = txtNomeDespesa.getText().toString().trim();
+            String valorDespesa = txtValorDespesa.getText().toString().trim();
+            String dataDespesa = txtDataDespesa.getText().toString().trim();
+            String idCategoria = (String) spCategoria.getTag(); // pegamos o ID da categoria selecionada
 
-            supabase.inserirReceita(getActivity(), "22", "1", "210", "Ifood", "");
-            Toast.makeText(requireContext(), "Salvo: " + nomeReceita + " - " + valorReceita, Toast.LENGTH_SHORT).show();
+
+            if (valorDespesa.isEmpty()) {
+                Toast.makeText(requireContext(), "Digite o valor da despesa.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (idCategoria == null) {
+                Toast.makeText(requireContext(), "Selecione uma categoria.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //
+            supabase.inserirDespesa(
+                    requireActivity(),
+                    idUsuario,
+                    idCategoria,
+                    valorDespesa,
+                    nomeDespesa,
+                    dataDespesa);
+
+            calcularSaldo();
+
             dialog.dismiss();
         });
+
 
 
     }
