@@ -151,8 +151,8 @@ public class HomeFragmento extends Fragment {
 
         // Campos do layout
         EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
-        EditText txtDataReceita = view.findViewById(R.id.txtData);
+        EditText txtValorReceita = view.findViewById(R.id.txtValorMeta);
+        EditText txtDataReceita = view.findViewById(R.id.txtDataReceita);
 
         txtDataReceita.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
@@ -194,7 +194,7 @@ public class HomeFragmento extends Fragment {
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
 
-        Spinner spCategoria = view.findViewById(R.id.spCategoria);
+        Spinner spCategoria = view.findViewById(R.id.spTipoReceita);
 
         // Cria o diálogo
         AlertDialog dialog = builder.create();
@@ -273,7 +273,7 @@ public class HomeFragmento extends Fragment {
 
         // Campos do layout
         EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
+        EditText txtValorReceita = view.findViewById(R.id.txtValorMeta);
 
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);

@@ -16,12 +16,12 @@
 
         <!-- TÍTULO -->
         <TextView
-            android:id="@+id/tituloCadastrarReceita"
+            android:id="@+id/tituloCadastrarDespesa"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Cadastrar receita"
+            android:text="Cadastrar despesa"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
@@ -32,7 +32,7 @@
 
         <!-- LABEL DESCRIÇÃO -->
         <TextView
-            android:id="@+id/lblNomeReceita"
+            android:id="@+id/lblNomeDespesa"
             android:layout_width="147dp"
             android:layout_height="18dp"
             android:layout_marginTop="20dp"
@@ -43,11 +43,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.098"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tituloCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/tituloCadastrarDespesa" />
 
         <!-- DESCRIÇÃO INPUT -->
         <EditText
-            android:id="@+id/txtNomeReceita"
+            android:id="@+id/txtNomeDespesa"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
@@ -61,11 +61,11 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblNomeReceita" />
+            app:layout_constraintTop_toBottomOf="@id/lblNomeDespesa" />
 
         <!-- LABEL TIPO -->
         <TextView
-            android:id="@+id/lblTipoCadastrarReceita"
+            android:id="@+id/lblTipoCadastrarDespesa"
             android:layout_width="180dp"
             android:layout_height="20dp"
             android:layout_marginTop="20dp"
@@ -76,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNomeReceita" />
+            app:layout_constraintTop_toBottomOf="@id/txtNomeDespesa" />
 
         <!-- SPINNER NOVO (COM O LAYOUT CUSTOMIZADO) -->
         <RelativeLayout
@@ -86,10 +86,10 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblTipoCadastrarReceita">
+            app:layout_constraintTop_toBottomOf="@id/lblTipoCadastrarDespesa">
 
             <Spinner
-                android:id="@+id/spTipoReceita"
+                android:id="@+id/spTipoDespesa"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/backgroud_verde"
@@ -113,7 +113,7 @@
 
         <!-- LABEL DATA -->
         <TextView
-            android:id="@+id/lblDataCadastrarReceita"
+            android:id="@+id/lblDataCadastrarDespesa"
             android:layout_width="184dp"
             android:layout_height="18dp"
             android:layout_marginTop="20dp"
@@ -129,7 +129,7 @@
 
         <!-- INPUT DATA -->
         <EditText
-            android:id="@+id/txtDataReceita"
+            android:id="@+id/txtDataDespesa"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
@@ -142,11 +142,11 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblDataCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/lblDataCadastrarDespesa" />
 
         <!-- LABEL VALOR -->
         <TextView
-            android:id="@+id/lblValorCadastrarReceita"
+            android:id="@+id/lblValorCadastrarDespesa"
             android:layout_width="182dp"
             android:layout_height="19dp"
             android:layout_marginTop="16dp"
@@ -157,11 +157,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDataReceita" />
+            app:layout_constraintTop_toBottomOf="@id/txtDataDespesa" />
 
         <!-- INPUT VALOR -->
         <EditText
-            android:id="@+id/txtValorMeta"
+            android:id="@+id/txtValorDespesa"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
@@ -175,11 +175,11 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblValorCadastrarReceita" />
+            app:layout_constraintTop_toBottomOf="@id/lblValorCadastrarDespesa" />
 
         <!-- REPETIR E BOTÃO -->
         <Switch
-            android:id="@+id/swtRepetirReceita"
+            android:id="@+id/swtRepetirDespesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="53dp"
@@ -191,7 +191,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtEscolhaIcone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtValorMeta" />
+            app:layout_constraintTop_toBottomOf="@+id/txtValorDespesa" />
 
         <EditText
             android:id="@+id/txtRepeteReceita"
@@ -210,7 +210,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/txtEscolhaIcone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtValorMeta" />
+            app:layout_constraintTop_toBottomOf="@+id/txtValorDespesa" />
 
         <TextView
             android:id="@+id/txtEscolhaIcone"
@@ -225,7 +225,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtValorMeta" />
+            app:layout_constraintTop_toBottomOf="@id/txtValorDespesa" />
 
         <Button
             android:id="@+id/btnSalvar"
