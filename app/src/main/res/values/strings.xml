@@ -84,11 +84,11 @@
     <string name="btnSalvarNotif">Salvar</string>
 
     // Tela Cotação
-    <string name="txtTituloCotacao">Faça uma cotação!\n</string>
-    <string name="txtSubTituloCotacao">Selecione a moeda desejada para cotação.</string>
-    <string name="txtQuantia">Quantia:\n</string>
-    <string name="txtvalor">Digite o valor</string>
-    <string name="txtValor">Valor</string>
+    <string name="tituloCotacao">Faça uma cotação!</string>
+    <string name="subtituloCotacao">Selecione a moeda desejada para cotação.</string>
+    <string name="lblQuantia">Quantia:</string>
+    <string name="lblValorCotacao">Digite o valor</string>
+    <string name="txtValorCotacao">Valor</string>
     <string name="txtMoedaOrigem">MoedaOrigem</string>
     <string name="txtConverter">Converter</string>
     <string name="lblResultado"> --------  </string>

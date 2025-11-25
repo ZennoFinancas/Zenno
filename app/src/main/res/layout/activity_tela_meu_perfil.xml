@@ -96,6 +96,7 @@
         android:layout_width="29dp"
         android:layout_height="25dp"
         android:layout_marginStart="83dp"
+        android:visibility="visible"
         android:layout_marginTop="57dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil"
@@ -182,26 +183,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFotoMeuPerfil" />
-
-    <ImageView
-        android:id="@+id/imgVoltarMeuPerfil"
-        android:layout_width="50dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="31dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/voltar" />
-
-    <ImageView
-        android:id="@+id/imgMetas"
-        android:layout_width="52dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="33dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/metas" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgFotoMeuPerfil"

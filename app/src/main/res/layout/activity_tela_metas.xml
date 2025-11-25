@@ -51,7 +51,7 @@
         android:id="@+id/scrollMetas"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="80dp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tituloMetas"

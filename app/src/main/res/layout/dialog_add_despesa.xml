@@ -97,7 +97,7 @@
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center_vertical"
                 android:paddingStart="12dp"
-                android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 

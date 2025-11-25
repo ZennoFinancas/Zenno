@@ -34,38 +34,30 @@ import com.example.zennofinancas.clsMetodos;
 
 import java.util.ArrayList;
 
-public class HomeFragmento extends Fragment {
-
+public class HomeFragmento extends Fragment
+{
     TextView txtSaldoAtual, txtReceitasHome, txtDespesasHome;
-
-    ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoUsuario;
-
+    ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoUsuario, btnVerNumerosHome;
+    boolean isSaldoVisivel = true;
     private String idUsuario;
-
-
-
-    // Verificando se o usuário está logado
-
 
     // Instanciando classe do Banco de Dados
     clsMetodos supabase = new clsMetodos();
 
-
-
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.fragmento_home, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
         // Variaveis de controle
         String totalReceitas = "";
-
 
         txtSaldoAtual = view.findViewById(R.id.txtSaldoAtual);
         txtReceitasHome = view.findViewById(R.id.txtReceitasHome);
@@ -74,28 +66,54 @@ public class HomeFragmento extends Fragment {
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
         imgFotoUsuario = view.findViewById(R.id.imgFotoUsuario);
+        btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
 
-        //carregarSaldo();
+        // Ajustando visibilidade
+        btnVerNumerosHome.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (isSaldoVisivel)
+                {
+                    txtSaldoAtual.setText("R$ ****");
+                    txtReceitasHome.setText("R$ ****");
+                    txtDespesasHome.setText("R$ ****");
+                    btnVerNumerosHome.setImageResource(R.drawable.nao_vizualizar);
+                    isSaldoVisivel = false;
+                }
 
-
-
+                else
+                {
+                    calcularSaldo();
+                    btnVerNumerosHome.setImageResource(R.drawable.vizualizar);
+                    isSaldoVisivel = true;
+                }
+            }
+        });
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
 
-        if (usuario != null ) {
+        if (usuario != null )
+        {
             idUsuario = usuario.getIdUsuario().toString();
 
             // Valida se o user colocou uma foto ou não
-            if (usuario.getFotoUsuario() != null) {
+            if (usuario.getFotoUsuario() != null)
+            {
                 Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
                 imgFotoUsuario.setImageBitmap(fotoBitmap);
             }
+            
             // Caso nn tenha foto, define foto padrão
-            else {
+            else
+            {
                 imgFotoUsuario.setImageResource(R.drawable.chat_bot);
             }
         }
-        else {
+        
+        else
+        {
 
             Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
         }
@@ -103,47 +121,49 @@ public class HomeFragmento extends Fragment {
         // Busca o total de receitas cadastradas
         calcularSaldo();
 
-
-
-
-        btnMetas.setOnClickListener(new View.OnClickListener() {
+        btnMetas.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent metas = new Intent(getActivity(), TelaMetas.class);
                 startActivity(metas);
             }
         });
-
-
+        
         // Evento para add receita. Constrói um Alert Dialog com os campos requeridos
-        btnAddReceita.setOnClickListener(new View.OnClickListener() {
+        btnAddReceita.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 exibirPopupReceita();
-
             }
         });
 
-        imgFotoUsuario.setOnClickListener(new View.OnClickListener() {
+        imgFotoUsuario.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent imgFotoMetas = new Intent(getActivity(), TelaMeuPerfil.class);
                 startActivity(imgFotoMetas);
             }
         });
-
-
+        
         // Evento para add despesa. Constrói um Alert Dialog com os campos requeridos
-        btnAddDespesa.setOnClickListener(new View.OnClickListener() {
+        btnAddDespesa.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 exibirPopupDespesa();
             }
         });
-
     }
 
-    private void exibirPopupReceita() {
+    private void exibirPopupReceita()
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_receita, null);
@@ -154,7 +174,8 @@ public class HomeFragmento extends Fragment {
         EditText txtValorReceita = view.findViewById(R.id.txtValorMeta);
         EditText txtDataReceita = view.findViewById(R.id.txtDataReceita);
 
-        txtDataReceita.addTextChangedListener(new TextWatcher() {
+        txtDataReceita.addTextChangedListener(new TextWatcher()
+        {
             private boolean isUpdating = false;
             private String old = "";
 
@@ -162,8 +183,10 @@ public class HomeFragmento extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (isUpdating)
+                {
                     isUpdating = false;
                     return;
                 }
@@ -173,12 +196,16 @@ public class HomeFragmento extends Fragment {
                 StringBuilder formatted = new StringBuilder();
                 int len = str.length();
 
-                if (len > 0) {
+                if (len > 0)
+                {
                     formatted.append(str.substring(0, Math.min(2, len)));
-                    if (len >= 3) {
+                    if (len >= 3)
+                    {
                         formatted.append("/").append(str.substring(2, Math.min(4, len)));
                     }
-                    if (len >= 5) {
+                    
+                    if (len >= 5)
+                    {
                         formatted.append("/").append(str.substring(4, Math.min(8, len)));
                     }
                 }
@@ -193,7 +220,6 @@ public class HomeFragmento extends Fragment {
         });
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
-
         Spinner spCategoria = view.findViewById(R.id.spTipoReceita);
 
         // Cria o diálogo
@@ -216,19 +242,21 @@ public class HomeFragmento extends Fragment {
                     android.R.layout.simple_spinner_item,
                     nomesCategorias
             );
+            
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spCategoria.setAdapter(adapter);
 
-            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+            {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id) {
+                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id)
+                {
                     String idCategoriaSelecionada = categorias.get(position)[0];
                     spCategoria.setTag(idCategoriaSelecionada);
                 }
                 @Override public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
-
 
         // Eventos dos botões
         btnSalvar.setOnClickListener(v -> {
@@ -237,18 +265,18 @@ public class HomeFragmento extends Fragment {
             String dataReceita = txtDataReceita.getText().toString().trim();
             String idCategoria = (String) spCategoria.getTag(); // pegamos o ID da categoria selecionada
 
-
-            if (valorReceita.isEmpty()) {
+            if (valorReceita.isEmpty())
+            {
                 Toast.makeText(requireContext(), "Digite o valor da receita.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (idCategoria == null) {
+            if (idCategoria == null)
+            {
                 Toast.makeText(requireContext(), "Selecione uma categoria.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            //
             supabase.inserirReceita(
                     requireActivity(),
                     idUsuario,
@@ -258,14 +286,12 @@ public class HomeFragmento extends Fragment {
                     dataReceita);
 
             calcularSaldo();
-
             dialog.dismiss();
         });
-
-
     }
 
-    private void exibirPopupDespesa() {
+    private void exibirPopupDespesa()
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_despesa, null);
@@ -276,7 +302,8 @@ public class HomeFragmento extends Fragment {
         EditText txtValorDespesa = view.findViewById(R.id.txtValorDespesa);
         EditText txtDataDespesa = view.findViewById(R.id.txtDataDespesa);
 
-        txtDataDespesa.addTextChangedListener(new TextWatcher() {
+        txtDataDespesa.addTextChangedListener(new TextWatcher()
+        {
             private boolean isUpdating = false;
             private String old = "";
 
@@ -284,8 +311,10 @@ public class HomeFragmento extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (isUpdating)
+                {
                     isUpdating = false;
                     return;
                 }
@@ -295,12 +324,16 @@ public class HomeFragmento extends Fragment {
                 StringBuilder formatted = new StringBuilder();
                 int len = str.length();
 
-                if (len > 0) {
+                if (len > 0)
+                {
                     formatted.append(str.substring(0, Math.min(2, len)));
-                    if (len >= 3) {
+                    if (len >= 3)
+                    {
                         formatted.append("/").append(str.substring(2, Math.min(4, len)));
                     }
-                    if (len >= 5) {
+                    
+                    if (len >= 5)
+                    {
                         formatted.append("/").append(str.substring(4, Math.min(8, len)));
                     }
                 }
@@ -315,7 +348,6 @@ public class HomeFragmento extends Fragment {
         });
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
-
         Spinner spCategoria = view.findViewById(R.id.spTipoDespesa);
 
         // Cria o diálogo
@@ -325,7 +357,8 @@ public class HomeFragmento extends Fragment {
 
         // Busca as categorias do banco
         clsMetodos.buscarCategorias(requireContext(), idUsuario, "gasto", (e, categorias) -> {
-            if (e != null || categorias == null) {
+            if (e != null || categorias == null)
+            {
                 Toast.makeText(requireContext(), "Falha ao carregar categorias.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -338,19 +371,23 @@ public class HomeFragmento extends Fragment {
                     android.R.layout.simple_spinner_item,
                     nomesCategorias
             );
+            
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spCategoria.setAdapter(adapter);
 
-            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() 
+            {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id) {
+                public void onItemSelected(AdapterView<?> parent, View selectedView, int position, long id)
+                {
                     String idCategoriaSelecionada = categorias.get(position)[0];
                     spCategoria.setTag(idCategoriaSelecionada);
                 }
+
+
                 @Override public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
-
 
         // Eventos dos botões
         btnSalvar.setOnClickListener(v -> {
@@ -360,17 +397,18 @@ public class HomeFragmento extends Fragment {
             String idCategoria = (String) spCategoria.getTag(); // pegamos o ID da categoria selecionada
 
 
-            if (valorDespesa.isEmpty()) {
+            if (valorDespesa.isEmpty())
+            {
                 Toast.makeText(requireContext(), "Digite o valor da despesa.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (idCategoria == null) {
+            if (idCategoria == null)
+            {
                 Toast.makeText(requireContext(), "Selecione uma categoria.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            //
             supabase.inserirDespesa(
                     requireActivity(),
                     idUsuario,
@@ -380,16 +418,12 @@ public class HomeFragmento extends Fragment {
                     dataDespesa);
 
             calcularSaldo();
-
             dialog.dismiss();
         });
-
-
-
     }
 
-
-    private void calcularSaldo() {
+    private void calcularSaldo()
+    {
 
         clsMetodos.buscarSaldo(requireContext(), idUsuario, receitas -> {
 
@@ -400,31 +434,28 @@ public class HomeFragmento extends Fragment {
                 // Exibe o total de despesas
                 txtDespesasHome.setText("R$" + despesas);
 
-
                 double saldoFinal = receitas - despesas;
                 String saldoFormatado = String.format("R$ %.2f", saldoFinal);
-
-
 
                 // Exibe o saldo final
                 txtSaldoAtual.setText(saldoFormatado);
             });
-
         });
     }
 
-
     // Converter a imagem em Base64 para bitmap
-    private Bitmap getBitmapFromBase64(String base64String) {
-        try {
+    private Bitmap getBitmapFromBase64(String base64String)
+    {
+        try
+        {
             byte[] decodedBytes = Base64.decode(base64String, Base64.NO_WRAP);
             return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        } catch (Exception e) {
+        }
+
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
-
-
-
 }
