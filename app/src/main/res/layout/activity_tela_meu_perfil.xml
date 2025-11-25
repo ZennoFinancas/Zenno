@@ -19,7 +19,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtituloEmailTelMeuPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil" />
 
     <TextView
         android:id="@+id/lblNotificacoes"
@@ -98,7 +98,7 @@
         android:layout_marginStart="83dp"
         android:layout_marginTop="57dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtituloEmailTelMeuPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil"
         tools:srcCompat="@drawable/editar" />
 
     <ImageView
@@ -152,7 +152,7 @@
         tools:srcCompat="@drawable/sair" />
 
     <TextView
-        android:id="@+id/subtituloEmailTelMeuPerfil"
+        android:id="@+id/lblEmailMeuPerfil"
         android:layout_width="371dp"
         android:layout_height="25dp"
         android:layout_marginStart="19dp"
@@ -164,10 +164,10 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloNomeMeuPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/lblNomeMeuPerfil" />
 
     <TextView
-        android:id="@+id/tituloNomeMeuPerfil"
+        android:id="@+id/lblNomeMeuPerfil"
         android:layout_width="371dp"
         android:layout_height="36dp"
         android:layout_marginStart="19dp"

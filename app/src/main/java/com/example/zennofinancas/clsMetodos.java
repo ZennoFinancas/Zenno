@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.example.zennofinancas.ui.home.HomeFragmento;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -51,13 +53,16 @@ public class clsMetodos
                             // Salvar nome do usuario
                             String idUsuario = usuario.get("id_usuario").getAsString();
                             String nomeUsuario = usuario.get("nome_usuario").getAsString();
+                            String fotoUsuario = usuario.get("foto_usuario").getAsString();
 
                             // Salvar login
-                            SharedPreferences prefs = contexto.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("nomeUsuario", nomeUsuario);
-                            editor.putString("idUsuario", idUsuario);
-                            editor.apply();
+                            clsDadosUsuario.salvarUsuario(
+                                    contexto,
+                                    nomeUsuario,
+                                    idUsuario,
+                                    emailUsuario,
+                                    fotoUsuario
+                            );
 
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
                             Intent trocar = new Intent(contexto, TelaInicial.class);
@@ -133,6 +138,49 @@ public class clsMetodos
                         contexto.startActivity(intent);
                     }
 
+                });
+    }
+
+    public static void alterarDados(Context contexto, String emailUsuario, String nomeUsuario, String numeroUsuario, String imgUsuario) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + "usuarios?email_usuario=eq." + emailUsuario;
+
+
+        // Cria o objeto JSON com a nova senha para o corpo da requisição
+        JsonObject jsonBody = new JsonObject();
+        jsonBody.addProperty("email_usuario", emailUsuario);
+        jsonBody.addProperty("nome_usuario", nomeUsuario);
+        jsonBody.addProperty("numero_usuario", numeroUsuario);
+        jsonBody.addProperty("foto_usuario", imgUsuario);
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .setJsonObjectBody(jsonBody) // Define o corpo JSON com a nova senha
+                .asJsonArray() // O Supabase retorna uma array com os registros atualizados
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Se a array de resultados não for nula e tiver pelo menos um item, a senha foi alterada com sucesso
+                        if (result != null && result.size() > 0) {
+                            Toast.makeText(contexto, "Perfil editado com sucesso!", Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(contexto, TelaInicial.class);
+                            contexto.startActivity(intent);
+                        } else {
+
+                            Toast.makeText(contexto, "Falha ao alterar dados.", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 });
     }
 
@@ -293,6 +341,7 @@ public class clsMetodos
          json.addProperty("id_categoria", idCategoria);
          json.addProperty("valor_receita", valorReceitaFloat);
          json.addProperty("descricao_receita", descricaoReceita);
+         json.addProperty("data_receita", dataReceita);
 
 
          String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
@@ -327,9 +376,60 @@ public class clsMetodos
                  });
      }
 
+    public static void inserirDespesa(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+
+
+        // Conversões seguras
+        int idCategoriaInt;
+        float valorReceitaFloat;
+
+
+
+        valorReceitaFloat = Float.parseFloat(valorReceita.replace(",", "."));
+        // Criação do JSON para envio
+        JsonObject json = new JsonObject();
+        json.addProperty("id_usuario", idUsuario);
+        json.addProperty("id_categoria", idCategoria);
+        json.addProperty("valor_despesa", valorReceitaFloat);
+        json.addProperty("descricao_despesa", descricaoReceita);
+        json.addProperty("data_despesa", dataReceita);
+
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/despesas";
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+
+                        if (e != null) {
+                            e.printStackTrace();
+                            Toast.makeText(contexto, "Erro na conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Verifica se o servidor retornou erro explícito
+                        if (result != null && (result.contains("error") || result.contains("status"))) {
+                            Toast.makeText(contexto, "Falha ao cadastrar receita: " + result, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        // Sucesso
+                        Toast.makeText(contexto, "Receita cadastrada com sucesso!", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+    }
+
 
     public static void buscarCategorias(Context contexto, String idUsuario, String tipo, FutureCallback<ArrayList<String[]>> callback) {
-        // Campos corretos conforme tabela: id_categoria, id_usuario, nome, tipo
+
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias"
                 + "?select=id_categoria,nome&id_usuario=eq." + idUsuario + "&tipo=eq." + tipo ; //
 
@@ -365,8 +465,11 @@ public class clsMetodos
 
     // Carregar Saldo na tela
 
-    public static void buscarSaldo(Context contexto, String idUsuario)
-    {
+    public interface SaldoCallback {
+        void onResultado(double saldo);
+    }
+
+    public static void buscarSaldo(Context contexto, String idUsuario, SaldoCallback callback) {
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas?id_usuario=eq." + idUsuario;
 
         Ion.with(contexto)
@@ -375,49 +478,266 @@ public class clsMetodos
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>()
-                {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result)
-                    {
-                        if (e != null)
-                        {
-                            e.printStackTrace();
-                            Toast.makeText(contexto, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
+                .setCallback((e, result) -> {
 
-                        if (result != null && result.size() > 0)
-                        {
-                            double somaReceitas = 0.0;
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
-                            // LOOP PARA SOMAR TODAS AS RECEITAS
-                            for (int i = 0; i < result.size(); i++)
-                            {
-                                JsonObject linha = result.get(i).getAsJsonObject();
+                    double soma = 0.0;
 
-                                // pegar valor_receita como double
-                                if (linha.has("valor_receita") && !linha.get("valor_receita").isJsonNull()) {
-                                    somaReceitas += linha.get("valor_receita").getAsDouble();
-                                }
+                    if (result != null) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject linha = result.get(i).getAsJsonObject();
+                            if (linha.has("valor_receita") && !linha.get("valor_receita").isJsonNull()) {
+                                soma += linha.get("valor_receita").getAsDouble();
                             }
-
-                            // Aqui você decide o que fazer com a soma
-                            Toast.makeText(contexto, "Total de receitas: R$ " + somaReceitas, Toast.LENGTH_LONG).show();
-
-                            Intent trocar = new Intent();
-                            trocar.putExtra("idUsuario", idUsuario);
-                            trocar.putExtra("totalReceitas", somaReceitas);
-
-                            // Precisa exibir na tela o resultado.
-                        }
-                        else
-                        {
-                            Toast.makeText(contexto, "Nenhuma receita encontrada.", Toast.LENGTH_LONG).show();
                         }
                     }
+
+
+                    callback.onResultado(soma);
                 });
     }
+
+    public interface DespesaCallback {
+        void onResultado(double totalDespesas);
+    }
+
+    public static void buscarDespesas(Context contexto, String idUsuario, DespesaCallback callback) {
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/despesas?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao buscar despesas: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    double soma = 0.0;
+
+                    if (result != null) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject item = result.get(i).getAsJsonObject();
+
+                            if (item.has("valor_despesa") && !item.get("valor_despesa").isJsonNull()) {
+                                soma += item.get("valor_despesa").getAsDouble();
+                            }
+                        }
+                    }
+
+                    callback.onResultado(soma);
+                });
+    }
+
+    //Objetivos
+
+    public static void inserirObjetivo(Context contexto,
+                                       String idUsuario,
+                                       String nomeObjetivo,
+                                       String valorDesejado,
+                                       String dataObjetivo) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos";
+
+        // Converter o valor desejado para padrão numérico
+        float valor = 0;
+        try {
+            valor = Float.parseFloat(valorDesejado.replace(",", "."));
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Valor inválido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Criar JSON
+        JsonObject json = new JsonObject();
+        json.addProperty("id_usuario", idUsuario);
+        json.addProperty("nome_objetivo", nomeObjetivo);
+        json.addProperty("valor_desejado", valor); // Inserir data
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao cadastrar objetivo: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Objetivo cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
+
+    public interface MetasCallback {
+        void onResultado(Exception e, ArrayList<String[]> metas);
+    }
+
+
+    public static void buscarObjetivos(Context contexto, String idUsuario, MetasCallback callback) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_usuario=eq." + idUsuario;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        callback.onResultado(e, null);
+                        return;
+                    }
+
+                    if (result == null || result.size() == 0) {
+                        callback.onResultado(null, new ArrayList<>());
+                        return;
+                    }
+
+                    ArrayList<String[]> listaMetas = new ArrayList<>();
+
+                    for (int i = 0; i < result.size(); i++) {
+                        JsonObject linha = result.get(i).getAsJsonObject();
+
+                        String idMeta = linha.has("id_objetivo") && !linha.get("id_objetivo").isJsonNull()
+                                ? linha.get("id_objetivo").getAsString()
+                                : "";
+
+                        String nomeObjetivo = linha.has("nome_objetivo") && !linha.get("nome_objetivo").isJsonNull()
+                                ? linha.get("nome_objetivo").getAsString()
+                                : "";
+
+                        String valorDesejado = linha.has("valor_desejado") && !linha.get("valor_desejado").isJsonNull()
+                                ? linha.get("valor_desejado").getAsString()
+                                : "0";
+
+                        // agora retorna id, nome, valor
+                        listaMetas.add(new String[]{idMeta, nomeObjetivo, valorDesejado});
+                    }
+
+                    callback.onResultado(null, listaMetas);
+                });
+    }
+
+    public static void inserirAporteObjetivo(Context contexto,
+                                       String idObjetivo,
+                                       String valorDesejado)
+    {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo";
+
+        // Converter o valor desejado para padrão numérico
+        float valor = 0;
+        try {
+            valor = Float.parseFloat(valorDesejado.replace(",", "."));
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Valor inválido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Criar JSON
+        JsonObject json = new JsonObject();
+        json.addProperty("id_objetivo", idObjetivo);
+        json.addProperty("valor", valor);
+
+        Ion.with(contexto)
+                .load("POST", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao cadastrar objetivo: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Dinheiro guardado com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
+
+    public interface AportesCallback {
+        void onResultado(Exception e, double totalAportes);
+    }
+
+    public static void buscarAportesObjetivo(Context contexto, String idObjetivo, AportesCallback callback) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo?id_objetivo=eq." + idObjetivo;
+
+        Ion.with(contexto)
+                .load("GET", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asJsonArray()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        callback.onResultado(e, 0.0);
+                        return;
+                    }
+
+                    double totalAportes = 0.0;
+
+                    if (result != null && result.size() > 0) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject item = result.get(i).getAsJsonObject();
+
+                            if (item.has("valor") && !item.get("valor").isJsonNull()) {
+                                totalAportes += item.get("valor").getAsDouble();
+                            }
+                        }
+                    }
+
+                    callback.onResultado(null, totalAportes);
+                });
+    }
+
+
+    public static void deletarObjetivo(Context contexto, String idObjetivo) {
+
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_objetivo=eq." + idObjetivo;
+
+        Ion.with(contexto)
+                .load("DELETE", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asString()
+                .setCallback((e, result) -> {
+
+                    if (e != null) {
+                        e.printStackTrace();
+                        Toast.makeText(contexto, "Erro ao deletar meta: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(contexto, "Meta deletada com sucesso!", Toast.LENGTH_LONG).show();
+                });
+    }
+
 
 
 

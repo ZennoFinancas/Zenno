@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="8dp">
+
+    <!-- Ícone da categoria -->
+
+    <!-- Nome da transação -->
+
+    <ImageView
+        android:id="@+id/imgIcone"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
+        android:background="@drawable/cifr_o" />
+
+    <TextView
+        android:id="@+id/txtNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/imgIcone"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="nomeExtrato"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <!-- Valor da transação -->
+    <TextView
+        android:id="@+id/txtValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="11dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="R$ 00,00"
+        android:textColor="#00FF85"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
