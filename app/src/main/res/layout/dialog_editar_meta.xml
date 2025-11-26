@@ -87,7 +87,7 @@
         <!-- Valor a guardar -->
 
         <EditText
-            android:id="@+id/txtValorMeta"
+            android:id="@+id/txtValorReceita"
             android:layout_width="302dp"
             android:layout_height="38dp"
             android:layout_marginTop="4dp"
@@ -123,7 +123,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.517"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtValorMeta" />
+            app:layout_constraintTop_toBottomOf="@+id/txtValorReceita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

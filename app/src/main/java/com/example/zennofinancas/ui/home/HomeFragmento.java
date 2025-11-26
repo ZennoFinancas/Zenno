@@ -65,7 +65,7 @@ public class HomeFragmento extends Fragment
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
-        imgFotoUsuario = view.findViewById(R.id.imgFotoUsuario);
+        imgFotoUsuario = view.findViewById(R.id.imgVoltar);
         btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
 
         // Ajustando visibilidade
@@ -171,7 +171,7 @@ public class HomeFragmento extends Fragment
 
         // Campos do layout
         EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorReceita = view.findViewById(R.id.txtValorMeta);
+        EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
         EditText txtDataReceita = view.findViewById(R.id.txtDataReceita);
 
         txtDataReceita.addTextChangedListener(new TextWatcher()

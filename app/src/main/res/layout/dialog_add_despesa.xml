@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="563dp">
+        android:layout_height="549dp">
 
         <!-- TÍTULO -->
         <TextView
@@ -54,7 +54,7 @@
             android:background="@drawable/backgroud_verde"
             android:backgroundTint="#1C9D6A"
             android:fontFamily="@font/montserrat_medium"
-            android:hint="ex: celular novo"
+            android:hint="ex: conta de água"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:textColorHint="#BFBFBF"
@@ -184,54 +184,50 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="53dp"
             android:layout_marginTop="29dp"
-            android:layout_marginBottom="24dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Repetir"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtEscolhaIcone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtValorDespesa" />
 
-        <EditText
-            android:id="@+id/txtRepeteReceita"
+        <!-- NOVO SPINNER DE REPETIÇÃO (SUBSTITUINDO O EDITTEXT) -->
+        <RelativeLayout
+            android:id="@+id/containerSpRepeticao"
             android:layout_width="125dp"
             android:layout_height="36dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="48dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/backgroud_verde"
-            android:backgroundTint="#1C9D6A"
-            android:fontFamily="@font/montserrat_medium"
-            android:hint="ex: 4 meses"
-            android:inputType="numberDecimal"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#BFBFBF"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtEscolhaIcone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtValorDespesa" />
+            app:layout_constraintTop_toBottomOf="@+id/txtValorDespesa">
 
-        <TextView
-            android:id="@+id/txtEscolhaIcone"
-            android:layout_width="237dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="80dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Escolha um ícone aqui!"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtValorDespesa" />
+            <Spinner
+                android:id="@+id/spRepeticao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/backgroud_verde"
+                android:backgroundTint="#1C9D6A"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imgSetaRepeticao"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/seta_spinner" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="311dp"
             android:layout_height="46dp"
-            android:layout_marginTop="16dp"
             android:backgroundTint="#1dc884"
             android:fontFamily="@font/montserrat_medium"
             android:text="Cadastrar"
@@ -239,9 +235,9 @@
             android:textSize="18sp"
             app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtEscolhaIcone" />
+            tools:layout_editor_absoluteY="466dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

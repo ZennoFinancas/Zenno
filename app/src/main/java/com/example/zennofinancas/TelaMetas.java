@@ -52,7 +52,7 @@ public class TelaMetas extends ActivityBase {
         View view = inflater.inflate(R.layout.dialog_cadastrar_meta, null);
 
         EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorMeta = view.findViewById(R.id.txtValorMeta);
+        EditText txtValorMeta = view.findViewById(R.id.txtValorReceita);
         Button btnCadastrarMeta = view.findViewById(R.id.btnSalvar);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -206,7 +206,7 @@ public class TelaMetas extends ActivityBase {
         View view = inflater.inflate(R.layout.dialog_editar_meta, null);
 
         EditText txtNomeDaMeta = view.findViewById(R.id.txtNomeReceita);
-        EditText txtValorTotalMeta = view.findViewById(R.id.txtValorMeta);
+        EditText txtValorTotalMeta = view.findViewById(R.id.txtValorReceita);
         Button btnSalvarEdicao = view.findViewById(R.id.btnSalvar);
 
         txtNomeDaMeta.setText(tituloNomedaMeta.getText().toString());

@@ -6,43 +6,76 @@
     android:paddingEnd="12dp"
     android:paddingBottom="8dp">
 
-    <!-- Ícone da categoria -->
-
-    <!-- Nome da transação -->
-
     <ImageView
         android:id="@+id/imgIcone"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="11dp"
         android:background="@drawable/cifr_o" />
 
-    <TextView
-        android:id="@+id/txtNome"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/imgIcone"
         android:layout_centerVertical="true"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="nomeExtrato"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
 
-    <!-- Valor da transação -->
-    <TextView
-        android:id="@+id/txtValor"
+        <TextView
+            android:id="@+id/txtNomeExtrato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="nomeExtrato"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/txtCategoriaExtrato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="nomeCategoria"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="11dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="R$ 00,00"
-        android:textColor="#00FF85"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtValorExtrato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="R$ 00,00"
+            android:textAlignment="textEnd"
+            android:textColor="#00FF85"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDataExtrato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="12/12/2023"
+            android:textAlignment="textEnd"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

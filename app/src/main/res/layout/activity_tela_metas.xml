@@ -8,13 +8,12 @@
     tools:context=".TelaMetas">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgFotoUsuario"
-        android:layout_width="66dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/imgVoltar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/seta_voltar"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -30,7 +29,7 @@
         android:fontFamily="@font/montserrat_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgFotoUsuario" />
+        app:layout_constraintTop_toBottomOf="@id/imgVoltar" />
 
     <TextView
         android:id="@+id/subtituloMetas"

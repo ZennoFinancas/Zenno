@@ -14,7 +14,7 @@
         tools:context=".ui.home.HomeFragmento">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgFotoUsuario"
+            android:id="@+id/imgVoltar"
             android:layout_width="66dp"
             android:layout_height="63dp"
             android:layout_marginStart="36dp"
@@ -48,7 +48,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgFotoUsuario" />
+            app:layout_constraintTop_toBottomOf="@+id/imgVoltar" />
 
         <TextView
             android:id="@+id/txtSaldoAtual"
