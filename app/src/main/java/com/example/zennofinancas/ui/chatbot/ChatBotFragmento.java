@@ -41,7 +41,7 @@ public class ChatBotFragmento extends Fragment {
     private ChatAdapter chatAdapter;
     private final List<Message> messageList = new ArrayList<>();
 
-    private static final String API_KEY = "AIzaSyAMJfLOGjFbHhALEsqi6uVy75Gm_vQCwmI";
+    private static final String API_KEY = "AIzaSyAuT4vl83VoYo4zNRguRMQVTv5FP4IBWVU";
 
 
     private static final String PROMPT_SISTEMA =
