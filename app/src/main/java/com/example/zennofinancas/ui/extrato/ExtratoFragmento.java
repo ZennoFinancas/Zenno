@@ -1,5 +1,6 @@
 package com.example.zennofinancas.ui.extrato;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,9 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.zennofinancas.MainActivity;
 import com.example.zennofinancas.R;
+import com.example.zennofinancas.TelaInicial;
 import com.example.zennofinancas.classes.ExtratoAdapter;
 import com.example.zennofinancas.classes.ExtratoItem;
+import com.example.zennofinancas.classes.SupabaseHelper;
+import com.example.zennofinancas.classes.clsDadosUsuario;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,19 +36,22 @@ import java.util.Locale;
 
 public class ExtratoFragmento extends Fragment {
 
-    TextView tituloMes;
-    Spinner spCategoria;
-    RecyclerView rvExtrato;
+    // Views
+    private TextView tituloMes;
+    private Spinner spCategoria;
+    private RecyclerView rvExtrato;
+    private View msgVazia1, msgVazia2;
+    private ImageView setaEsq, setaDir;
+    private ProgressBar progressBar;
 
-    View msgVazia1, msgVazia2; // os dois TextViews invisíveis do layout vazio
+    // Dados
+    private List<ExtratoItem> listaCompleta = new ArrayList<>();
+    private List<ExtratoItem> listaFiltrada = new ArrayList<>();
+    private ExtratoAdapter adapter;
+    private Calendar calendario = Calendar.getInstance();
 
-    List<ExtratoItem> listaOriginal = new ArrayList<>();
-    List<ExtratoItem> listaFiltrada = new ArrayList<>();
 
-    ExtratoAdapter adapter;
-    Calendar calendario = Calendar.getInstance();
-
-    ImageView setaEsq, setaDir;
+    private String idUsuario = "";
 
     @Nullable
     @Override
@@ -50,34 +60,56 @@ public class ExtratoFragmento extends Fragment {
 
         View view = inflater.inflate(R.layout.fragmento_extrato, container, false);
 
-        tituloMes = view.findViewById(R.id.tituloCadastrarReceita2);
-        spCategoria = view.findViewById(R.id.spCategoriaExtrato);
-        rvExtrato = view.findViewById(R.id.rvExtrato);
-
-        msgVazia1 = view.findViewById(R.id.subtituloMetas2);
-        msgVazia2 = view.findViewById(R.id.subtituloMetas3);
-
-        setaEsq = view.findViewById(R.id.imageView2);
-        setaDir = view.findViewById(R.id.imageView3);
-
-        rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        inicializarViews(view);
+        configurarRecyclerView();
         carregarMesAtual();
         configurarSetas();
         configurarSpinner();
 
-        preencherListaFake();
-        aplicarFiltro("Transações");
+        // Carrega dados do banco
+        carregarExtratoDoBanco();
 
         return view;
     }
 
+    private void inicializarViews(View view) {
+        tituloMes = view.findViewById(R.id.tituloCadastrarReceita2);
+        spCategoria = view.findViewById(R.id.spCategoriaExtrato);
+        rvExtrato = view.findViewById(R.id.rvExtrato);
+        msgVazia1 = view.findViewById(R.id.subtituloMetas2);
+        msgVazia2 = view.findViewById(R.id.subtituloMetas3);
+        setaEsq = view.findViewById(R.id.imageView2);
+        setaDir = view.findViewById(R.id.imageView3);
+
+        clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
+
+        if (usuario != null ) {
+            idUsuario = usuario.getIdUsuario().toString();
+        }
+        else{
+            Toast.makeText(requireContext(), "Falha ao carregar usuÃ¡rio.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void configurarRecyclerView() {
+        rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new ExtratoAdapter(listaFiltrada);
+
+        // Opcional: adicionar click listener
+        adapter.setOnItemClickListener(item -> {
+            // AÃ§Ã£o ao clicar no item (ex: abrir detalhes, editar, excluir)
+            Toast.makeText(getContext(),
+                    "Clicou em: " + item.getNomeCategoria(),
+                    Toast.LENGTH_SHORT).show();
+        });
+
+        rvExtrato.setAdapter(adapter);
+    }
+
     private void carregarMesAtual() {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", new Locale("pt", "BR"));
-
         String mes = sdf.format(calendario.getTime());
         mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
-
         tituloMes.setText(mes);
     }
 
@@ -85,36 +117,32 @@ public class ExtratoFragmento extends Fragment {
         setaEsq.setOnClickListener(v -> {
             calendario.add(Calendar.MONTH, -1);
             carregarMesAtual();
-            aplicarFiltro(spCategoria.getSelectedItem().toString());
+            carregarExtratoDoBanco(); // Recarrega com novo mÃªs
         });
 
         setaDir.setOnClickListener(v -> {
             calendario.add(Calendar.MONTH, 1);
             carregarMesAtual();
-            aplicarFiltro(spCategoria.getSelectedItem().toString());
+            carregarExtratoDoBanco(); // Recarrega com novo mÃªs
         });
     }
 
     private void configurarSpinner() {
-        List<String> opcoes = Arrays.asList("Transações", "Receitas", "Despesas");
+        List<String> opcoes = Arrays.asList("TransaÃ§Ãµes", "Receitas", "Despesas");
 
-        // Cria o adaptador apontando para o seu layout personalizado
         ArrayAdapter<String> adapterSp = new ArrayAdapter<>(
                 requireContext(),
-                R.layout.spinner_item, // O arquivo XML do passo 1
+                R.layout.spinner_item,
                 opcoes
         );
 
-        // Define o layout para a lista que abre (pode ser o padrão do Android ou um customizado também)
         adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Aplica no Spinner da tela
         spCategoria.setAdapter(adapterSp);
 
         spCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                aplicarFiltro(opcoes.get(position));
+                aplicarFiltroLocal(opcoes.get(position));
             }
 
             @Override
@@ -122,41 +150,88 @@ public class ExtratoFragmento extends Fragment {
         });
     }
 
-    private void preencherListaFake() {
-        listaOriginal.clear();
-        listaOriginal.add(new ExtratoItem("Salário", "R$ 2500,00", "receita"));
-        listaOriginal.add(new ExtratoItem("Mercado", "R$ 230,00", "despesa"));
-        listaOriginal.add(new ExtratoItem("Freelance", "R$ 1200,00", "receita"));
-        listaOriginal.add(new ExtratoItem("Luz", "R$ 180,00", "despesa"));
+
+    private void carregarExtratoDoBanco() {
+        if (getContext() == null) return;
+
+        mostrarCarregamento(true);
+
+        int mes = calendario.get(Calendar.MONTH) + 1; // Calendar.MONTH Ã© 0-based
+        int ano = calendario.get(Calendar.YEAR);
+
+        SupabaseHelper.buscarExtrato(
+                getContext(),
+                idUsuario,
+                mes,
+                ano,
+                null, // Busca todos os tipos inicialmente
+                (e, result) -> {
+                    mostrarCarregamento(false);
+
+                    if (e != null) {
+                        Toast.makeText(getContext(),
+                                "Erro ao carregar extrato",
+                                Toast.LENGTH_SHORT).show();
+                        mostrarMensagemVazia(true);
+                        return;
+                    }
+
+                    if (result != null && !result.isEmpty()) {
+                        listaCompleta = result;
+                        aplicarFiltroLocal(spCategoria.getSelectedItem().toString());
+                    } else {
+                        listaCompleta.clear();
+                        listaFiltrada.clear();
+                        mostrarMensagemVazia(true);
+                        adapter.atualizarLista(listaFiltrada);
+                    }
+                }
+        );
     }
 
-    private void aplicarFiltro(String filtro) {
+    /**
+     * Aplica filtro local baseado no spinner (sem nova requisiÃ§Ã£o)
+     */
+    private void aplicarFiltroLocal(String filtro) {
         listaFiltrada.clear();
 
         switch (filtro) {
             case "Receitas":
-                for (ExtratoItem i : listaOriginal)
-                    if (i.getTipo().equals("receita"))
-                        listaFiltrada.add(i);
+                for (ExtratoItem item : listaCompleta) {
+                    if (item.isReceita()) {
+                        listaFiltrada.add(item);
+                    }
+                }
                 break;
 
             case "Despesas":
-                for (ExtratoItem i : listaOriginal)
-                    if (i.getTipo().equals("despesa"))
-                        listaFiltrada.add(i);
+                for (ExtratoItem item : listaCompleta) {
+                    if (item.isDespesa()) {
+                        listaFiltrada.add(item);
+                    }
+                }
                 break;
 
-            default:
-                listaFiltrada.addAll(listaOriginal);
+            default: // "TransaÃ§Ãµes" - mostra tudo
+                listaFiltrada.addAll(listaCompleta);
                 break;
         }
 
-        // Atualiza adapter
-        adapter = new ExtratoAdapter(listaFiltrada);
-        rvExtrato.setAdapter(adapter);
+        adapter.atualizarLista(listaFiltrada);
+        mostrarMensagemVazia(listaFiltrada.isEmpty());
+    }
 
-        // Controle de visibilidade
-        if (listaFiltrada.isEmpty()) {
+
+    private void mostrarCarregamento(boolean mostrar) {
+        if (progressBar != null) {
+            progressBar.setVisibility(mostrar ? View.VISIBLE : View.GONE);
+        }
+        rvExtrato.setVisibility(mostrar ? View.GONE : View.VISIBLE);
+    }
+
+
+    private void mostrarMensagemVazia(boolean mostrar) {
+        if (mostrar) {
             rvExtrato.setVisibility(View.GONE);
             msgVazia1.setVisibility(View.VISIBLE);
             msgVazia2.setVisibility(View.VISIBLE);
@@ -165,5 +240,9 @@ public class ExtratoFragmento extends Fragment {
             msgVazia1.setVisibility(View.GONE);
             msgVazia2.setVisibility(View.GONE);
         }
+    }
+
+    public void recarregarDados() {
+        carregarExtratoDoBanco();
     }
 }

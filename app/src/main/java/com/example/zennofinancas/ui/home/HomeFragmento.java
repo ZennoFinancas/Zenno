@@ -330,6 +330,7 @@ public class HomeFragmento extends Fragment
                     if (len >= 3)
                     {
                         formatted.append("/").append(str.substring(2, Math.min(4, len)));
+
                     }
                     
                     if (len >= 5)

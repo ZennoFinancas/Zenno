@@ -328,9 +328,12 @@ public class clsMetodos
      public static void inserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
 
 
+
          // Conversões seguras
          int idCategoriaInt;
          float valorReceitaFloat;
+
+         String novaData = converterDataParaISO(dataReceita);
 
 
 
@@ -341,7 +344,7 @@ public class clsMetodos
          json.addProperty("id_categoria", idCategoria);
          json.addProperty("valor_receita", valorReceitaFloat);
          json.addProperty("descricao_receita", descricaoReceita);
-         json.addProperty("data_receita", dataReceita);
+         json.addProperty("data_receita", novaData);
 
 
          String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/receitas";
@@ -376,23 +379,24 @@ public class clsMetodos
                  });
      }
 
-    public static void inserirDespesa(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+    public static void inserirDespesa(Context contexto, String idUsuario, String idCategoria, String valorDespesa, String descricaoDespesa, String dataDespesa) {
 
 
         // Conversões seguras
         int idCategoriaInt;
         float valorReceitaFloat;
 
+        String novaData = converterDataParaISO(dataDespesa);
 
 
-        valorReceitaFloat = Float.parseFloat(valorReceita.replace(",", "."));
+        valorReceitaFloat = Float.parseFloat(valorDespesa.replace(",", "."));
         // Criação do JSON para envio
         JsonObject json = new JsonObject();
         json.addProperty("id_usuario", idUsuario);
         json.addProperty("id_categoria", idCategoria);
         json.addProperty("valor_despesa", valorReceitaFloat);
-        json.addProperty("descricao_despesa", descricaoReceita);
-        json.addProperty("data_despesa", dataReceita);
+        json.addProperty("descricao_despesa", descricaoDespesa);
+        json.addProperty("data_despesa", novaData);
 
 
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/despesas";
@@ -416,18 +420,69 @@ public class clsMetodos
 
                         // Verifica se o servidor retornou erro explícito
                         if (result != null && (result.contains("error") || result.contains("status"))) {
-                            Toast.makeText(contexto, "Falha ao cadastrar receita: " + result, Toast.LENGTH_LONG).show();
+                            Toast.makeText(contexto, "Falha ao cadastrar despesa: " + result, Toast.LENGTH_LONG).show();
                             return;
                         }
 
                         // Sucesso
-                        Toast.makeText(contexto, "Receita cadastrada com sucesso!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(contexto, "Despesa cadastrada com sucesso!", Toast.LENGTH_LONG).show();
 
                     }
                 });
     }
 
 
+    // Conversor de data
+    public static String converterDataParaISO(String dataBrasileira) {
+        if (dataBrasileira == null || dataBrasileira.trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            // Remove espaços e valida formato básico
+            dataBrasileira = dataBrasileira.trim();
+
+            // Verifica se tem o formato dd/MM/yyyy
+            if (!dataBrasileira.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                return null;
+            }
+
+            // Separa dia, mês e ano
+            String[] partes = dataBrasileira.split("/");
+
+            if (partes.length != 3) {
+                return null;
+            }
+
+            String dia = partes[0];
+            String mes = partes[1];
+            String ano = partes[2];
+
+            // Valida os valores
+            int diaInt = Integer.parseInt(dia);
+            int mesInt = Integer.parseInt(mes);
+            int anoInt = Integer.parseInt(ano);
+
+            if (diaInt < 1 || diaInt > 31) {
+                return null;
+            }
+
+            if (mesInt < 1 || mesInt > 12) {
+                return null;
+            }
+
+            if (anoInt < 1900 || anoInt > 2100) {
+                return null;
+            }
+
+            // Retorna no formato ISO: yyyy-MM-dd
+            return String.format("%04d-%02d-%02d", anoInt, mesInt, diaInt);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static void buscarCategorias(Context contexto, String idUsuario, String tipo, FutureCallback<ArrayList<String[]>> callback) {
 
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/categorias"
