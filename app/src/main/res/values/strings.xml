@@ -84,15 +84,15 @@
     <string name="btnSalvarNotif">Salvar</string>
 
     // Tela Cotação
-    <string name="tituloCotacao">Faça uma cotação!</string>
-    <string name="subtituloCotacao">Selecione a moeda desejada para cotação.</string>
-    <string name="lblQuantia">Quantia:</string>
-    <string name="lblValorCotacao">Digite o valor</string>
+    <string name="tituloConversor">Faça uma cotação!</string>
+    <string name="subtituloConversor">Selecione a moeda desejada para cotação.</string>
+    <string name="lblQuantiaConversor">Quantia:</string>
+    <string name="lblConverterConversor">Converter para:</string>
     <string name="txtValorCotacao">Valor</string>
     <string name="txtMoedaOrigem">MoedaOrigem</string>
     <string name="txtConverter">Converter</string>
     <string name="lblResultado"> --------  </string>
-    <string name="btnLogin2">Converter</string>
+    <string name="btnConverter">Converter</string>
 
     // Tela Política de Privacidade
     <string name="tituloPoliticaPrivac">Política de privacidade</string>

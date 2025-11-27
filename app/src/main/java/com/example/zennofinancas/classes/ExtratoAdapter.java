@@ -40,7 +40,7 @@ public class ExtratoAdapter extends RecyclerView.Adapter<ExtratoAdapter.ViewHold
             super(itemView);
             imgIcone = itemView.findViewById(R.id.imgIcone);
             txtNome = itemView.findViewById(R.id.txtNomeExtrato);
-            txtValor = itemView.findViewById(R.id.txtValor);
+            txtValor = itemView.findViewById(R.id.txtValorExtrato);
         }
     }
 
