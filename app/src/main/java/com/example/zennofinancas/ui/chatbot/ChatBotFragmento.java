@@ -115,7 +115,6 @@ public class ChatBotFragmento extends Fragment {
 
     private void callGeminiApi(String question) {
 
-        // Usando a chave decodificada
         String urlFixa = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY.trim();
 
         JSONObject jsonBody = new JSONObject();

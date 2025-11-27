@@ -1,7 +1,6 @@
 package com.example.zennofinancas.ui.conversor;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,11 +16,11 @@ import android.widget.Toast;
 
 import com.example.zennofinancas.Moeda;
 import com.example.zennofinancas.R;
-// Removida a importação 'TelaConversao', pois não é necessária para o Contexto.
 
 import org.json.JSONObject;
-
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,12 +35,10 @@ public class ConversorFragmento extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
     private EditText txtValor;
     private Spinner spinnerMoedaOrigem;
     private Spinner spinnerMoedaDestino;
     private Button btnConverter;
-
     private TextView lblResultado;
 
     public ConversorFragmento() {
@@ -60,19 +57,15 @@ public class ConversorFragmento extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragmento_conversor, container, false);
     }
 
@@ -80,32 +73,50 @@ public class ConversorFragmento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         txtValor = view.findViewById(R.id.txtValor);
         spinnerMoedaOrigem = view.findViewById(R.id.spinnerMoedaOrigem);
         spinnerMoedaDestino = view.findViewById(R.id.spinnerMoedaDestino);
         btnConverter = view.findViewById(R.id.btnSalvarAlteracoes);
         lblResultado = view.findViewById(R.id.lblResultado);
 
-
         Moeda[] moedas = {
-                new Moeda("USD", "Dólar Americano \uD83C\uDDFA\uD83C\uDDF8 "),
-                new Moeda("EUR", "Euro \uD83C\uDDEA\uD83C\uDDFA"),
-                new Moeda("BRL", "Real Brasileiro \uD83C\uDDE7\uD83C\uDDF7"),
-                new Moeda("JPY", "Iene Japonês \uD83C\uDDEF\uD83C\uDDF5"),
-                new Moeda("GBP", "Libra Esterlina \uD83C\uDDEC\uD83C\uDDE7"),
-                new Moeda("AUD", "Dólar Australiano \uD83C\uDDE6\uD83C\uDDFA"),
-                new Moeda("CAD", "Dólar Canadense \uD83C\uDDE8\uD83C\uDDE6  "),
-                new Moeda("CHF", "Franco Suíço \uD83C\uDDE8\uD83C\uDDED"),
-                new Moeda("CNY", "Yuan Chinês \uD83C\uDDE8\uD83C\uDDF3"),
-                new Moeda("NZD", "Dólar Neozelandês \uD83C\uDDF3\uD83C\uDDFF")
+                new Moeda("BRL", "Real Brasileiro"),
+                new Moeda("USD", "Dólar Americano"),
+                new Moeda("EUR", "Euro"),
+                new Moeda("BTC", "Bitcoin"),
+                new Moeda("ETH", "Ethereum"),
+                new Moeda("XRP", "XRP (Ripple)"),
+                new Moeda("LTC", "Litecoin"),
+                new Moeda("JPY", "Iene Japonês"),
+                new Moeda("GBP", "Libra Esterlina"),
+                new Moeda("CHF", "Franco Suíço"),
+                new Moeda("CAD", "Dólar Canadense"),
+                new Moeda("AUD", "Dólar Australiano"),
+                new Moeda("ARS", "Peso Argentino"),
+                new Moeda("CLP", "Peso Chileno"),
+                new Moeda("UYU", "Peso Uruguaio"),
+                new Moeda("COP", "Peso Colombiano"),
+                new Moeda("PYG", "Guarani Paraguaio"),
+                new Moeda("MXN", "Peso Mexicano"),
+                new Moeda("PEN", "Sol Peruano"),
+                new Moeda("BOB", "Boliviano"),
+                new Moeda("SEK", "Coroa Sueca"),
+                new Moeda("NOK", "Coroa Norueguesa"),
+                new Moeda("DKK", "Coroa Dinamarquesa"),
+                new Moeda("RUB", "Rublo Russo"),
+                new Moeda("CNY", "Yuan Chinês"),
+                new Moeda("NZD", "Dólar Neozelandês"),
+                new Moeda("HKD", "Dólar de Hong Kong"),
+                new Moeda("SGD", "Dólar de Cingapura"),
+                new Moeda("ILS", "Novo Shekel Israelense"),
+                new Moeda("TRY", "Lira Turca"),
+                new Moeda("ZAR", "Rand Sul-Africano")
         };
 
         ArrayAdapter<Moeda> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, moedas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMoedaOrigem.setAdapter(adapter);
         spinnerMoedaDestino.setAdapter(adapter);
-
 
         btnConverter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,21 +128,37 @@ public class ConversorFragmento extends Fragment {
                 String destino = moedaDestino.getCodigo();
 
                 String valorStr = txtValor.getText().toString().trim();
+
                 if (valorStr.isEmpty()) {
-                    // Use 'requireContext()' para o Toast
                     Toast.makeText(requireContext(), "Digite um valor", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                double valor;
+                double valorInserido;
                 try {
-                    valor = Double.parseDouble(valorStr);
+                    valorInserido = Double.parseDouble(valorStr);
                 } catch (NumberFormatException e) {
-                    Toast.makeText(requireContext(), "Digite um número válido!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Número inválido", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String url = "https://economia.awesomeapi.com.br/json/last/" + origem + "-" + destino;
+                if (origem.equals(destino)) {
+
+                    boolean isCrypto = ehCripto(origem);
+                    String formato = isCrypto ? "%.8f" : "%.2f";
+                    String formatoFinal = formato + " %s = " + formato + " %s";
+                    lblResultado.setText(String.format(formatoFinal, valorInserido, origem, valorInserido, destino));
+                    return;
+                }
+
+                String paresParaApi = "";
+                if (!origem.equals("BRL")) paresParaApi += origem + "-BRL";
+                if (!destino.equals("BRL")) {
+                    if (!paresParaApi.isEmpty()) paresParaApi += ",";
+                    paresParaApi += destino + "-BRL";
+                }
+
+                String url = "https://economia.awesomeapi.com.br/json/last/" + paresParaApi;
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder().url(url).build();
 
@@ -139,10 +166,9 @@ public class ConversorFragmento extends Fragment {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
                         e.printStackTrace();
-
                         if (isAdded()) {
                             requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(requireContext(), "Erro ao acessar API", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), "Erro de conexão", Toast.LENGTH_SHORT).show()
                             );
                         }
                     }
@@ -156,13 +182,34 @@ public class ConversorFragmento extends Fragment {
                                 requireActivity().runOnUiThread(() -> {
                                     try {
                                         JSONObject json = new JSONObject(jsonData);
-                                        String key = origem + destino;
-                                        double taxa = json.getJSONObject(key).getDouble("bid");
-                                        double resultado = valor * taxa;
-                                        lblResultado.setText(String.format("%.2f %s = %.2f %s", valor, origem, resultado, destino));
+
+                                        double taxaOrigemParaBRL = 1.0;
+                                        if (!origem.equals("BRL")) {
+                                            taxaOrigemParaBRL = json.getJSONObject(origem + "BRL").getDouble("bid");
+                                        }
+
+                                        double taxaDestinoParaBRL = 1.0;
+                                        if (!destino.equals("BRL")) {
+                                            taxaDestinoParaBRL = json.getJSONObject(destino + "BRL").getDouble("bid");
+                                        }
+
+                                        double valorEmReais = valorInserido * taxaOrigemParaBRL;
+                                        double resultadoFinal = valorEmReais / taxaDestinoParaBRL;
+
+
+                                        boolean origemIsCripto = ehCripto(origem);
+                                        boolean destinoIsCripto = ehCripto(destino);
+
+
+                                        String formatoOrigem = origemIsCripto ? "%.8f" : "%.2f";
+                                        String formatoDestino = destinoIsCripto ? "%.8f" : "%.2f";
+                                     String formatoTexto = formatoOrigem + " %s = " + formatoDestino + " %s";
+
+                                        lblResultado.setText(String.format(formatoTexto, valorInserido, origem, resultadoFinal, destino));
+
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        Toast.makeText(requireContext(), "Erro ao processar dados", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), "Erro ao calcular", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -171,5 +218,10 @@ public class ConversorFragmento extends Fragment {
                 });
             }
         });
+    }
+
+
+    private boolean ehCripto(String codigo) {
+        return codigo.equals("BTC") || codigo.equals("ETH") || codigo.equals("XRP") || codigo.equals("LTC");
     }
 }
