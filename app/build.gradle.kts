@@ -15,6 +15,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GEMINI_KEY_ENCODED", "\"QUl6YVN5QTFNQnVWUTY2bElSOXdFb0Q2ZlQxTlRHTnRidl8zWTlv\"")
     }
 
     buildTypes {
@@ -34,6 +35,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     packaging {

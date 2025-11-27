@@ -1,5 +1,7 @@
 package com.example.zennofinancas.ui.chatbot;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
+
+import com.example.zennofinancas.BuildConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +46,17 @@ public class ChatBotFragmento extends Fragment {
     private ChatAdapter chatAdapter;
     private final List<Message> messageList = new ArrayList<>();
 
-    private static final String API_KEY = "AIzaSyAuT4vl83VoYo4zNRguRMQVTv5FP4IBWVU";
 
+    private static final String API_KEY = new String(
+            Base64.decode(BuildConfig.GEMINI_KEY_ENCODED, Base64.DEFAULT)
+    );
+
+
+    private static final String PREFS_NAME = "ZennoChatPrefs";
+    private static final String KEY_CHAT_HISTORY = "chat_history";
+    private static final String KEY_TIMESTAMP = "last_saved_time";
+
+    private static final long EXPIRATION_TIME = 60 * 60 * 1000;
 
     private static final String PROMPT_SISTEMA =
             "Você é o assistente virtual oficial do aplicativo 'Zenno Finanças'. " +
@@ -50,7 +64,8 @@ public class ChatBotFragmento extends Fragment {
                     "Ajude o usuário a organizar gastos, entender economia básica e dicas de poupança. " +
                     "Fale sempre em Português (PT-BR) e use valores em Reais (R$). " +
                     "Se perguntarem algo que não seja sobre finanças ou o app, diga educadamente: 'Desculpe, como assistente do Zenno, só posso ajudar com suas finanças.' " +
-                    "Seja conciso e direto nas respostas.";
+                    "Seja conciso e direto nas respostas."+
+                    "Não responder com textos em negrito";
 
     private final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
@@ -69,9 +84,15 @@ public class ChatBotFragmento extends Fragment {
         etMessage = view.findViewById(R.id.etMessage);
         btnSend = view.findViewById(R.id.btnSend);
 
+        loadChatHistory();
+
         chatAdapter = new ChatAdapter(messageList);
         recyclerChat.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerChat.setAdapter(chatAdapter);
+
+        if (!messageList.isEmpty()) {
+            recyclerChat.scrollToPosition(messageList.size() - 1);
+        }
 
         btnSend.setOnClickListener(v -> sendMessage());
 
@@ -87,19 +108,20 @@ public class ChatBotFragmento extends Fragment {
         recyclerChat.scrollToPosition(messageList.size() - 1);
 
         etMessage.setText("");
+
+        saveChatHistory();
         callGeminiApi(text);
     }
 
     private void callGeminiApi(String question) {
 
+        // Usando a chave decodificada
         String urlFixa = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY.trim();
 
         JSONObject jsonBody = new JSONObject();
         try {
             JSONObject part = new JSONObject();
-
             String promptFinal = PROMPT_SISTEMA + "\n\nPergunta do usuário: " + question;
-
             part.put("text", promptFinal);
 
             JSONArray parts = new JSONArray();
@@ -168,7 +190,63 @@ public class ChatBotFragmento extends Fragment {
                 messageList.add(new Message(text, false));
                 chatAdapter.notifyItemInserted(messageList.size() - 1);
                 recyclerChat.scrollToPosition(messageList.size() - 1);
+                saveChatHistory();
             });
+        }
+    }
+
+    private void saveChatHistory() {
+        if (getContext() == null) return;
+
+        SharedPreferences prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            for (Message message : messageList) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("text", message.getText());
+                jsonObject.put("isUser", message.isUser());
+                jsonArray.put(jsonObject);
+            }
+
+            prefs.edit()
+                    .putString(KEY_CHAT_HISTORY, jsonArray.toString())
+                    .putLong(KEY_TIMESTAMP, System.currentTimeMillis())
+                    .apply();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadChatHistory() {
+        if (getContext() == null) return;
+
+        SharedPreferences prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        long lastSavedTime = prefs.getLong(KEY_TIMESTAMP, 0);
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - lastSavedTime > EXPIRATION_TIME) {
+            prefs.edit().clear().apply();
+            return;
+        }
+
+        String jsonString = prefs.getString(KEY_CHAT_HISTORY, null);
+        if (jsonString != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(jsonString);
+                messageList.clear();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    String text = obj.getString("text");
+                    boolean isUser = obj.getBoolean("isUser");
+                    messageList.add(new Message(text, isUser));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
