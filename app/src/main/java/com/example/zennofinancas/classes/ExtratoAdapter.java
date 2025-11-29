@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ExtratoAdapter extends RecyclerView.Adapter<ExtratoAdapter.ViewHolder> {
 
@@ -34,13 +38,15 @@ public class ExtratoAdapter extends RecyclerView.Adapter<ExtratoAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgIcone;
-        TextView txtNome, txtValor;
+        TextView txtNome, txtValor, txtData, txtCategoria;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgIcone = itemView.findViewById(R.id.imgIcone);
             txtNome = itemView.findViewById(R.id.txtNomeExtrato);
             txtValor = itemView.findViewById(R.id.txtValorExtrato);
+            txtCategoria = itemView.findViewById(R.id.txtCategoriaExtrato);
+            txtData = itemView.findViewById(R.id.txtDataExtrato);
         }
     }
 
@@ -56,20 +62,28 @@ public class ExtratoAdapter extends RecyclerView.Adapter<ExtratoAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ExtratoItem item = lista.get(position);
 
-        // Define nome (categoria ou descriÃ§Ã£o)
-        String nome = item.getNomeCategoria();
+        // Define os atributos aos texts
+        String nome = item.getDescricao();
+        String categoria = item.getNomeCategoria();
+        String data = item.getDataTransacao();
+
         if (nome == null || nome.isEmpty()) {
-            nome = item.getDescricao();
+            nome = item.getNomeCategoria();
         }
         if (nome == null || nome.isEmpty()) {
             nome = item.isReceita() ? "Receita" : "Despesa";
         }
+
         holder.txtNome.setText(nome);
+        holder.txtCategoria.setText(categoria);
+
+        // Converte a data para o formato brasileiro
+        holder.txtData.setText(converterDataParaBrasileiro(data));
 
         // Define valor formatado
         holder.txtValor.setText(item.getValorFormatado());
 
-        // Define Ã­cone e cor baseado no tipo
+        // Define o ícone e cor baseado no tipo
         if (item.isReceita()) {
             holder.imgIcone.setImageResource(R.drawable.receita);
             holder.txtValor.setTextColor(Color.parseColor("#00BF63"));
@@ -91,9 +105,38 @@ public class ExtratoAdapter extends RecyclerView.Adapter<ExtratoAdapter.ViewHold
         return lista != null ? lista.size() : 0;
     }
 
-    // MÃ©todo para atualizar a lista
+    /**
+     * Método para atualizar a lista
+     */
     public void atualizarLista(List<ExtratoItem> novaLista) {
         this.lista = novaLista;
         notifyDataSetChanged();
+    }
+
+    private String converterDataParaBrasileiro(String dataISO) {
+        if (dataISO == null || dataISO.trim().isEmpty()) {
+            return "Sem data";
+        }
+
+        try {
+            // Formato de entrada (ISO): yyyy-MM-dd
+            SimpleDateFormat formatoISO = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+            // Formato de saída (Brasileiro): dd/MM/yyyy
+            SimpleDateFormat formatoBR = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "BR"));
+
+            // Converte
+            Date data = formatoISO.parse(dataISO);
+
+            if (data != null) {
+                return formatoBR.format(data);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Se falhar, retorna a data original
+        return dataISO;
     }
 }

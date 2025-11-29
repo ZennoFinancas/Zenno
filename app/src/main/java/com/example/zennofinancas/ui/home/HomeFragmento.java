@@ -23,24 +23,38 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
 import com.example.zennofinancas.TelaMetas;
 import com.example.zennofinancas.TelaMeuPerfil;
-import com.example.zennofinancas.classes.clsDadosUsuario;
-// 1. IMPORTANDO A CLASSE DE ANIMAÇÃO
 import com.example.zennofinancas.classes.AnimacaoUtils;
+import com.example.zennofinancas.classes.ExtratoAdapter;
+import com.example.zennofinancas.classes.ExtratoItem;
+import com.example.zennofinancas.classes.SupabaseHelper;
+import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.example.zennofinancas.clsMetodos;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class HomeFragmento extends Fragment {
     TextView txtSaldoAtual, txtReceitasHome, txtDespesasHome;
     ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoUsuario, btnVerNumerosHome;
+    RecyclerView rvExtrato;
     boolean isSaldoVisivel = true;
     private String idUsuario;
 
-    // Instanciando classe do Banco de Dados
+    // Lista e adapter para o RecyclerView
+    private List<ExtratoItem> listaDespesasProximas = new ArrayList<>();
+    private ExtratoAdapter adapterDespesas;
+
     clsMetodos supabase = new clsMetodos();
 
     @Nullable
@@ -59,24 +73,24 @@ public class HomeFragmento extends Fragment {
         btnAddReceita = view.findViewById(R.id.btnReceitasHome);
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
+        rvExtrato = view.findViewById(R.id.rvExtrato);
         imgFotoUsuario = view.findViewById(R.id.imgVoltar);
         btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
 
-        // Ajustando visibilidade
-        btnVerNumerosHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSaldoVisivel) {
-                    txtSaldoAtual.setText("R$ ****");
-                    txtReceitasHome.setText("R$ ****");
-                    txtDespesasHome.setText("R$ ****");
-                    btnVerNumerosHome.setImageResource(R.drawable.nao_vizualizar);
-                    isSaldoVisivel = false;
-                } else {
-                    calcularSaldo();
-                    btnVerNumerosHome.setImageResource(R.drawable.vizualizar);
-                    isSaldoVisivel = true;
-                }
+        // Configura o RecyclerView
+        configurarRecyclerView();
+
+        btnVerNumerosHome.setOnClickListener(v -> {
+            if (isSaldoVisivel) {
+                txtSaldoAtual.setText("R$ ****");
+                txtReceitasHome.setText("R$ ****");
+                txtDespesasHome.setText("R$ ****");
+                btnVerNumerosHome.setImageResource(R.drawable.nao_vizualizar);
+                isSaldoVisivel = false;
+            } else {
+                calcularSaldo();
+                btnVerNumerosHome.setImageResource(R.drawable.vizualizar);
+                isSaldoVisivel = true;
             }
         });
 
@@ -84,54 +98,137 @@ public class HomeFragmento extends Fragment {
 
         if (usuario != null) {
             idUsuario = usuario.getIdUsuario().toString();
-
-            // Valida se o user colocou uma foto ou não
-            if (usuario.getFotoUsuario() != null) {
-                Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
-                imgFotoUsuario.setImageBitmap(fotoBitmap);
-            }
-            // Caso nn tenha foto, define foto padrão
-            else {
-                imgFotoUsuario.setImageResource(R.drawable.chat_bot);
-            }
         } else {
             Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
         }
 
-        // Busca o total de receitas cadastradas
+        // Carrega os dados
         calcularSaldo();
+        carregarDespesasProximas();
 
-        btnMetas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent metas = new Intent(getActivity(), TelaMetas.class);
-                startActivity(metas);
-            }
+        btnMetas.setOnClickListener(v -> {
+            Intent metas = new Intent(getActivity(), TelaMetas.class);
+            startActivity(metas);
         });
 
-        // Evento para add receita
-        btnAddReceita.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exibirPopupReceita();
-            }
+        btnAddReceita.setOnClickListener(v -> exibirPopupReceita());
+
+        imgFotoUsuario.setOnClickListener(v -> {
+            Intent imgFotoMetas = new Intent(getActivity(), TelaMeuPerfil.class);
+            startActivity(imgFotoMetas);
         });
 
-        imgFotoUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent imgFotoMetas = new Intent(getActivity(), TelaMeuPerfil.class);
-                startActivity(imgFotoMetas);
-            }
+        btnAddDespesa.setOnClickListener(v -> exibirPopupDespesa());
+    }
+
+    /**
+     * Configura o RecyclerView para exibir despesas próximas
+     */
+    private void configurarRecyclerView() {
+        rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapterDespesas = new ExtratoAdapter(listaDespesasProximas);
+
+        // adicionar click listener
+        adapterDespesas.setOnItemClickListener(item -> {
+            Toast.makeText(getContext(),
+                    "Despesa: " + item.getNomeCategoria() + " - " + item.getValorFormatado(),
+                    Toast.LENGTH_SHORT).show();
         });
 
-        // Evento para add despesa
-        btnAddDespesa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exibirPopupDespesa();
+        rvExtrato.setAdapter(adapterDespesas);
+    }
+
+    /**
+     * Carrega despesas dos últimos 10 dias até os próximos 15 dias
+     */
+    private void carregarDespesasProximas() {
+        if (getContext() == null || idUsuario == null) return;
+
+        // Calcula as datas
+        Calendar cal = Calendar.getInstance();
+
+        // Data de hoje
+        Date hoje = cal.getTime();
+
+        // 10 dias atrás
+        cal.add(Calendar.DAY_OF_MONTH, -10);
+        Date dataInicio = cal.getTime();
+
+        // Volta para hoje e adiciona 15 dias
+        cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 15);
+        Date dataFim = cal.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dataInicioStr = sdf.format(dataInicio);
+        String dataFimStr = sdf.format(dataFim);
+
+        // Busca todas as despesas do período
+        SupabaseHelper.buscarExtrato(
+                getContext(),
+                idUsuario,
+                null, // Sem filtro de mês
+                null, // Sem filtro de ano
+                "despesa", // Apenas despesas
+                (e, result) -> {
+                    if (e != null) {
+                        Toast.makeText(getContext(),
+                                "Erro ao carregar despesas próximas",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (result != null && !result.isEmpty()) {
+                        // Filtra as despesas pelo período
+                        listaDespesasProximas.clear();
+
+                        for (ExtratoItem item : result) {
+                            if (isDentroDoPeríodo(item.getDataTransacao(), dataInicioStr, dataFimStr)) {
+                                listaDespesasProximas.add(item);
+                            }
+                        }
+
+                        // Atualiza o adapter
+                        adapterDespesas.atualizarLista(listaDespesasProximas);
+
+                        // Controla visibilidade
+                        if (listaDespesasProximas.isEmpty()) {
+                            rvExtrato.setVisibility(View.GONE);
+                            // Opcional: mostrar mensagem de "Nenhuma despesa próxima"
+                        } else {
+                            rvExtrato.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        listaDespesasProximas.clear();
+                        adapterDespesas.atualizarLista(listaDespesasProximas);
+                        rvExtrato.setVisibility(View.GONE);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Verifica se a data está dentro do período
+     */
+    private boolean isDentroDoPeríodo(String dataTransacao, String dataInicio, String dataFim) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date data = sdf.parse(dataTransacao);
+            Date inicio = sdf.parse(dataInicio);
+            Date fim = sdf.parse(dataFim);
+
+            if (data == null || inicio == null || fim == null) {
+                return false;
             }
-        });
+
+            // Verifica se a data está entre início e fim (inclusive)
+            return (data.equals(inicio) || data.after(inicio)) &&
+                    (data.equals(fim) || data.before(fim));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void exibirPopupReceita() {
@@ -140,63 +237,22 @@ public class HomeFragmento extends Fragment {
         View view = inflater.inflate(R.layout.dialog_add_receita, null);
         builder.setView(view);
 
-        // Campos do layout
         EditText txtNomeReceita = view.findViewById(R.id.txtNomeReceita);
         EditText txtValorReceita = view.findViewById(R.id.txtValorReceita);
         EditText txtDataReceita = view.findViewById(R.id.txtDataReceita);
 
-        txtDataReceita.addTextChangedListener(new TextWatcher() {
-            private boolean isUpdating = false;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
-                String str = s.toString().replaceAll("[^\\d]", "");
-                StringBuilder formatted = new StringBuilder();
-                int len = str.length();
-
-                if (len > 0) {
-                    formatted.append(str.substring(0, Math.min(2, len)));
-                    if (len >= 3) {
-                        formatted.append("/").append(str.substring(2, Math.min(4, len)));
-                    }
-                    if (len >= 5) {
-                        formatted.append("/").append(str.substring(4, Math.min(8, len)));
-                    }
-                }
-
-                isUpdating = true;
-                txtDataReceita.setText(formatted.toString());
-                txtDataReceita.setSelection(formatted.length());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        aplicarValidacaoData(txtDataReceita);
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoReceita);
-        // 2. ENCONTRANDO A SETA DA RECEITA
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
-        // 3. APLICANDO A ANIMAÇÃO
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
 
-        // Cria o diálogo
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
-        // Busca as categorias do banco
         clsMetodos.buscarCategorias(requireContext(), idUsuario, "receita", (e, categorias) -> {
             if (e != null || categorias == null) {
                 Toast.makeText(requireContext(), "Falha ao carregar categorias.", Toast.LENGTH_SHORT).show();
@@ -223,12 +279,10 @@ public class HomeFragmento extends Fragment {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
+                public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
 
-        // Eventos dos botões
         btnSalvar.setOnClickListener(v -> {
             String nomeReceita = txtNomeReceita.getText().toString().trim();
             String valorReceita = txtValorReceita.getText().toString().trim();
@@ -254,6 +308,7 @@ public class HomeFragmento extends Fragment {
                     dataReceita);
 
             calcularSaldo();
+            carregarDespesasProximas(); // Recarrega as despesas
             dialog.dismiss();
         });
     }
@@ -264,63 +319,22 @@ public class HomeFragmento extends Fragment {
         View view = inflater.inflate(R.layout.dialog_add_despesa, null);
         builder.setView(view);
 
-        // Campos do layout
         EditText txtNomeDespesa = view.findViewById(R.id.txtNomeDespesa);
         EditText txtValorDespesa = view.findViewById(R.id.txtValorDespesa);
         EditText txtDataDespesa = view.findViewById(R.id.txtDataDespesa);
 
-        txtDataDespesa.addTextChangedListener(new TextWatcher() {
-            private boolean isUpdating = false;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
-                String str = s.toString().replaceAll("[^\\d]", "");
-                StringBuilder formatted = new StringBuilder();
-                int len = str.length();
-
-                if (len > 0) {
-                    formatted.append(str.substring(0, Math.min(2, len)));
-                    if (len >= 3) {
-                        formatted.append("/").append(str.substring(2, Math.min(4, len)));
-                    }
-                    if (len >= 5) {
-                        formatted.append("/").append(str.substring(4, Math.min(8, len)));
-                    }
-                }
-
-                isUpdating = true;
-                txtDataDespesa.setText(formatted.toString());
-                txtDataDespesa.setSelection(formatted.length());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        aplicarValidacaoData(txtDataDespesa);
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoDespesa);
-        // 2. ENCONTRANDO A SETA DA DESPESA
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
-        // 3. APLICANDO A ANIMAÇÃO
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
 
-        // Cria o diálogo
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
-        // Busca as categorias do banco
         clsMetodos.buscarCategorias(requireContext(), idUsuario, "gasto", (e, categorias) -> {
             if (e != null || categorias == null) {
                 Toast.makeText(requireContext(), "Falha ao carregar categorias.", Toast.LENGTH_SHORT).show();
@@ -347,12 +361,10 @@ public class HomeFragmento extends Fragment {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
+                public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
 
-        // Eventos dos botões
         btnSalvar.setOnClickListener(v -> {
             String nomeDespesa = txtNomeDespesa.getText().toString().trim();
             String valorDespesa = txtValorDespesa.getText().toString().trim();
@@ -378,6 +390,7 @@ public class HomeFragmento extends Fragment {
                     dataDespesa);
 
             calcularSaldo();
+            carregarDespesasProximas(); // Recarrega as despesas
             dialog.dismiss();
         });
     }
@@ -404,5 +417,128 @@ public class HomeFragmento extends Fragment {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void aplicarValidacaoData(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating = false;
+            private String current = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) {
+                    isUpdating = false;
+                    return;
+                }
+
+                String input = s.toString();
+
+                if (input.length() < current.length()) {
+                    current = input;
+                    return;
+                }
+
+                String clean = input.replaceAll("[^\\d]", "");
+
+                if (clean.isEmpty()) {
+                    current = "";
+                    isUpdating = true;
+                    editText.setText("");
+                    return;
+                }
+
+                StringBuilder formatted = new StringBuilder();
+                int length = clean.length();
+
+                if (length >= 1) {
+                    String diaStr = clean.substring(0, Math.min(2, length));
+                    int dia = Integer.parseInt(diaStr);
+
+                    if (diaStr.length() == 1) {
+                        if (dia > 3) {
+                            formatted.append("0").append(dia);
+                            if (length > 1) formatted.append("/");
+                        } else {
+                            formatted.append(diaStr);
+                        }
+                    } else {
+                        if (dia == 0) dia = 1;
+                        if (dia > 31) dia = 31;
+                        formatted.append(String.format("%02d", dia));
+                        if (length > 2) formatted.append("/");
+                    }
+                }
+
+                if (length >= 3) {
+                    String mesStr = clean.substring(2, Math.min(4, length));
+                    int mes = Integer.parseInt(mesStr);
+
+                    if (mesStr.length() == 1) {
+                        if (mes > 1) {
+                            formatted.append("0").append(mes);
+                            if (length > 3) formatted.append("/");
+                        } else {
+                            formatted.append(mesStr);
+                        }
+                    } else {
+                        if (mes == 0) mes = 1;
+                        if (mes > 12) mes = 12;
+                        formatted.append(String.format("%02d", mes));
+                        if (length > 4) formatted.append("/");
+                    }
+                }
+
+                if (length >= 5) {
+                    String ano = clean.substring(4, Math.min(8, length));
+                    formatted.append(ano);
+
+                    if (length == 8) {
+                        try {
+                            String diaFinal = clean.substring(0, 2);
+                            String mesFinal = clean.substring(2, 4);
+                            String anoFinal = clean.substring(4, 8);
+
+                            int d = Integer.parseInt(diaFinal);
+                            int m = Integer.parseInt(mesFinal);
+                            int a = Integer.parseInt(anoFinal);
+
+                            int diaMaximo = getDiaMaximoDoMes(m, a);
+
+                            if (d > diaMaximo) {
+                                d = diaMaximo;
+                                formatted = new StringBuilder(String.format("%02d/%02d/%s", d, m, anoFinal));
+                            }
+                        } catch (Exception e) {
+                            // Ignora erros
+                        }
+                    }
+                }
+
+                current = formatted.toString();
+                isUpdating = true;
+                editText.setText(current);
+                editText.setSelection(current.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            private int getDiaMaximoDoMes(int mes, int ano) {
+                switch (mes) {
+                    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                        return 31;
+                    case 4: case 6: case 9: case 11:
+                        return 30;
+                    case 2:
+                        boolean bissexto = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+                        return bissexto ? 29 : 28;
+                    default:
+                        return 31;
+                }
+            }
+        });
     }
 }

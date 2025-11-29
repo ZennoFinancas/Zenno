@@ -32,11 +32,10 @@ public class ExtratoItem {
         this.mes = mes;
     }
 
-    // Construtor simplificado (compatÃ­vel com o cÃ³digo existente)
     public ExtratoItem(String nome, String valorFormatado, String tipo) {
         this.nomeCategoria = nome;
         this.tipoTransacao = tipo;
-        // Remove "R$" e espaÃ§os, substitui vÃ­rgula por ponto
+
         String valorLimpo = valorFormatado.replace("R$", "").replace(" ", "")
                 .replace(".", "").replace(",", ".");
         try {

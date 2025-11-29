@@ -27,6 +27,7 @@ import com.example.zennofinancas.classes.ExtratoItem;
 import com.example.zennofinancas.classes.SupabaseHelper;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ import java.util.Locale;
 public class ExtratoFragmento extends Fragment {
 
     // Views
-    private TextView tituloMes;
+    private TextView tituloMes, txtReceitaHome2;
     private Spinner spCategoria;
     private RecyclerView rvExtrato;
     private View msgVazia1, msgVazia2;
@@ -49,7 +50,6 @@ public class ExtratoFragmento extends Fragment {
     private List<ExtratoItem> listaFiltrada = new ArrayList<>();
     private ExtratoAdapter adapter;
     private Calendar calendario = Calendar.getInstance();
-
 
     private String idUsuario = "";
 
@@ -74,6 +74,7 @@ public class ExtratoFragmento extends Fragment {
 
     private void inicializarViews(View view) {
         tituloMes = view.findViewById(R.id.tituloCadastrarReceita2);
+        txtReceitaHome2 = view.findViewById(R.id.txtReceitasHome2);
         spCategoria = view.findViewById(R.id.spCategoriaExtrato);
         rvExtrato = view.findViewById(R.id.rvExtrato);
         msgVazia1 = view.findViewById(R.id.subtituloMetas2);
@@ -83,11 +84,10 @@ public class ExtratoFragmento extends Fragment {
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
 
-        if (usuario != null ) {
+        if (usuario != null) {
             idUsuario = usuario.getIdUsuario().toString();
-        }
-        else{
-            Toast.makeText(requireContext(), "Falha ao carregar usuÃ¡rio.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -95,9 +95,8 @@ public class ExtratoFragmento extends Fragment {
         rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExtratoAdapter(listaFiltrada);
 
-        // Opcional: adicionar click listener
+        // Ação ao clicar no item
         adapter.setOnItemClickListener(item -> {
-            // AÃ§Ã£o ao clicar no item (ex: abrir detalhes, editar, excluir)
             Toast.makeText(getContext(),
                     "Clicou em: " + item.getNomeCategoria(),
                     Toast.LENGTH_SHORT).show();
@@ -117,18 +116,18 @@ public class ExtratoFragmento extends Fragment {
         setaEsq.setOnClickListener(v -> {
             calendario.add(Calendar.MONTH, -1);
             carregarMesAtual();
-            carregarExtratoDoBanco(); // Recarrega com novo mÃªs
+            carregarExtratoDoBanco();
         });
 
         setaDir.setOnClickListener(v -> {
             calendario.add(Calendar.MONTH, 1);
             carregarMesAtual();
-            carregarExtratoDoBanco(); // Recarrega com novo mÃªs
+            carregarExtratoDoBanco();
         });
     }
 
     private void configurarSpinner() {
-        List<String> opcoes = Arrays.asList("TransaÃ§Ãµes", "Receitas", "Despesas");
+        List<String> opcoes = Arrays.asList("Transações", "Receitas", "Despesas");
 
         ArrayAdapter<String> adapterSp = new ArrayAdapter<>(
                 requireContext(),
@@ -150,13 +149,12 @@ public class ExtratoFragmento extends Fragment {
         });
     }
 
-
     private void carregarExtratoDoBanco() {
         if (getContext() == null) return;
 
         mostrarCarregamento(true);
 
-        int mes = calendario.get(Calendar.MONTH) + 1; // Calendar.MONTH Ã© 0-based
+        int mes = calendario.get(Calendar.MONTH) + 1;
         int ano = calendario.get(Calendar.YEAR);
 
         SupabaseHelper.buscarExtrato(
@@ -164,7 +162,7 @@ public class ExtratoFragmento extends Fragment {
                 idUsuario,
                 mes,
                 ano,
-                null, // Busca todos os tipos inicialmente
+                null,
                 (e, result) -> {
                     mostrarCarregamento(false);
 
@@ -184,13 +182,14 @@ public class ExtratoFragmento extends Fragment {
                         listaFiltrada.clear();
                         mostrarMensagemVazia(true);
                         adapter.atualizarLista(listaFiltrada);
+                        atualizarSaldo(); // Atualiza saldo mesmo que vazio
                     }
                 }
         );
     }
 
     /**
-     * Aplica filtro local baseado no spinner (sem nova requisiÃ§Ã£o)
+     * Aplica filtro local baseado no spinner e atualiza o saldo
      */
     private void aplicarFiltroLocal(String filtro) {
         listaFiltrada.clear();
@@ -212,15 +211,49 @@ public class ExtratoFragmento extends Fragment {
                 }
                 break;
 
-            default: // "TransaÃ§Ãµes" - mostra tudo
+            default: // "Transações" - mostra tudo
                 listaFiltrada.addAll(listaCompleta);
                 break;
         }
 
         adapter.atualizarLista(listaFiltrada);
         mostrarMensagemVazia(listaFiltrada.isEmpty());
+        atualizarSaldo(); // Atualiza o saldo após aplicar o filtro
     }
 
+    /**
+     * Calcula e exibe o saldo da lista filtrada
+     */
+    private void atualizarSaldo() {
+        double totalReceitas = 0.0;
+        double totalDespesas = 0.0;
+
+        // Calcula o total de receitas e despesas da lista filtrada
+        for (ExtratoItem item : listaFiltrada) {
+            if (item.isReceita()) {
+                totalReceitas += item.getValorNumerico();
+            } else if (item.isDespesa()) {
+                totalDespesas += item.getValorNumerico();
+            }
+        }
+
+        // Calcula o saldo (receitas - despesas)
+        double saldo = totalReceitas - totalDespesas;
+
+        // Formata o valor no padrão brasileiro
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        String saldoFormatado = formatter.format(saldo);
+
+        // Exibe o saldo
+        txtReceitaHome2.setText(saldoFormatado);
+
+        // Opcional: Mudar cor do texto baseado no saldo
+        if (saldo >= 0) {
+            txtReceitaHome2.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        } else {
+            txtReceitaHome2.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        }
+    }
 
     private void mostrarCarregamento(boolean mostrar) {
         if (progressBar != null) {
@@ -228,7 +261,6 @@ public class ExtratoFragmento extends Fragment {
         }
         rvExtrato.setVisibility(mostrar ? View.GONE : View.VISIBLE);
     }
-
 
     private void mostrarMensagemVazia(boolean mostrar) {
         if (mostrar) {

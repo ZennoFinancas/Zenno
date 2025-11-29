@@ -53,7 +53,7 @@ public class clsMetodos
                             // Salvar nome do usuario
                             String idUsuario = usuario.get("id_usuario").getAsString();
                             String nomeUsuario = usuario.get("nome_usuario").getAsString();
-                            String fotoUsuario = usuario.get("foto_usuario").getAsString();
+                            //String fotoUsuario = usuario.get("foto_usuario").getAsString();
 
                             // Salvar login
                             clsDadosUsuario.salvarUsuario(
@@ -61,7 +61,8 @@ public class clsMetodos
                                     nomeUsuario,
                                     idUsuario,
                                     emailUsuario,
-                                    fotoUsuario
+                                    //fotoUsuario
+                                    ""
                             );
 
                             Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
