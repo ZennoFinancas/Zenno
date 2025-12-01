@@ -14,22 +14,19 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-public class TelaMeuPerfil extends AppCompatActivity {
-    TextView lblNomeMeuPerfil,
-            lblEmailMeuPerfil,
-            lblEditarPerfil,
-            lblNotificacoes,
-            lblSuporte,
-            lblSairConta, lblTermosPoliticas, lblSobreApp;
+public class TelaMeuPerfil extends ActivityBase {
 
-    ImageView imgFotoMeuPerfil;
+    // TextViews e ImageViews
+    TextView lblEditarPerfil, lblNotificacoes, lblSuporte, lblSairConta, lblTermosPoliticas, lblSobreApp;
+    ImageView imgFotoMeuPerfil, imgEditarPerfil, imgNotificacoes, imgSuporte, imgTermosPoliticas, imgSobreApp, imgSairConta;
+    ImageView btnVoltar; // Botão de voltar (imgVoltar)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_meu_perfil);
-        lblNomeMeuPerfil = findViewById(R.id.lblNomeMeuPerfil);
-        lblEmailMeuPerfil = findViewById(R.id.lblEmailMeuPerfil);
+
+        // Textos clicáveis (já declarados)
         lblNotificacoes = findViewById(R.id.lblNotificacoes);
         lblEditarPerfil = findViewById(R.id.lblEditarPerfil);
         lblSuporte  = findViewById(R.id.lblSuporte);
@@ -37,87 +34,92 @@ public class TelaMeuPerfil extends AppCompatActivity {
         lblSobreApp = findViewById(R.id.lblSobreApp);
         lblTermosPoliticas = findViewById(R.id.lblTermosPoliticas);
 
+        // Ícones
         imgFotoMeuPerfil = findViewById(R.id.imgFotoMeuPerfil);
+        imgEditarPerfil = findViewById(R.id.imgEditarPerfil);
+        imgNotificacoes = findViewById(R.id.imgNotificacoes);
+        imgSuporte = findViewById(R.id.imgSuporte);
+        imgSobreApp = findViewById(R.id.imgSobreApp);
+        imgTermosPoliticas = findViewById(R.id.imgTermosPoliticas);
+        imgSairConta = findViewById(R.id.imgSairConta);
+        btnVoltar = findViewById(R.id.btnVoltarAnalise2);
 
-        // Exibe as informações do usuario na tela
+
+        // 2. EXIBIÇÃO DE DADOS DO USUÁRIO (mantido)
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaMeuPerfil.this);
         if (usuario != null) {
-
-            // Valida se o user colocou uma foto ou não
             if (usuario.getFotoUsuario() != null) {
                 Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
                 imgFotoMeuPerfil.setImageBitmap(fotoBitmap);
-            }
-            // Caso nn tenha foto, define foto padrão
-            else {
+            } else {
                 imgFotoMeuPerfil.setImageResource(R.drawable.chat_bot);
             }
-
-            lblNomeMeuPerfil.setText(usuario.getNomeUsuario().toUpperCase());
-            lblEmailMeuPerfil.setText(usuario.getEmailUsuario());
         } else {
             Toast.makeText(TelaMeuPerfil.this, "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-        lblEditarPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaEditarPerfil.class);
-                startActivity(it);
-            }
-        });
-        lblNotificacoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this, TelaNotificacoes.class);
-                startActivity(it);
-            }
-        });
-/*
-        lblSuporte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaSuporte.class);
-                startActivity(it);
-            }
-        });
-        lblSobreApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaSobreApp.class);
-                startActivity(it);
-            }
-        });
-        lblTermosPoliticas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        TelaTermosPoliticas.class);
-                startActivity(it);
-            }
-        });*/
+        // 3. CONFIGURAÇÃO DOS EVENTOS DE CLIQUE (Intents)
 
-        lblSairConta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        // Botão Voltar
+        btnVoltar.setOnClickListener(v -> finish());
 
-                clsDadosUsuario.logoutUsuario(TelaMeuPerfil.this);
+        // 3.1 OPÇÕES DO CARD ROXO (Editar Perfil e Notificações)
 
-                Intent it = new Intent(TelaMeuPerfil.this,
-                        MainActivity.class);
-                startActivity(it);
+        View.OnClickListener editarPerfilClickListener = v -> {
+            Intent it = new Intent(TelaMeuPerfil.this, TelaEditarPerfil.class);
+            startActivity(it);
+        };
+        lblEditarPerfil.setOnClickListener(editarPerfilClickListener);
+        imgEditarPerfil.setOnClickListener(editarPerfilClickListener);
+
+        View.OnClickListener notificacoesClickListener = v -> {
+            Intent it = new Intent(TelaMeuPerfil.this, TelaNotificacoes.class);
+            startActivity(it);
+        };
+        lblNotificacoes.setOnClickListener(notificacoesClickListener);
+        imgNotificacoes.setOnClickListener(notificacoesClickListener);
 
 
-            }
-        });
+        // 3.2 OPÇÕES DO CARD VERDE (Informações e Suporte)
+
+        // MUDANÇA AQUI: Suporte abre o navegador
+        View.OnClickListener suporteClickListener = v -> {
+            String url = "http://tcc3edsmodetecgr5.hospedagemdesites.ws/SitezenoFinancas/fale-conosco.php";
+            Intent it = new Intent(Intent.ACTION_VIEW);
+            it.setData(android.net.Uri.parse(url));
+            startActivity(it);
+        };
+        lblSuporte.setOnClickListener(suporteClickListener);
+        imgSuporte.setOnClickListener(suporteClickListener);
+
+        View.OnClickListener sobreAppClickListener = v -> {
+            // Supondo que você tem uma TelaSobreOApp
+            Intent it = new Intent(TelaMeuPerfil.this, TelaSobreOApp.class);
+            startActivity(it);
+        };
+        lblSobreApp.setOnClickListener(sobreAppClickListener);
+        imgSobreApp.setOnClickListener(sobreAppClickListener);
+
+        View.OnClickListener termosClickListener = v -> {
+            // Supondo que você tem uma TelaPoliticaPrivacidade ou TelaTermos
+            Intent it = new Intent(TelaMeuPerfil.this, TelaPoliticaPrivacidade.class);
+            startActivity(it);
+        };
+        lblTermosPoliticas.setOnClickListener(termosClickListener);
+        imgTermosPoliticas.setOnClickListener(termosClickListener);
 
 
-
+        // 3.3 SAIR DA CONTA (Já estava pronto)
+        View.OnClickListener sairClickListener = v -> {
+            clsDadosUsuario.logoutUsuario(TelaMeuPerfil.this);
+            Intent it = new Intent(TelaMeuPerfil.this, MainActivity.class);
+            startActivity(it);
+            finishAffinity(); // Fecha todas as telas anteriores
+        };
+        lblSairConta.setOnClickListener(sairClickListener);
+        imgSairConta.setOnClickListener(sairClickListener);
     }
 
     private Bitmap getBitmapFromBase64(String base64String) {

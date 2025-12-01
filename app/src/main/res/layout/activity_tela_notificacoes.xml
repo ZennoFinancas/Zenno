@@ -7,6 +7,20 @@
     android:background="@drawable/fundo_4"
     tools:context=".TelaNotificacoes">
 
+    <ImageView
+        android:id="@+id/btnVoltarAnalise9"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btnSalvarNotif"
         android:layout_width="315dp"
@@ -45,20 +59,20 @@
         android:layout_width="311dp"
         android:layout_height="27dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/swtSonsNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swtDesativarNotif" />
 
     <TextView
         android:id="@+id/subtituloGeralNotif"
-        android:layout_width="278dp"
+        android:layout_width="311dp"
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="132dp"
@@ -76,7 +90,7 @@
 
     <TextView
         android:id="@+id/subtituloSistemaNotif"
-        android:layout_width="278dp"
+        android:layout_width="311dp"
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="52dp"
@@ -97,13 +111,14 @@
         android:layout_width="311dp"
         android:layout_height="27dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/swtVencContaNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtituloSistemaNotif" />
 
@@ -111,14 +126,15 @@
         android:id="@+id/swtDesativarNotif"
         android:layout_width="311dp"
         android:layout_height="27dp"
-        android:layout_marginStart="51dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="9dp"
-        android:layout_marginEnd="49dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/swtDesativarNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtituloGeralNotif" />
 
@@ -127,14 +143,14 @@
         android:layout_width="311dp"
         android:layout_height="27dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="50dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/swtVibraçõesNotif"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swtSonsNotif" />
 

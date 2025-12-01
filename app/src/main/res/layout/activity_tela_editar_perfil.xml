@@ -7,6 +7,20 @@
     android:background="@drawable/fundo_4"
     tools:context=".TelaEditarPerfil">
 
+    <ImageView
+        android:id="@+id/btnVoltarAnalise6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgFotoEditPerfil"
         android:layout_width="108dp"

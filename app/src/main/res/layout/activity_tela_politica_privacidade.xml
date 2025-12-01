@@ -13,6 +13,20 @@
         android:padding="16dp"
         tools:context=".TelaPoliticaPrivacidade">
 
+        <ImageView
+            android:id="@+id/btnVoltarAnalise10"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="347dp"
+            android:contentDescription="Voltar"
+            android:padding="8dp"
+            android:src="@drawable/voltar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/btnCadastrar2"
             android:layout_width="315dp"
@@ -32,24 +46,12 @@
             app:layout_constraintTop_toBottomOf="@+id/lblDadosColetados5"
             app:layout_constraintVertical_bias="1.0" />
 
-        <ImageView
-            android:id="@+id/imgVoltarPoliticaPrivac7"
-            android:layout_width="50dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="66dp"
-            android:layout_marginEnd="313dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/voltar" />
-
         <TextView
             android:id="@+id/tituloPoliticaPrivac5"
             android:layout_width="306dp"
             android:layout_height="36dp"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="33dp"
             android:layout_marginEnd="41dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/tituloPoliticaPrivac"
@@ -58,8 +60,9 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgVoltarPoliticaPrivac7" />
+            app:layout_constraintTop_toBottomOf="@+id/btnVoltarAnalise10" />
 
         <TextView
             android:id="@+id/lblDadosColetados5"

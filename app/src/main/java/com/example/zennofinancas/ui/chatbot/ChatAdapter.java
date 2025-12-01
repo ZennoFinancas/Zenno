@@ -10,11 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
 
+// IMPORTANTE: Importar o Markwon (Certifique-se de ter adicionado no build.gradle)
+import io.noties.markwon.Markwon;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
 
     private final List<Message> messageList;
+
+    // Variável do renderizador de Markdown
+    private Markwon markwon;
 
     public ChatAdapter(List<Message> messageList) {
         this.messageList = messageList;
@@ -28,6 +34,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inicializa o Markwon se ainda não foi criado
+        if (markwon == null) {
+            markwon = Markwon.create(parent.getContext());
+        }
+
         int layout = (viewType == 1)
                 ? R.layout.item_message_user
                 : R.layout.item_message_bot;
@@ -39,7 +50,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        holder.textMessage.setText(messageList.get(position).getText());
+        String texto = messageList.get(position).getText();
+
+        // Usa o Markwon para formatar (Negrito, Itálico, etc)
+        markwon.setMarkdown(holder.textMessage, texto);
     }
 
     @Override

@@ -13,6 +13,20 @@
       android:padding="16dp"
       tools:context=".TelaSobreOApp">
 
+    <ImageView
+        android:id="@+id/btnVoltarAnalise12"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/subtituloSenhaAlt2"
         android:layout_width="334dp"
@@ -32,12 +46,11 @@
         android:id="@+id/imgLogoSenhaAlt2"
         android:layout_width="219dp"
         android:layout_height="208dp"
-        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgVoltarNotificacoes2"
-        app:srcCompat="@drawable/logo_1" />
+        app:srcCompat="@drawable/logo_1"
+        tools:layout_editor_absoluteY="104dp" />
 
     <TextView
         android:id="@+id/tituloNotificacoes2"
@@ -54,18 +67,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoSenhaAlt2" />
-
-    <ImageView
-        android:id="@+id/imgVoltarNotificacoes2"
-        android:layout_width="50dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="47dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/imgLogoSenhaAlt2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/voltar" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

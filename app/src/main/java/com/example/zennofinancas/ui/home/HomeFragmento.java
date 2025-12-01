@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zennofinancas.R;
+import com.example.zennofinancas.TelaAnalise;
 import com.example.zennofinancas.TelaMetas;
 import com.example.zennofinancas.TelaMeuPerfil;
 import com.example.zennofinancas.classes.AnimacaoUtils;
@@ -46,6 +47,7 @@ import java.util.Locale;
 
 public class HomeFragmento extends Fragment {
     TextView txtSaldoAtual, txtReceitasHome, txtDespesasHome;
+    androidx.cardview.widget.CardView btnCardAnalise;
     ImageView btnAddReceita, btnAddDespesa, btnMetas, imgFotoUsuario, btnVerNumerosHome;
     RecyclerView rvExtrato;
     boolean isSaldoVisivel = true;
@@ -76,15 +78,21 @@ public class HomeFragmento extends Fragment {
         rvExtrato = view.findViewById(R.id.rvExtrato);
         imgFotoUsuario = view.findViewById(R.id.imgVoltar);
         btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
+        btnCardAnalise = view.findViewById(R.id.cardAnalise);
+
+        btnCardAnalise.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TelaAnalise.class);
+            startActivity(intent);
+        });
 
         // Configura o RecyclerView
         configurarRecyclerView();
 
         btnVerNumerosHome.setOnClickListener(v -> {
             if (isSaldoVisivel) {
-                txtSaldoAtual.setText("R$ ****");
-                txtReceitasHome.setText("R$ ****");
-                txtDespesasHome.setText("R$ ****");
+                txtSaldoAtual.setText("R$ ****,**");
+                txtReceitasHome.setText("R$ ****,**");
+                txtDespesasHome.setText("R$ ****,**");
                 btnVerNumerosHome.setImageResource(R.drawable.nao_vizualizar);
                 isSaldoVisivel = false;
             } else {
@@ -104,7 +112,7 @@ public class HomeFragmento extends Fragment {
 
         // Carrega os dados
         calcularSaldo();
-        carregarDespesasProximas();
+        carregarReceitasRecentes(); // Chama o método correto
 
         btnMetas.setOnClickListener(v -> {
             Intent metas = new Intent(getActivity(), TelaMetas.class);
@@ -121,14 +129,10 @@ public class HomeFragmento extends Fragment {
         btnAddDespesa.setOnClickListener(v -> exibirPopupDespesa());
     }
 
-    /**
-     * Configura o RecyclerView para exibir despesas próximas
-     */
     private void configurarRecyclerView() {
         rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterDespesas = new ExtratoAdapter(listaDespesasProximas);
 
-        // adicionar click listener
         adapterDespesas.setOnItemClickListener(item -> {
             Toast.makeText(getContext(),
                     "Despesa: " + item.getNomeCategoria() + " - " + item.getValorFormatado(),
@@ -139,65 +143,67 @@ public class HomeFragmento extends Fragment {
     }
 
     /**
-     * Carrega despesas dos últimos 10 dias até os próximos 15 dias
+     * Busca receitas dos últimos 15 dias e ordena pelo ID (Último cadastrado primeiro)
      */
-    private void carregarDespesasProximas() {
+    private void carregarReceitasRecentes() {
         if (getContext() == null || idUsuario == null) return;
 
-        // Calcula as datas
+        // 1. Define limite de 15 dias atrás
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -15);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-        // Data de hoje
-        Date hoje = cal.getTime();
+        Date dataLimite = cal.getTime();
 
-        // 10 dias atrás
-        cal.add(Calendar.DAY_OF_MONTH, -10);
-        Date dataInicio = cal.getTime();
-
-        // Volta para hoje e adiciona 15 dias
-        cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 15);
-        Date dataFim = cal.getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String dataInicioStr = sdf.format(dataInicio);
-        String dataFimStr = sdf.format(dataFim);
-
-        // Busca todas as despesas do período
         SupabaseHelper.buscarExtrato(
                 getContext(),
                 idUsuario,
-                null, // Sem filtro de mês
-                null, // Sem filtro de ano
-                "despesa", // Apenas despesas
+                null,
+                null,
+                "receita", // Busca apenas RECEITAS
                 (e, result) -> {
-                    if (e != null) {
-                        Toast.makeText(getContext(),
-                                "Erro ao carregar despesas próximas",
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    if (e != null) return;
 
                     if (result != null && !result.isEmpty()) {
-                        // Filtra as despesas pelo período
-                        listaDespesasProximas.clear();
+                        List<ExtratoItem> receitasFiltradas = new ArrayList<>();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
+                        // 2. Filtra por data (últimos 15 dias)
                         for (ExtratoItem item : result) {
-                            if (isDentroDoPeríodo(item.getDataTransacao(), dataInicioStr, dataFimStr)) {
-                                listaDespesasProximas.add(item);
+                            try {
+                                Date dataItem = sdf.parse(item.getDataTransacao());
+                                if (dataItem != null && !dataItem.before(dataLimite)) {
+                                    receitasFiltradas.add(item);
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
                             }
                         }
 
-                        // Atualiza o adapter
-                        adapterDespesas.atualizarLista(listaDespesasProximas);
+                        // 3. ORDENAÇÃO PELO ID (Decrescente: Maior ID primeiro)
+                        // Isso garante que o último cadastrado apareça no topo
+                        receitasFiltradas.sort((item1, item2) ->
+                                Integer.compare(item2.getIdTransacao(), item1.getIdTransacao())
+                        );
 
-                        // Controla visibilidade
-                        if (listaDespesasProximas.isEmpty()) {
+                        // 4. Limita a 5 itens
+                        // 4. Limita a 5 itens
+                        if (receitasFiltradas.size() > 5) {
+                            receitasFiltradas = receitasFiltradas.subList(0, 5);
+                        }
+
+                        // Atualiza a tela
+                        adapterDespesas.atualizarLista(receitasFiltradas);
+
+                        if (receitasFiltradas.isEmpty()) {
                             rvExtrato.setVisibility(View.GONE);
-                            // Opcional: mostrar mensagem de "Nenhuma despesa próxima"
                         } else {
                             rvExtrato.setVisibility(View.VISIBLE);
                         }
+
                     } else {
                         listaDespesasProximas.clear();
                         adapterDespesas.atualizarLista(listaDespesasProximas);
@@ -205,30 +211,6 @@ public class HomeFragmento extends Fragment {
                     }
                 }
         );
-    }
-
-    /**
-     * Verifica se a data está dentro do período
-     */
-    private boolean isDentroDoPeríodo(String dataTransacao, String dataInicio, String dataFim) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            Date data = sdf.parse(dataTransacao);
-            Date inicio = sdf.parse(dataInicio);
-            Date fim = sdf.parse(dataFim);
-
-            if (data == null || inicio == null || fim == null) {
-                return false;
-            }
-
-            // Verifica se a data está entre início e fim (inclusive)
-            return (data.equals(inicio) || data.after(inicio)) &&
-                    (data.equals(fim) || data.before(fim));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     private void exibirPopupReceita() {
@@ -308,7 +290,7 @@ public class HomeFragmento extends Fragment {
                     dataReceita);
 
             calcularSaldo();
-            carregarDespesasProximas(); // Recarrega as despesas
+            carregarReceitasRecentes();
             dialog.dismiss();
         });
     }
@@ -390,7 +372,7 @@ public class HomeFragmento extends Fragment {
                     dataDespesa);
 
             calcularSaldo();
-            carregarDespesasProximas(); // Recarrega as despesas
+            carregarReceitasRecentes();
             dialog.dismiss();
         });
     }

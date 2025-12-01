@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,193 +8,274 @@
     android:background="@drawable/fundo_1"
     tools:context=".TelaMeuPerfil">
 
-    <TextView
-        android:id="@+id/lblEditarPerfil"
-        android:layout_width="214dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="73dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblEditarPerfil"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil" />
-
-    <TextView
-        android:id="@+id/lblNotificacoes"
-        android:layout_width="106dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="181dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblNotificacoes"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblEditarPerfil" />
-
-    <TextView
-        android:id="@+id/lblSuporte"
-        android:layout_width="127dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="160dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSuporte"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblNotificacoes" />
-
-    <TextView
-        android:id="@+id/lblSairConta"
-        android:layout_width="112dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="175dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSairConta"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblTermosPoliticas" />
-
-    <TextView
-        android:id="@+id/lblTermosPoliticas"
-        android:layout_width="143dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="144dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblTermosPoliticas"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSobreApp" />
-
-    <TextView
-        android:id="@+id/lblSobreApp"
-        android:layout_width="102dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="185dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSobreApp"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSuporte" />
-
     <ImageView
-        android:id="@+id/imgEditarPerfil"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:visibility="visible"
-        android:layout_marginTop="57dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil"
-        tools:srcCompat="@drawable/editar" />
-
-    <ImageView
-        android:id="@+id/imgNotificacoes"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgEditarPerfil"
-        tools:srcCompat="@drawable/notificacoes" />
-
-    <ImageView
-        android:id="@+id/imgSuporte"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgNotificacoes"
-        tools:srcCompat="@drawable/suporte" />
-
-    <ImageView
-        android:id="@+id/imgSobreApp"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgSuporte"
-        tools:srcCompat="@drawable/sobre" />
-
-    <ImageView
-        android:id="@+id/imgTermosPoliticas"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgSobreApp"
-        tools:srcCompat="@drawable/termos" />
-
-    <ImageView
-        android:id="@+id/imgSairConta"
-        android:layout_width="29dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgTermosPoliticas"
-        tools:srcCompat="@drawable/sair" />
-
-    <TextView
-        android:id="@+id/lblEmailMeuPerfil"
-        android:layout_width="371dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="21dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="Email e tel user"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:id="@+id/btnVoltarAnalise2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblNomeMeuPerfil" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblNomeMeuPerfil"
-        android:layout_width="371dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="21dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="Nome user"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+    <View
+        android:id="@+id/viewHeaderVerde"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/bg_header_redondo"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgFotoMeuPerfil" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgFotoMeuPerfil"
-        android:layout_width="108dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="143dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHeaderVerde"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/viewHeaderVerde"
+        android:src="@drawable/foto_usuario" />
+
+    <TextView
+        android:id="@+id/lblNomeMeuPerfil"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Nome do Usuário"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/imgFotoMeuPerfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lblEmailMeuPerfil"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="email@usuario.com"
+        android:textAlignment="center"
+        android:textColor="#B0B0B0"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/lblNomeMeuPerfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardOpcoesTopo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#712AAF"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailMeuPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgEditarPerfil"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/editar"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblEditarPerfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblEditarPerfil"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgNotificacoes"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/notificacoes"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblNotificacoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblNotificacoes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardOpcoesBaixo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/cardOpcoesTopo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gradient_verde"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgSuporte"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/suporte"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblSuporte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblSuporte"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgSobreApp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/sobre"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblSobreApp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblSobreApp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgTermosPoliticas"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/termos"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblTermosPoliticas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblTermosPoliticas"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:id="@+id/imgSairConta"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/sair"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/lblSairConta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/lblSairConta"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

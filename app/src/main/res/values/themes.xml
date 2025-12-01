@@ -1,12 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.ZennoFinancas" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:scrollbarThumbVertical">@drawable/estilo_barra_rolagem</item>
+        <item name="android:scrollbarSize">2dp</item>
+        <item name="android:scrollbarFadeDuration">500</item>
     </style>
 
     <style name="Theme.ZennoFinancas" parent="Base.Theme.ZennoFinancas" />
 
-
+    <style name="TemaMenuVerde" parent="ThemeOverlay.Material3.DynamicColors.DayNight">
+        <item name="colorSecondaryContainer">#331C9D6A</item>
+        <item name="colorOnSecondaryContainer">#1C9D6A</item>
+    </style>
 
 </resources>

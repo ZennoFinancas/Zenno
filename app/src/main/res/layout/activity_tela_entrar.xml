@@ -8,6 +8,20 @@
     tools:context=".TelaEntrar">
 
     <ImageView
+        android:id="@+id/btnVoltarAnalise3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/imgLogoLogin"
         android:layout_width="191dp"
         android:layout_height="61dp"
@@ -38,10 +52,9 @@
 
     <EditText
         android:id="@+id/txtEmailLogin"
-        android:layout_width="314dp"
+        android:layout_width="357dp"
         android:layout_height="48dp"
         android:layout_marginStart="46dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="51dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1C9D6A"
@@ -63,7 +76,7 @@
         android:id="@+id/lblSenhaLogin"
         android:layout_width="283dp"
         android:layout_height="27dp"
-        android:layout_marginStart="46dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="82dp"
         android:fontFamily="@font/montserrat_medium"
@@ -72,7 +85,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEmailLogin" />
 
@@ -80,8 +93,8 @@
         android:id="@+id/lblEmailLogin"
         android:layout_width="283dp"
         android:layout_height="27dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="82dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblEmailLogin"
@@ -89,7 +102,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtituloLogin" />
 
@@ -99,7 +112,7 @@
         android:layout_height="16dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="51dp"
+        android:layout_marginEnd="25dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblEsqueceuSenha"
         android:textAlignment="textEnd"
@@ -129,14 +142,13 @@
 
     <EditText
         android:id="@+id/txtSenhaLogin"
-        android:layout_width="315dp"
+        android:layout_width="357dp"
         android:layout_height="48dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="51dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1C9D6A"
-        android:drawableRight="@drawable/vizualizar"
+        android:drawableRight="@drawable/vizualizar_senha"
         android:ems="10"
         android:fontFamily="@font/montserrat_medium"
         android:hint="@string/hintSenhaLogin"

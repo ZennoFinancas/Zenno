@@ -7,6 +7,20 @@
     android:background="@drawable/fundo_1"
     tools:context=".TelaEsqueceuASenha">
 
+    <ImageView
+        android:id="@+id/btnVoltarAnalise7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/lblLembrarSuaSenha"
         android:layout_width="wrap_content"
@@ -27,11 +41,10 @@
 
     <EditText
         android:id="@+id/txtEmailEsqSenha"
-        android:layout_width="314dp"
+        android:layout_width="357dp"
         android:layout_height="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="49dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1C9D6A"
         android:drawableTint="#FFFFFF"
@@ -47,29 +60,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmailEsqSenha" />
 
-    <Button
-        android:id="@+id/btnEsqSenha"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="#712aaf"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnEsqueceuSenha"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailEsqSenha" />
-
     <TextView
         android:id="@+id/lblEmailEsqSenha"
         android:layout_width="283dp"
         android:layout_height="27dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="101dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/lblEmailLogin"
         android:textAlignment="textStart"
@@ -78,6 +75,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtituloEsqSenha" />
+
+    <Button
+        android:id="@+id/btnEsqSenha"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="#712aaf"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnEsqueceuSenha"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailEsqSenha" />
 
     <TextView
         android:id="@+id/subtituloEsqSenha"
@@ -110,18 +124,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoEsqSenha" />
-
-    <ImageView
-        android:id="@+id/imgVoltarEsqSenha"
-        android:layout_width="50dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="33dp"
-        app:layout_constraintEnd_toStartOf="@+id/imgLogoEsqSenha"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/voltar" />
 
     <ImageView
         android:id="@+id/imgLogoEsqSenha"

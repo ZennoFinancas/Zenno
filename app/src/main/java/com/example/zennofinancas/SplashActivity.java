@@ -26,6 +26,6 @@ public class SplashActivity extends ActivityBase {
 
             // 2. Mata a SplashActivity para que, se o usuário apertar "Voltar", não volte para a splash
             finish();
-        }, 3000);
+        }, 2000);
     }
 }

@@ -7,29 +7,34 @@
     android:background="@drawable/fundo_4"
     tools:context=".TelaMetas">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgVoltar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:background="@drawable/seta_voltar"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/btnVoltarAnalise8"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="347dp"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@drawable/voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tituloMetas"
         android:layout_width="278dp"
         android:layout_height="38dp"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/tituloMetas"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:fontFamily="@font/montserrat_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgVoltar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVoltarAnalise8" />
 
     <TextView
         android:id="@+id/subtituloMetas"

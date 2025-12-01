@@ -50,7 +50,7 @@ public class TelaEntrar extends ActivityBase
                                 android.text.InputType.TYPE_CLASS_TEXT |
                                         android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                         );
-                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar, 0);
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar_senha, 0);
 
                     }
 
@@ -61,7 +61,7 @@ public class TelaEntrar extends ActivityBase
                                 android.text.InputType.TYPE_CLASS_TEXT |
                                         android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
                         );
-                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar, 0);
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar_senha, 0);
                     }
 
                     // Mantém cursor no final

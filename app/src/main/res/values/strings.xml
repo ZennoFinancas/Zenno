@@ -139,8 +139,9 @@
     <string name="tituloHome">Saldo atual em conta</string>
     <string name="subtituloHome1">Receitas</string>
     <string name="subtituloHome2">Despesas</string>
-    <string name="subtituloHome3">Vencimentos próximos</string>
+    <string name="subtituloHome3">Suas Receitas</string>
     <string name="subtituloHome4">Contas</string>
+    <string name="subtituloHome5">Seus gastos</string>
 
     // Tela Metas
     <string name="tituloMetas">Metas</string>

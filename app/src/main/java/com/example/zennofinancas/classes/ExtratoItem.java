@@ -1,22 +1,38 @@
 package com.example.zennofinancas.classes;
 
+import com.google.gson.annotations.SerializedName;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class ExtratoItem {
 
+    // === CORREÇÃO 1: Mapeamento do ID ===
+    // Isso garante que o ID venha corretamente do banco
+    @SerializedName(value = "idTransacao", alternate = {"id", "id_transacao", "id_gasto", "id_receita"})
     private int idTransacao;
+
     private int idUsuario;
-    private Integer idCategoria; // Pode ser null para despesas sem categoria
+    private Integer idCategoria;
     private String nomeCategoria;
-    private String tipoTransacao; // "receita" ou "despesa"
+
+    @SerializedName(value = "tipoTransacao", alternate = {"tipo_categoria", "tipo"})
+    private String tipoTransacao;
+
+    @SerializedName(value = "valor", alternate = {"valor_despesa", "valor_receita", "valor_aporte"})
     private double valor;
+
+    @SerializedName(value = "descricao", alternate = {"descricao_despesa", "descricao_receita"})
     private String descricao;
-    private String dataTransacao; // formato: yyyy-MM-dd
+
+    @SerializedName(value = "dataTransacao", alternate = {"data_despesa", "data_receita", "data_transacao"})
+    private String dataTransacao;
+
     private int ano;
     private int mes;
 
-    // Construtor completo
+    public ExtratoItem() {
+    }
+
     public ExtratoItem(int idTransacao, int idUsuario, Integer idCategoria,
                        String nomeCategoria, String tipoTransacao, double valor,
                        String descricao, String dataTransacao, int ano, int mes) {
@@ -32,106 +48,61 @@ public class ExtratoItem {
         this.mes = mes;
     }
 
-    public ExtratoItem(String nome, String valorFormatado, String tipo) {
-        this.nomeCategoria = nome;
-        this.tipoTransacao = tipo;
+    // --- GETTERS E SETTERS ---
 
-        String valorLimpo = valorFormatado.replace("R$", "").replace(" ", "")
-                .replace(".", "").replace(",", ".");
-        try {
-            this.valor = Double.parseDouble(valorLimpo);
-        } catch (NumberFormatException e) {
-            this.valor = 0.0;
-        }
-    }
-
-    // Getters bÃ¡sicos
+    // === CORREÇÃO 2: O Método que estava faltando ===
     public int getIdTransacao() {
         return idTransacao;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public void setIdTransacao(int idTransacao) {
+        this.idTransacao = idTransacao;
+    }
+    // ================================================
+
+    public double getValorNumerico() {
+        return valor;
     }
 
-    public Integer getIdCategoria() {
-        return idCategoria;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public String getTipoTransacao() {
-        return tipoTransacao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public String getDataTransacao() {
-        return dataTransacao;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    // MÃ©todos de compatibilidade com cÃ³digo existente
-    public String getNome() {
-        return nomeCategoria != null ? nomeCategoria : "Sem categoria";
-    }
-
-    public String getTipo() {
-        return tipoTransacao;
-    }
-
-    /**
-     * Retorna o valor formatado como moeda (R$ 1.234,56)
-     * Usado pelo adapter para exibiÃ§Ã£o
-     */
     public String getValor() {
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         return formatter.format(valor);
     }
 
-    /**
-     * Retorna o valor numÃ©rico puro (double)
-     * Usado para cÃ¡lculos e operaÃ§Ãµes matemÃ¡ticas
-     */
-    public double getValorNumerico() {
-        return valor;
-    }
-
-    /**
-     * Alias para getValor() - mantido por compatibilidade
-     */
     public String getValorFormatado() {
         return getValor();
     }
 
-    /**
-     * Verifica se Ã© receita
-     */
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public String getNomeCategoria() {
+        if (nomeCategoria != null && !nomeCategoria.isEmpty()) {
+            return nomeCategoria;
+        }
+        if (descricao != null && !descricao.isEmpty()) {
+            return descricao;
+        }
+        return "Geral";
+    }
+
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
+    }
+
+    public String getDescricao() { return descricao; }
+    public String getDataTransacao() { return dataTransacao; }
+    public String getTipoTransacao() { return tipoTransacao; }
+
     public boolean isReceita() {
         return "receita".equalsIgnoreCase(tipoTransacao);
     }
 
-    /**
-     * Verifica se Ã© despesa
-     */
     public boolean isDespesa() {
-        return "despesa".equalsIgnoreCase(tipoTransacao);
+        return "despesa".equalsIgnoreCase(tipoTransacao) || "gasto".equalsIgnoreCase(tipoTransacao);
     }
 
-    /**
-     * Retorna o valor com sinal (+ para receita, - para despesa)
-     */
     public String getValorComSinal() {
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         String valorFormatado = formatter.format(valor);
@@ -141,16 +112,5 @@ public class ExtratoItem {
         } else {
             return "- " + valorFormatado;
         }
-    }
-
-
-    @Override
-    public String toString() {
-        return "ExtratoItem{" +
-                "tipo=" + tipoTransacao +
-                ", categoria='" + nomeCategoria + '\'' +
-                ", valor=" + getValor() +
-                ", data=" + dataTransacao +
-                '}';
     }
 }
