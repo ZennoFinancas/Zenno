@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tela de Login do aplicativo.
+    Contém logo, título, campos de email/senha, botão de login
+    e opção de cadastro.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +12,9 @@
     android:background="@drawable/fundo_1"
     tools:context=".TelaEntrar">
 
+    <!-- Ícone para retornar à tela anterior -->
     <ImageView
-        android:id="@+id/btnVoltarAnalise3"
+        android:id="@+id/btnVoltarEntrar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -21,6 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Logo centralizada no topo -->
     <ImageView
         android:id="@+id/imgLogoLogin"
         android:layout_width="191dp"
@@ -34,6 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_3" />
 
+    <!-- Texto exibido no rodapé, direcionando para criar conta -->
     <TextView
         android:id="@+id/txtCadastrar"
         android:layout_width="wrap_content"
@@ -50,6 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Entrada de texto para o email do usuário -->
     <EditText
         android:id="@+id/txtEmailLogin"
         android:layout_width="357dp"
@@ -72,6 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmailLogin" />
 
+    <!-- Texto indicando o campo de senha -->
     <TextView
         android:id="@+id/lblSenhaLogin"
         android:layout_width="283dp"
@@ -89,6 +99,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEmailLogin" />
 
+    <!-- Texto indicando o campo de email -->
     <TextView
         android:id="@+id/lblEmailLogin"
         android:layout_width="283dp"
@@ -106,6 +117,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtituloLogin" />
 
+    <!-- Link de recuperação de senha -->
     <TextView
         android:id="@+id/lblEsqSenha"
         android:layout_width="320dp"
@@ -123,6 +135,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSenhaLogin" />
 
+    <!-- Botão que realiza o login do usuário -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="315dp"
@@ -140,6 +153,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEsqSenha" />
 
+    <!-- Entrada de texto para a senha do usuário -->
     <EditText
         android:id="@+id/txtSenhaLogin"
         android:layout_width="357dp"
@@ -162,6 +176,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSenhaLogin" />
 
+    <!-- Título principal da tela de login -->
     <TextView
         android:id="@+id/tituloLogin"
         android:layout_width="278dp"
@@ -180,6 +195,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoLogin" />
 
+    <!-- Subtítulo explicativo logo abaixo -->
     <TextView
         android:id="@+id/subtituloLogin"
         android:layout_width="283dp"

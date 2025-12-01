@@ -1,4 +1,3 @@
-
 package com.example.zennofinancas;
 
 import android.content.Intent;
@@ -8,9 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Tela de Login: responsável pela autenticação do usuário e pela navegação para recuperação de senha.
+ */
 
 public class TelaEntrar extends ActivityBase
 {
+    // Declaração de Componentes
     EditText txtEmail, txtSenha;
     TextView lblEsqSenha;
     Button btnEntrar;
@@ -21,23 +24,25 @@ public class TelaEntrar extends ActivityBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_entrar);
 
+        // Associação de Elementos
         btnEntrar = (Button) findViewById(R.id.btnLogin);
         txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
         txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
         lblEsqSenha = (TextView) findViewById(R.id.lblEsqSenha);
 
-        // Evento que mostra a senha
+        // Detecta toque no ícone de "ver senha" dentro do EditText
         txtSenha.setOnTouchListener((v, event) ->
         {
             final int DRAWABLE_RIGHT = 2;
 
             if (event.getAction() == android.view.MotionEvent.ACTION_UP)
             {
+                // Verifica se o toque foi exatamente no ícone de visualizar senha
                 if (event.getRawX() >= (txtSenha.getRight()
                         - txtSenha.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()))
                 {
 
-                    // Verifica se está ocultando ou mostrando
+                    // Verifica se a senha está oculta ou visível
                     boolean senhaOculta =
                             txtSenha.getInputType() ==
                                     (android.text.InputType.TYPE_CLASS_TEXT |
@@ -48,23 +53,21 @@ public class TelaEntrar extends ActivityBase
                         // Mostrar senha
                         txtSenha.setInputType(
                                 android.text.InputType.TYPE_CLASS_TEXT |
-                                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                        );
+                                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                         txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar_senha, 0);
 
                     }
 
                     else
                     {
-                        // Ocultar senha
+                        // Ocultar senha novamente
                         txtSenha.setInputType(
                                 android.text.InputType.TYPE_CLASS_TEXT |
-                                        android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                        );
+                                        android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar_senha, 0);
                     }
 
-                    // Mantém cursor no final
+                    // Mantém o cursor sempre no final do texto
                     txtSenha.setSelection(txtSenha.getText().length());
                     return true;
                 }
@@ -73,43 +76,29 @@ public class TelaEntrar extends ActivityBase
             return false;
         });
 
-
-
-        // Evento do botão entrar
-        btnEntrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String emailUsuario, senhaUsuario;
-                emailUsuario = txtEmail.getText().toString().trim();
-                senhaUsuario = txtSenha.getText().toString().trim();
-
-                /* Controller responsável pelo login
-                clsUsuarioController usuarioController = new clsUsuarioController();
-
-                usuarioController.logar(TelaEntrar.this, emailUsuario, senhaUsuario);*/
-
-                clsMetodos supabase = new clsMetodos();
-
-                supabase.loginUsuario(TelaEntrar.this, emailUsuario, senhaUsuario);
-
-
-            }
-        });
-
-        // Evento da label esqueceu a senha
-        lblEsqSenha.setOnClickListener(new View.OnClickListener()
+        // Evento do botão "Entrar"
+        btnEntrar.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                Intent it = new Intent(TelaEntrar.this,
-                        TelaEsqueceuASenha.class);
-                startActivity(it);
+                // Captura e limpa valores inseridos
+                String emailUsuario, senhaUsuario;
+                emailUsuario = txtEmail.getText().toString().trim();
+                senhaUsuario = txtSenha.getText().toString().trim();
+
+                // Classe responsável pela comunicação com o Supabase (login)
+                clsMetodos supabase = new clsMetodos();
+
+                // Realiza tentativa de login
+                supabase.loginUsuario(TelaEntrar.this, emailUsuario, senhaUsuario);
             }
         });
 
-
+        // Label "Esqueceu a senha" → direciona para tela de esqueceu a senha
+        lblEsqSenha.setOnClickListener(view -> {
+            Intent it = new Intent(TelaEntrar.this, TelaEsqueceuASenha.class);
+            startActivity(it);
+        });
     }
-
 }

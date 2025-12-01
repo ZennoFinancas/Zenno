@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Layout inicial da aplicação.
+    Tela composta por logo, título e botões principais.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +11,7 @@
     android:background="@drawable/fundo_1"
     tools:context=".MainActivity">
 
+    <!-- Exibe a logo centralizada no topo -->
     <ImageView
         android:id="@+id/imgLogoInicial"
         android:layout_width="0dp"
@@ -19,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_1" />
 
+    <!-- Título centralizado abaixo da logo -->
     <TextView
         android:id="@+id/tituloInicial"
         android:layout_width="300dp"
@@ -33,6 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Botão de acesso para usuários já cadastrados -->
     <Button
         android:id="@+id/btnEntrarInicial"
         android:layout_width="331dp"
@@ -50,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Botão para novos usuários criarem uma conta -->
     <Button
         android:id="@+id/btnCadastrarInicial"
         android:layout_width="331dp"

@@ -36,6 +36,7 @@ import com.example.zennofinancas.classes.ExtratoItem;
 import com.example.zennofinancas.classes.SupabaseHelper;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.example.zennofinancas.clsMetodos;
+import com.example.zennofinancas.ui.extrato.ExtratoFragmento;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

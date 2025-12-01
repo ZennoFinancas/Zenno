@@ -14,7 +14,6 @@
     <string name="hintEmailLogin">seuemail@gmail.com</string>
     <string name="hintSenhaLogin">*******</string>
     <string name="lblEsqueceuSenha">Esqueceu a senha?</string>
-    <string name="lblOuCom">Ou entre com:</string>
     <string name="subtituloSemConta">Não possui uma conta? <b>Cadastre-se</b></string>
 
     // Tela Esqueceu a Senha
