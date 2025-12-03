@@ -106,8 +106,6 @@ public class TelaChecarCodigo extends ActivityBase
                     Toast.makeText(TelaChecarCodigo.this, "Código incorreto!", Toast.LENGTH_SHORT).show();
                 }
 
-
-
             }
         });
     }

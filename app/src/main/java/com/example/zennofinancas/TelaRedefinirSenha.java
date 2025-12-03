@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zennofinancas.classes.clsUsuario;
+
 public class TelaRedefinirSenha extends ActivityBase
 {
     Button btnRedSenha;
@@ -20,11 +22,6 @@ public class TelaRedefinirSenha extends ActivityBase
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_redefinir_senha);
-
-        // Instanciando classe do Banco de Dados
-        clsMetodos supabase = new clsMetodos();
-
-
 
         btnRedSenha = (Button) findViewById(R.id.btnRedSenha);
         txtRedSenha = (EditText) findViewById(R.id.txtRedSenha);
@@ -64,8 +61,7 @@ public class TelaRedefinirSenha extends ActivityBase
                 else {
                     Toast.makeText(TelaRedefinirSenha.this, "AQUIIII" , Toast.LENGTH_SHORT).show();
                     // Método alterar a senha
-
-                    supabase.alterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
+                    clsUsuario.alterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
 
                 }
             }

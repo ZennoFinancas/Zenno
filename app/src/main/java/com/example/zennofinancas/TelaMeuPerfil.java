@@ -17,7 +17,7 @@ import java.util.Locale;
 public class TelaMeuPerfil extends ActivityBase {
 
     // TextViews e ImageViews
-    TextView lblEditarPerfil, lblNotificacoes, lblSuporte, lblSairConta, lblTermosPoliticas, lblSobreApp;
+    TextView lblEditarPerfil, lblNotificacoes, lblSuporte, lblSairConta, lblTermosPoliticas, lblSobreApp, lblNomeMeuPerfil, lblEmailMeuPerfil;
     ImageView imgFotoMeuPerfil, imgEditarPerfil, imgNotificacoes, imgSuporte, imgTermosPoliticas, imgSobreApp, imgSairConta;
     ImageView btnVoltar; // Botão de voltar (imgVoltar)
 
@@ -32,6 +32,8 @@ public class TelaMeuPerfil extends ActivityBase {
         lblSuporte  = findViewById(R.id.lblSuporte);
         lblSairConta = findViewById(R.id.lblSairConta);
         lblSobreApp = findViewById(R.id.lblSobreApp);
+        lblNomeMeuPerfil = findViewById(R.id.lblNomeMeuPerfil);
+        lblEmailMeuPerfil = findViewById(R.id.lblEmailMeuPerfil);
         lblTermosPoliticas = findViewById(R.id.lblTermosPoliticas);
 
         // Ícones
@@ -54,6 +56,8 @@ public class TelaMeuPerfil extends ActivityBase {
             } else {
                 imgFotoMeuPerfil.setImageResource(R.drawable.chat_bot);
             }
+            lblNomeMeuPerfil.setText(usuario.getNomeUsuario().toUpperCase());
+            lblEmailMeuPerfil.setText(usuario.getEmailUsuario());
         } else {
             Toast.makeText(TelaMeuPerfil.this, "Erro ao obter usuário atual.", Toast.LENGTH_SHORT).show();
             return;

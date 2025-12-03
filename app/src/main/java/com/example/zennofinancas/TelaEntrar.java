@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.zennofinancas.classes.clsUsuario;
+
 /**
  * Tela de Login: responsável pela autenticação do usuário e pela navegação para recuperação de senha.
  */
@@ -87,11 +89,8 @@ public class TelaEntrar extends ActivityBase
                 emailUsuario = txtEmail.getText().toString().trim();
                 senhaUsuario = txtSenha.getText().toString().trim();
 
-                // Classe responsável pela comunicação com o Supabase (login)
-                clsMetodos supabase = new clsMetodos();
-
                 // Realiza tentativa de login
-                supabase.loginUsuario(TelaEntrar.this, emailUsuario, senhaUsuario);
+                clsUsuario.loginUsuario(TelaEntrar.this, emailUsuario, senhaUsuario);
             }
         });
 

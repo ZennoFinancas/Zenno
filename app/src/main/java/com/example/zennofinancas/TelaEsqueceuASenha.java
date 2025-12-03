@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zennofinancas.classes.clsUsuario;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -33,9 +34,6 @@ public class TelaEsqueceuASenha extends ActivityBase
 
                 String email = txtEmailEsqSenha.getText().toString().trim();
 
-                // Instanciando classe do Banco de Dados
-                clsMetodos supabase = new clsMetodos();
-
                 if (email.isEmpty())
                 {
                     Toast.makeText(TelaEsqueceuASenha.this, "Digite Seu Email!", Toast.LENGTH_SHORT).show();
@@ -43,7 +41,7 @@ public class TelaEsqueceuASenha extends ActivityBase
                 else{
 
                     // Verifica se o email digitado tem cadastro no BD
-                    supabase.verificarEmail(TelaEsqueceuASenha.this, email);
+                    clsUsuario.verificarEmail(TelaEsqueceuASenha.this, email);
                 }
 
             }

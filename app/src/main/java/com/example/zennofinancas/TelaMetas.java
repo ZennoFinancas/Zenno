@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.example.zennofinancas.classes.clsMetas;
 
 public class TelaMetas extends ActivityBase {
 
@@ -70,7 +71,7 @@ public class TelaMetas extends ActivityBase {
                 return;
             }
 
-            clsMetodos.inserirObjetivo(TelaMetas.this, idUsuario, nome, valor, "");
+            clsMetas.inserirObjetivo(TelaMetas.this, idUsuario, nome, valor, "");
             buscarMetas();
             dialog.dismiss();
         });
@@ -129,7 +130,7 @@ public class TelaMetas extends ActivityBase {
         imgExcluirMeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clsMetodos.deletarObjetivo(TelaMetas.this, idMeta);
+                clsMetas.excluirObjetivo(TelaMetas.this, idMeta);
                 buscarMetas();
             }
         });
@@ -192,7 +193,7 @@ public class TelaMetas extends ActivityBase {
                 Toast.makeText(this, "Valor guardado com sucesso!", Toast.LENGTH_SHORT).show();
 
                 // CORREÇÃO 4: Passar o idMeta correto para inserir o aporte
-                clsMetodos.inserirAporteObjetivo(TelaMetas.this, idMeta, valorGuardarStr);
+                clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorGuardarStr);
             }
             dialog.dismiss();
         });
@@ -250,7 +251,7 @@ public class TelaMetas extends ActivityBase {
 
     private void buscarMetas(){
         containerMetas.removeAllViews();
-        clsMetodos.buscarObjetivos(this, idUsuario, (e, metas) -> {
+        clsMetas.buscarObjetivos(this, idUsuario, (e, metas) -> {
             if (e != null || metas == null) return;
             for (String[] meta : metas) {
                 adicionarMetaNaTela(meta[0], meta[1], meta[2]);

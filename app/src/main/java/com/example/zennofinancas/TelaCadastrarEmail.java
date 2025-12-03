@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zennofinancas.classes.clsUsuario;
+
 public class TelaCadastrarEmail extends ActivityBase {
 
     Button btnCadastrarUser;
@@ -44,8 +46,6 @@ public class TelaCadastrarEmail extends ActivityBase {
                 String senha = txtSenha.getText().toString();
                 String confSenha = txtConfSenha.getText().toString();
 
-                clsMetodos supabase = new clsMetodos();
-
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || confSenha.isEmpty()) {
                     Toast.makeText(TelaCadastrarEmail.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else if (!senha.equals(confSenha)) {
@@ -54,7 +54,7 @@ public class TelaCadastrarEmail extends ActivityBase {
                     Toast.makeText(TelaCadastrarEmail.this, "Senha deve conter ao menos 7 caracteres!", Toast.LENGTH_SHORT).show();
                 } else {
                     // Método inserir
-                    supabase.inserirUsuario(TelaCadastrarEmail.this, nome, email, "(11)9999-2222", senha);
+                    clsUsuario.inserirUsuario(TelaCadastrarEmail.this, nome, email, "(11)9999-2222", senha);
                 }
             }
         });
