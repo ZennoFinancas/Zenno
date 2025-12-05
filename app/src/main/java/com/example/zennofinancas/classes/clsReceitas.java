@@ -39,29 +39,71 @@ public class clsReceitas {
     public String getDataReceita() { return dataReceita; }
     public void setDataReceita(String dataReceita) { this.dataReceita = dataReceita; }
 
-    public static void inserirReceita(Context contexto, String idUsuario, String idCategoria, String valorReceita, String descricaoReceita, String dataReceita) {
+    public interface ReceitaCallback {
+        void onSucesso(String mensagem, int quantidadeInserida);
+        void onErro(String erro);
+    }
+
+    public static void inserirReceita(
+            Context contexto,
+            int repeticoes,
+            String idUsuario,
+            String idCategoria,
+            String valorReceita,
+            String descricaoReceita,
+            String dataReceita,
+            ReceitaCallback callback
+    ) {
+
         float valor = Float.parseFloat(valorReceita.replace(",", "."));
         String novaData = converterDataParaISO(dataReceita);
 
         JsonObject json = new JsonObject();
-        json.addProperty("id_usuario", idUsuario);
-        json.addProperty("id_categoria", idCategoria);
-        json.addProperty("valor_receita", valor);
-        json.addProperty("descricao_receita", descricaoReceita);
-        json.addProperty("data_receita", novaData);
+        json.addProperty("p_id_usuario", idUsuario);
+        json.addProperty("p_id_categoria", idCategoria);
+        json.addProperty("p_valor_receita", valor);
+        json.addProperty("p_descricao_receita", descricaoReceita);
+        json.addProperty("p_data_inicial", novaData);
+        json.addProperty("p_repeticoes", repeticoes);
 
         Ion.with(contexto)
-                .load("POST", BASE_URL + "receitas")
+                .load("POST", BASE_URL + "/rpc/inserir_receita_recorrente")
                 .addHeader("Authorization", "Bearer " + API_KEY)
                 .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
                 .setJsonObjectBody(json)
-                .asString()
+                .asJsonArray()
                 .setCallback((e, result) -> {
+
                     if (e != null) {
-                        Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(contexto, "Erro de conexão", Toast.LENGTH_SHORT).show();
+                        if (callback != null) callback.onErro(e.getMessage());
                         return;
                     }
-                    Toast.makeText(contexto, "Receita cadastrada!", Toast.LENGTH_LONG).show();
+
+                    if (result != null && result.size() > 0) {
+
+                        JsonObject resposta = result.get(0).getAsJsonObject();
+
+                        boolean sucesso = resposta.has("sucesso") && !resposta.get("sucesso").isJsonNull()
+                                && resposta.get("sucesso").getAsBoolean();
+
+                        String mensagem = resposta.has("mensagem") && !resposta.get("mensagem").isJsonNull()
+                                ? resposta.get("mensagem").getAsString()
+                                : "Resposta inesperada do servidor";
+
+                        int quantidade = resposta.has("quantidade_inserida") && !resposta.get("quantidade_inserida").isJsonNull()
+                                ? resposta.get("quantidade_inserida").getAsInt()
+                                : 0;
+
+                        if (sucesso) {
+                            Toast.makeText(contexto, mensagem, Toast.LENGTH_LONG).show();
+                            if (callback != null) callback.onSucesso(mensagem, quantidade);
+                        } else {
+                            Toast.makeText(contexto, "Erro: " + mensagem, Toast.LENGTH_LONG).show();
+                            if (callback != null) callback.onErro(mensagem);
+                        }
+                    }
                 });
     }
 

@@ -80,7 +80,11 @@ public class clsMetas {
     }
 
     // Inserir objetivo
-    public static void inserirObjetivo(Context contexto, String idUsuario, String nomeObjetivo, String valorDesejado, String dataObjetivo) {
+    public interface InserirMetaCallback {
+        void onResultado(Exception e, String idMetaCriada);
+    }
+
+    public static void inserirObjetivo(Context contexto, String idUsuario, String nomeObjetivo, String valorDesejado, String dataObjetivo, InserirMetaCallback callback) {
         float valor = Float.parseFloat(valorDesejado.replace(",", "."));
 
         JsonObject json = new JsonObject();
@@ -92,14 +96,24 @@ public class clsMetas {
                 .load("POST", BASE_URL + "objetivos")
                 .addHeader("Authorization", "Bearer " + API_KEY)
                 .addHeader("apikey", API_KEY)
+                .addHeader("Prefer", "return=representation")  // 👈 OBRIGA O SUPABASE A RETORNAR O OBJETO
                 .setJsonObjectBody(json)
-                .asString()
+                .asJsonArray()
                 .setCallback((e, result) -> {
                     if (e != null) {
-                        Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        callback.onResultado(e, null);
                         return;
                     }
-                    Toast.makeText(contexto, "Objetivo cadastrado!", Toast.LENGTH_LONG).show();
+
+                    if (result == null || result.size() == 0) {
+                        callback.onResultado(new Exception("Nenhum retorno do servidor"), null);
+                        return;
+                    }
+
+                    JsonObject linha = result.get(0).getAsJsonObject();
+                    String idMeta = linha.has("id_objetivo") ? linha.get("id_objetivo").getAsString() : null;
+
+                    callback.onResultado(null, idMeta);
                 });
     }
 

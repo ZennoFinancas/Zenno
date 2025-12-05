@@ -71,8 +71,17 @@ public class TelaMetas extends ActivityBase {
                 return;
             }
 
-            clsMetas.inserirObjetivo(TelaMetas.this, idUsuario, nome, valor, "");
-            buscarMetas();
+            clsMetas.inserirObjetivo(TelaMetas.this, idUsuario, nome, valor, "", (erro, idMetaCriada) -> {
+                if (erro != null) {
+                    Toast.makeText(this, "Erro ao salvar meta!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                buscarMetas();
+
+                dialog.dismiss();
+            });
+
             dialog.dismiss();
         });
 
@@ -100,39 +109,31 @@ public class TelaMetas extends ActivityBase {
         if (maxCents <= 0) maxCents = 100;
         progressoMetas.setMax(maxCents);
 
-        // 🔥 BUSCAR OS APORTES CADASTRADOS PARA ESTA META
         int finalMaxCents = maxCents;
-        clsMetodos.buscarAportesObjetivo(this, idMeta, (e, totalAportes) -> {
+        clsMetas.buscarAportesObjetivo(this, idMeta, (e, totalAportes) -> {
             if (e != null) {
                 Toast.makeText(TelaMetas.this, "Erro ao buscar aportes", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Converter o total de aportes para centavos
             int progressoAtual = (int) Math.round(totalAportes * 100.0);
 
-            // Se ultrapassar o máximo, limitar ao máximo
-            if (progressoAtual > finalMaxCents) progressoAtual = finalMaxCents;
+            // NÃO LIMITAR UI (pode passar 100%)
+            progressoMetas.setProgress(Math.min(progressoAtual, finalMaxCents));
 
-            progressoMetas.setProgress(progressoAtual);
-
-            // Atualizar o texto exibindo os valores
-            double valorGuardadoReais = progressoAtual / 100.0;
-            valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  %s", valorGuardadoReais, valorFormatado));
+            double valorGuardado = totalAportes;
+            valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  %s", valorGuardado, valorFormatado));
         });
 
         imgGuardarDinheiro.setOnClickListener(v -> abrirDialogGuardarDinheiro(
-                cardView, tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
+                tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
 
         tituloNomedaMeta.setOnClickListener(v -> abrirDialogEditarMeta(
-                cardView, tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
+                tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
 
-        imgExcluirMeta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clsMetas.excluirObjetivo(TelaMetas.this, idMeta);
-                buscarMetas();
-            }
+        imgExcluirMeta.setOnClickListener(v -> {
+            clsMetas.excluirObjetivo(TelaMetas.this, idMeta);
+            buscarMetas();
         });
 
         subtituloMetas.setVisibility(View.GONE);
@@ -140,8 +141,9 @@ public class TelaMetas extends ActivityBase {
         containerMetas.addView(cardView);
     }
 
-    private void abrirDialogGuardarDinheiro(View cardView, TextView tituloNomedaMeta, TextView valorMeta,
+    private void abrirDialogGuardarDinheiro(TextView tituloNomedaMeta, TextView valorMeta,
                                             ProgressBar progressoMetas, double valorNecessario, String idMeta) {
+
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.item_guardar_meta, null);
 
@@ -154,55 +156,47 @@ public class TelaMetas extends ActivityBase {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         btnGuardar.setOnClickListener(v -> {
-            String valorGuardarStr = txtValorAGuardar.getText().toString().trim();
+            String valorStr = txtValorAGuardar.getText().toString().trim();
 
-            if (valorGuardarStr.isEmpty()) {
+            if (valorStr.isEmpty()) {
                 Toast.makeText(this, "Informe o valor a guardar!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            double valorGuardar = parseCurrencyToDouble(valorGuardarStr);
+            double valor = parseCurrencyToDouble(valorStr);
 
-            // CORREÇÃO 3: Usar o idMeta recebido como parâmetro
-            if (idMeta == null || idMeta.isEmpty()) {
-                Toast.makeText(this, "Erro: ID da meta não encontrado!", Toast.LENGTH_SHORT).show();
+            int aporteCents = (int) Math.round(valor * 100.0);
+            int progressoAtual = progressoMetas.getProgress();
+            int progressoMaximo = progressoMetas.getMax();
+
+            // Validação não permitir ultrapassar a meta
+            if (progressoAtual + aporteCents > progressoMaximo) {
+                double valorPermitido = (progressoMaximo - progressoAtual) / 100.0;
+                Toast.makeText(this, "Você só pode guardar até R$" + String.format("%.2f", valorPermitido), Toast.LENGTH_LONG).show();
                 return;
             }
 
-            int progressoAtual = progressoMetas.getProgress() + (int) Math.round(valorGuardar * 100.0);
-            int maximo = progressoMetas.getMax();
-
-            if (progressoAtual > maximo) progressoAtual = maximo;
+            // Atualizar barra
+            progressoAtual += aporteCents;
             progressoMetas.setProgress(progressoAtual);
 
-            double valorAtualReais = progressoAtual / 100.0;
-            valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  R$%.2f", valorAtualReais, valorNecessario));
+            // Salvar no banco
+            clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorStr);
 
-            if (progressoAtual >= maximo) {
-                Toast.makeText(this, "🎉 Meta concluída! Parabéns!", Toast.LENGTH_LONG).show();
+            // Atualizar texto do card
+            double valorGuardado = progressoAtual / 100.0;
+            valorMeta.setText(String.format("R$%.2f  |  R$%.2f", valorGuardado, valorNecessario));
 
-                if (cardView.getParent() instanceof LinearLayout) {
-                    ((LinearLayout) cardView.getParent()).removeView(cardView);
-                }
-
-                if (containerMetas.getChildCount() == 0) {
-                    subtituloMetas.setVisibility(View.VISIBLE);
-                    scrollMetas.setVisibility(View.GONE);
-                }
-            } else {
-                Toast.makeText(this, "Valor guardado com sucesso!", Toast.LENGTH_SHORT).show();
-
-                // CORREÇÃO 4: Passar o idMeta correto para inserir o aporte
-                clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorGuardarStr);
-            }
+            Toast.makeText(this, "Valor guardado com sucesso!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
         dialog.show();
     }
 
-    private void abrirDialogEditarMeta(View cardView, TextView tituloNomedaMeta, TextView valorMeta,
+    private void abrirDialogEditarMeta(TextView tituloNomedaMeta, TextView valorMeta,
                                        ProgressBar progressoMetas, double valorNecessarioAntigo, String idMeta) {
+
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.dialog_editar_meta, null);
 
@@ -237,10 +231,11 @@ public class TelaMetas extends ActivityBase {
             progressoMetas.setMax(novoMax);
 
             if (progressoAtual > novoMax) progressoAtual = novoMax;
+
             progressoMetas.setProgress(progressoAtual);
 
-            double valorGuardadoReais = progressoAtual / 100.0;
-            valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  R$%.2f", valorGuardadoReais, novoValorTotal));
+            double valorGuardado = progressoAtual / 100.0;
+            valorMeta.setText(String.format("R$%.2f  |  R$%.2f", valorGuardado, novoValorTotal));
 
             Toast.makeText(this, "Meta atualizada!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();

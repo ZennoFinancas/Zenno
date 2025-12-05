@@ -41,7 +41,7 @@ public class clsDespesas {
     public String getDataDespesa() { return dataDespesa; }
     public void setDataDespesa(String dataDespesa) { this.dataDespesa = dataDespesa; }
 
-    public static void inserirDespesa(Context contexto, String idUsuario, String idCategoria, String valorDespesa, String descricaoDespesa, String dataDespesa, int repeticoes) {
+    public static void inserirDespesa(Context contexto,int repeticoes, String idUsuario, String idCategoria, String valorDespesa, String descricaoDespesa, String dataDespesa) {
         float valor = Float.parseFloat(valorDespesa.replace(",", "."));
         String novaData = converterDataParaISO(dataDespesa);
 

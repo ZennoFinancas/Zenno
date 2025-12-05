@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ import com.example.zennofinancas.classes.ExtratoAdapter;
 import com.example.zennofinancas.classes.ExtratoItem;
 import com.example.zennofinancas.classes.SupabaseHelper;
 import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.example.zennofinancas.classes.clsDespesas;
+import com.example.zennofinancas.classes.clsReceitas;
 import com.example.zennofinancas.clsMetodos;
 
 import java.text.SimpleDateFormat;
@@ -232,6 +235,7 @@ public class HomeFragmento extends Fragment {
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoReceita);
+        Spinner spRepeticao = view.findViewById(R.id.spRepeticao);
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
@@ -255,6 +259,7 @@ public class HomeFragmento extends Fragment {
                     nomesCategorias
             );
 
+
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spCategoria.setAdapter(adapter);
 
@@ -269,6 +274,23 @@ public class HomeFragmento extends Fragment {
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
+
+        // Inserindo numeros no spiner de repeticao
+        ArrayList<String> numeros = new ArrayList<>();
+        numeros.add("1x (Não repetir)"); // Primeira opção
+        for (int i = 2; i <= 24; i++) {
+            numeros.add(i + " Meses");
+        }
+
+        // Configura adapter
+        ArrayAdapter<String> adapterRepeticao = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.spinner_item,
+                numeros
+        );
+        adapterRepeticao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRepeticao.setAdapter(adapterRepeticao);
+
 
         btnSalvar.setOnClickListener(v -> {
             String nomeReceita = txtNomeReceita.getText().toString().trim();
@@ -286,17 +308,50 @@ public class HomeFragmento extends Fragment {
                 return;
             }
 
-            supabase.inserirReceita(
+            // Pega o valor de repeticoes selecionado
+            int repeticoes = 1;
+            try {
+                Object sel = spRepeticao.getSelectedItem();
+                if (sel != null) {
+                    String selStr = sel.toString().trim(); // ex: "1x (Não repetir)" ou "3 Meses"
+                    // tenta extrair número no começo da string
+                    String digits = selStr.replaceAll("^\\D*(\\d+).*$", "$1");
+                    repeticoes = Integer.parseInt(digits);
+                } else {
+                    repeticoes = spRepeticao.getSelectedItemPosition() + 1;
+                }
+            } catch (Exception ex) {
+                repeticoes = spRepeticao.getSelectedItemPosition() + 1;
+            }
+
+            clsReceitas.inserirReceita(
                     requireActivity(),
+                    repeticoes,
                     idUsuario,
                     idCategoria,
                     valorReceita,
                     nomeReceita,
-                    dataReceita);
+                    dataReceita,
+                    new clsReceitas.ReceitaCallback() {
+                        @Override
+                        public void onSucesso(String mensagem, int quantidadeInserida) {
+                            Log.d("SUPABASE", "Inserido: " + quantidadeInserida);
 
-            calcularSaldo();
-            carregarReceitasRecentes();
+                            calcularSaldo();
+                            carregarReceitasRecentes();
+
+                        }
+
+                        @Override
+                        public void onErro(String erro) {
+                            Log.e("SUPABASE", "Erro: " + erro);
+                        }
+                    }
+            );
+
             dialog.dismiss();
+
+
         });
     }
 
@@ -314,6 +369,7 @@ public class HomeFragmento extends Fragment {
 
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoDespesa);
+        Spinner spRepeticao = view.findViewById(R.id.spRepeticao);
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
@@ -352,6 +408,23 @@ public class HomeFragmento extends Fragment {
             });
         });
 
+        // Inserindo numeros no spiner de repeticao
+        ArrayList<String> numeros = new ArrayList<>();
+        numeros.add("1x (Não repetir)"); // Primeira opção
+        for (int i = 2; i <= 24; i++) {
+            numeros.add(i + " Meses");
+        }
+
+        // Configura adapter
+        ArrayAdapter<String> adapterRepeticao = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.spinner_item,
+                numeros
+        );
+        adapterRepeticao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRepeticao.setAdapter(adapterRepeticao);
+
+
         btnSalvar.setOnClickListener(v -> {
             String nomeDespesa = txtNomeDespesa.getText().toString().trim();
             String valorDespesa = txtValorDespesa.getText().toString().trim();
@@ -368,8 +441,26 @@ public class HomeFragmento extends Fragment {
                 return;
             }
 
-            supabase.inserirDespesa(
+            // Pega o valor de repeticoes selecionado
+            int repeticoes = 1;
+            try {
+                Object sel = spRepeticao.getSelectedItem();
+                if (sel != null) {
+                    String selStr = sel.toString().trim(); // ex: "1x (Não repetir)" ou "3 Meses"
+                    // tenta extrair número no começo da string
+                    String digits = selStr.replaceAll("^\\D*(\\d+).*$", "$1");
+                    repeticoes = Integer.parseInt(digits);
+                } else {
+                    repeticoes = spRepeticao.getSelectedItemPosition() + 1;
+                }
+            } catch (Exception ex) {
+                repeticoes = spRepeticao.getSelectedItemPosition() + 1;
+            }
+
+
+            clsDespesas.inserirDespesa(
                     requireActivity(),
+                    repeticoes,
                     idUsuario,
                     idCategoria,
                     valorDespesa,
