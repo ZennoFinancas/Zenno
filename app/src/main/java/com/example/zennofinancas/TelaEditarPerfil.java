@@ -15,9 +15,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zennofinancas.classes.clsDadosUsuario;
+import com.example.zennofinancas.classes.clsUsuario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -28,13 +29,11 @@ public class TelaEditarPerfil extends AppCompatActivity {
     ImageView imgEditPerfil;
     Button btnTrocarFoto, btnSalvarAlteracoes;
 
-    private Bitmap bitmap;
     Uri imagemUri;
-    String bx;
+    String fotox = "";
 
-    public static String fotoy, fotox;
+    private static final int PICK_IMAGE = 1;
 
-    private int PICK_IMAGE_REQUEST = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,55 +47,54 @@ public class TelaEditarPerfil extends AppCompatActivity {
         btnTrocarFoto = findViewById(R.id.btnTrocarFoto);
         btnSalvarAlteracoes = findViewById(R.id.btnSalvarAlteracoes);
 
+        // Carrega dados atuais
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaEditarPerfil.this);
 
         txtNomeEditPerfil.setText(usuario.getNomeUsuario());
         txtEmailEditPerfil.setText(usuario.getEmailUsuario());
+        // txtCelularEditPerfil.setText(usuario.getNumeroUsuario()); // Descomente se tiver getter para numero
 
-        if (usuario.getFotoUsuario() != null) {
+
+        if (usuario.getFotoUsuario() != null && !usuario.getFotoUsuario().isEmpty()) {
+            fotox = usuario.getFotoUsuario();
             Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
-            imgEditPerfil.setImageBitmap(fotoBitmap);
-        }
-        // Caso nn tenha foto, define foto padrão
-        else {
+            if (fotoBitmap != null) {
+                imgEditPerfil.setImageBitmap(fotoBitmap);
+            }
+        } else {
             imgEditPerfil.setImageResource(R.drawable.chat_bot);
         }
 
         btnTrocarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrir();
+                abrirGaleria();
             }
         });
-
 
         btnSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email, nome, numero;
-                email = txtEmailEditPerfil.getText().toString();
-                nome = txtNomeEditPerfil.getText().toString();
-                numero = txtCelularEditPerfil.getText().toString();
+                String email = txtEmailEditPerfil.getText().toString();
+                String nome = txtNomeEditPerfil.getText().toString();
+                String numero = txtCelularEditPerfil.getText().toString();
 
-                clsMetodos.alterarDados(TelaEditarPerfil.this, email, nome, numero, fotox);
+                // 1. Salva no Banco de Dados (Nuvem)
+                clsUsuario.alterarDados(TelaEditarPerfil.this, email, nome, numero, fotox);
 
+                // 2. Atualiza Localmente (Para ver a mudança sem relogar imediatamente)
                 SharedPreferences prefs = TelaEditarPerfil.this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("nomeUsuario", nome);
                 editor.putString("fotoUsuario", fotox);
                 editor.apply();
             }
         });
-
-
-
     }
 
-    private static final int PICK_IMAGE = 1;
-
-    private void abrir() {
+    private void abrirGaleria() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE);
-
     }
 
     @Override
@@ -105,45 +103,54 @@ public class TelaEditarPerfil extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             imagemUri = data.getData();
             try {
-                // Carregar a imagem a partir do URI
-                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream( imagemUri));
-                imgEditPerfil.setImageBitmap(bitmap); // Definir no ImageView
-                bx=imagem_string(bitmap);
-                fotox=bx;
-                Bitmap b = getfoto(bx);
-                imgEditPerfil.setImageBitmap(b);
 
+                Bitmap bitmapOriginal = BitmapFactory.decodeStream(getContentResolver().openInputStream(imagemUri));
+
+                fotox = imagem_string(bitmapOriginal);
+
+                Bitmap bitmapParaMostrar = getBitmapFromBase64(fotox);
+                imgEditPerfil.setImageBitmap(bitmapParaMostrar);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                Toast.makeText(this, "Erro ao carregar imagem", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
-    public String imagem_string(Bitmap fotox)
-    {
-        ByteArrayOutputStream data=new ByteArrayOutputStream();
-        fotox.compress( Bitmap.CompressFormat.JPEG,100,data );
-        byte[] b1=data.toByteArray();
-        return Base64.encodeToString( b1, Base64.DEFAULT );
+
+    public String imagem_string(Bitmap imagemOriginal) {
+        Bitmap imagemReduzida = redimensionarImagem(imagemOriginal, 600);
+
+        ByteArrayOutputStream data = new ByteArrayOutputStream();
+
+
+        imagemReduzida.compress(Bitmap.CompressFormat.JPEG, 70, data);
+
+        byte[] bytes = data.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
-    public  Bitmap getfoto(String s) {
-        byte[] decodes= Base64.decode(s,Base64.DEFAULT);
 
-        return BitmapFactory.decodeByteArray(decodes, 0, decodes.length);
+    public Bitmap redimensionarImagem(Bitmap imagemOriginal, int larguraMaxima) {
+        int largura = imagemOriginal.getWidth();
+        int altura = imagemOriginal.getHeight();
+
+
+        if (largura <= larguraMaxima) return imagemOriginal;
+
+        float razao = (float) largura / (float) altura;
+        int novaAltura = Math.round(larguraMaxima / razao);
+
+        return Bitmap.createScaledBitmap(imagemOriginal, larguraMaxima, novaAltura, true);
     }
-
 
     private Bitmap getBitmapFromBase64(String base64String) {
         try {
             byte[] decodedBytes = Base64.decode(base64String, Base64.NO_WRAP);
             return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
-
 }

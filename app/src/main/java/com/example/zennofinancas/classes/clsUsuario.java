@@ -1,13 +1,14 @@
 package com.example.zennofinancas.classes;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.example.zennofinancas.TelaChecarCodigo;
 import com.example.zennofinancas.TelaEntrar;
 import com.example.zennofinancas.TelaInicial;
-import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -15,56 +16,15 @@ import com.koushikdutta.ion.Ion;
 
 public class clsUsuario {
 
+    // CHAVES DO SUPABASE
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtkc3V2bGFlZXB3anpxbmZ2eHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTMwMTIsImV4cCI6MjA3MTcyOTAxMn0.iuOiaoqm3BhPyEMs6mtn2KlA2CIuYdnkcfmc36_Z8t8";
     private static final String BASE_URL = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/";
 
-    // Atributos
-    private String idUsuario;
-    private String nomeUsuario;
-    private String emailUsuario;
-    private String numeroUsuario;
-    private String senhaUsuario;
-    private String fotoUsuario;
-    private String statusUsuario;
+    // --- MÉTODOS ---
 
-    // Construtor vazio
-    public clsUsuario() {}
-
-    // Construtor completo
-    public clsUsuario(String idUsuario, String nomeUsuario, String emailUsuario, String numeroUsuario, 
-                      String senhaUsuario, String fotoUsuario, String statusUsuario) {
-        this.idUsuario = idUsuario;
-        this.nomeUsuario = nomeUsuario;
-        this.emailUsuario = emailUsuario;
-        this.numeroUsuario = numeroUsuario;
-        this.senhaUsuario = senhaUsuario;
-        this.fotoUsuario = fotoUsuario;
-        this.statusUsuario = statusUsuario;
-    }
-
-    // Getters e Setters
-    public String getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
-    
-    public String getNomeUsuario() { return nomeUsuario; }
-    public void setNomeUsuario(String nomeUsuario) { this.nomeUsuario = nomeUsuario; }
-    
-    public String getEmailUsuario() { return emailUsuario; }
-    public void setEmailUsuario(String emailUsuario) { this.emailUsuario = emailUsuario; }
-    
-    public String getNumeroUsuario() { return numeroUsuario; }
-    public void setNumeroUsuario(String numeroUsuario) { this.numeroUsuario = numeroUsuario; }
-    
-    public String getSenhaUsuario() { return senhaUsuario; }
-    public void setSenhaUsuario(String senhaUsuario) { this.senhaUsuario = senhaUsuario; }
-    
-    public String getFotoUsuario() { return fotoUsuario; }
-    public void setFotoUsuario(String fotoUsuario) { this.fotoUsuario = fotoUsuario; }
-    
-    public String getStatusUsuario() { return statusUsuario; }
-    public void setStatusUsuario(String statusUsuario) { this.statusUsuario = statusUsuario; }
-
-    // MÉTODOS
+    /**
+     * 1. LOGIN (Corrigido para baixar a foto)
+     */
     public static void loginUsuario(Context contexto, String emailUsuario, String senhaUsuario) {
         String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario + "&senha_usuario=eq." + senhaUsuario;
 
@@ -84,15 +44,26 @@ public class clsUsuario {
 
                         if (result != null && result.size() > 0) {
                             JsonObject usuario = result.get(0).getAsJsonObject();
+
                             String idUsuario = usuario.get("id_usuario").getAsString();
                             String nomeUsuario = usuario.get("nome_usuario").getAsString();
 
-                            clsDadosUsuario.salvarUsuario(contexto, nomeUsuario, idUsuario, emailUsuario, "");
+                            // RECUPERAR A FOTO
+                            String fotoRecuperada = "";
+                            if (usuario.has("foto_usuario") && !usuario.get("foto_usuario").isJsonNull()) {
+                                fotoRecuperada = usuario.get("foto_usuario").getAsString();
+                            }
 
-                            Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_LONG).show();
+                            // Salva TUDO no celular
+                            clsDadosUsuario.salvarUsuario(contexto, nomeUsuario, idUsuario, emailUsuario, fotoRecuperada);
+
+                            Toast.makeText(contexto, "Bem-vindo, " + nomeUsuario, Toast.LENGTH_SHORT).show();
+
                             Intent trocar = new Intent(contexto, TelaInicial.class);
                             trocar.putExtra("idUsuario", idUsuario);
+                            trocar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             contexto.startActivity(trocar);
+
                         } else {
                             Toast.makeText(contexto, "Usuário ou senha inválidos.", Toast.LENGTH_LONG).show();
                         }
@@ -100,7 +71,10 @@ public class clsUsuario {
                 });
     }
 
-    public static void inserirUsuario(Context contexto, String nomeUsuario, String emailUsuario, 
+    /**
+     * 2. INSERIR USUÁRIO (Cadastro)
+     */
+    public static void inserirUsuario(Context contexto, String nomeUsuario, String emailUsuario,
                                       String telefoneUsuario, String senhaUsuario) {
         int codigoVerificacao = (int) (Math.random() * 10000);
         String url = BASE_URL + "usuarios";
@@ -124,12 +98,10 @@ public class clsUsuario {
                         Toast.makeText(contexto, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         return;
                     }
-
                     if (result != null && result.contains("duplicate key value")) {
                         Toast.makeText(contexto, "E-mail já cadastrado.", Toast.LENGTH_LONG).show();
                         return;
                     }
-
                     Intent intent = new Intent(contexto, TelaChecarCodigo.class);
                     intent.putExtra("emailUsuario", emailUsuario);
                     intent.putExtra("controleChecarCod", "cadastrar");
@@ -139,8 +111,11 @@ public class clsUsuario {
                 });
     }
 
-    public static void alterarDados(Context contexto, String emailUsuario, String nomeUsuario, 
-                                   String numeroUsuario, String imgUsuario) {
+    /**
+     * 3. ALTERAR DADOS (Perfil e Foto)
+     */
+    public static void alterarDados(Context contexto, String emailUsuario, String nomeUsuario,
+                                    String numeroUsuario, String imgUsuario) {
         String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario;
 
         JsonObject jsonBody = new JsonObject();
@@ -157,39 +132,21 @@ public class clsUsuario {
                 .setJsonObjectBody(jsonBody)
                 .asJsonArray()
                 .setCallback((e, result) -> {
-                    if (e != null || result == null || result.size() == 0) {
-                        Toast.makeText(contexto, "Falha ao alterar dados.", Toast.LENGTH_LONG).show();
+                    if (e != null) {
+                        Toast.makeText(contexto, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         return;
                     }
-                    Toast.makeText(contexto, "Perfil editado!", Toast.LENGTH_LONG).show();
-                    contexto.startActivity(new Intent(contexto, TelaInicial.class));
+                    Toast.makeText(contexto, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    Intent it = new Intent(contexto, TelaInicial.class);
+                    it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    contexto.startActivity(it);
                 });
     }
 
-    public static void alterarSenha(Context contexto, String emailUsuario, String novaSenha) {
-        String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario;
-
-        JsonObject jsonBody = new JsonObject();
-        jsonBody.addProperty("senha_usuario", novaSenha);
-        jsonBody.addProperty("codigo_usuario", (int) (Math.random() * 10000));
-
-        Ion.with(contexto)
-                .load("PATCH", url)
-                .addHeader("Authorization", "Bearer " + API_KEY)
-                .addHeader("apikey", API_KEY)
-                .addHeader("Content-Type", "application/json")
-                .setJsonObjectBody(jsonBody)
-                .asJsonArray()
-                .setCallback((e, result) -> {
-                    if (e != null || result == null || result.size() == 0) {
-                        Toast.makeText(contexto, "Falha ao alterar senha.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    Toast.makeText(contexto, "Senha alterada!", Toast.LENGTH_LONG).show();
-                    contexto.startActivity(new Intent(contexto, TelaEntrar.class));
-                });
-    }
-
+    /**
+     * 4. VERIFICAR EMAIL (Recuperação de Senha)
+     */
     public static void verificarEmail(Context contexto, String emailUsuario) {
         String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario;
 
@@ -216,6 +173,36 @@ public class clsUsuario {
                 });
     }
 
+    /**
+     * 5. ALTERAR SENHA
+     */
+    public static void alterarSenha(Context contexto, String emailUsuario, String novaSenha) {
+        String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario;
+
+        JsonObject jsonBody = new JsonObject();
+        jsonBody.addProperty("senha_usuario", novaSenha);
+        jsonBody.addProperty("codigo_usuario", (int) (Math.random() * 10000)); // Reseta o código
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(jsonBody)
+                .asJsonArray()
+                .setCallback((e, result) -> {
+                    if (e != null) {
+                        Toast.makeText(contexto, "Falha ao alterar senha.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Toast.makeText(contexto, "Senha alterada!", Toast.LENGTH_LONG).show();
+                    contexto.startActivity(new Intent(contexto, TelaEntrar.class));
+                });
+    }
+
+    /**
+     * 6. VALIDAR EMAIL DO USUÁRIO (Ativação de conta)
+     */
     public static void validarEmailUsuario(Context contexto, String emailUsuario) {
         String url = BASE_URL + "usuarios?email_usuario=eq." + emailUsuario;
 
@@ -231,7 +218,7 @@ public class clsUsuario {
                 .setJsonObjectBody(jsonBody)
                 .asJsonArray()
                 .setCallback((e, result) -> {
-                    if (e != null || result == null || result.size() == 0) {
+                    if (e != null) {
                         Toast.makeText(contexto, "Erro ao validar usuário.", Toast.LENGTH_LONG).show();
                         return;
                     }
