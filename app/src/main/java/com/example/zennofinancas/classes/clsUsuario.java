@@ -121,7 +121,7 @@ public class clsUsuario {
         JsonObject jsonBody = new JsonObject();
         jsonBody.addProperty("nome_usuario", nomeUsuario);
         jsonBody.addProperty("numero_usuario", numeroUsuario);
-        jsonBody.addProperty("foto_usuario", imgUsuario);
+        jsonBody.addProperty("foto_usuario", imgUsuario); // Envia foto Base64 para coluna TEXT
 
         Ion.with(contexto)
                 .load("PATCH", url)

@@ -36,9 +36,7 @@ import com.example.zennofinancas.classes.ExtratoItem;
 import com.example.zennofinancas.classes.SupabaseHelper;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.example.zennofinancas.clsMetodos;
-import com.example.zennofinancas.ui.extrato.ExtratoFragmento;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,7 +75,7 @@ public class HomeFragmento extends Fragment {
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
         rvExtrato = view.findViewById(R.id.rvExtrato);
-        imgFotoUsuario = view.findViewById(R.id.imgVoltar);
+        imgFotoUsuario = view.findViewById(R.id.imgVoltar); // Referencia o ícone do perfil
         btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
         btnCardAnalise = view.findViewById(R.id.cardAnalise);
 
@@ -103,17 +101,30 @@ public class HomeFragmento extends Fragment {
             }
         });
 
+        // --- CARREGAMENTO DO USUÁRIO E FOTO ---
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(requireContext());
 
         if (usuario != null) {
             idUsuario = usuario.getIdUsuario().toString();
+
+            // CORREÇÃO: Agora chamando getFotoUsuario() para bater com sua classe
+            String fotoBase64 = usuario.getFotoUsuario();
+
+            if (fotoBase64 != null && !fotoBase64.isEmpty()) {
+                Bitmap bitmapUsuario = getBitmapFromBase64(fotoBase64);
+                if (bitmapUsuario != null) {
+                    imgFotoUsuario.setImageBitmap(bitmapUsuario);
+                }
+            }
+            // Se não tiver foto, ele mantém o src que está no XML (o ícone padrão)
+
         } else {
             Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
         }
 
         // Carrega os dados
         calcularSaldo();
-        carregarReceitasRecentes(); // Chama o método correto
+        carregarReceitasRecentes();
 
         btnMetas.setOnClickListener(v -> {
             Intent metas = new Intent(getActivity(), TelaMetas.class);
@@ -149,7 +160,6 @@ public class HomeFragmento extends Fragment {
     private void carregarReceitasRecentes() {
         if (getContext() == null || idUsuario == null) return;
 
-        // 1. Define limite de 15 dias atrás
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -15);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -164,7 +174,7 @@ public class HomeFragmento extends Fragment {
                 idUsuario,
                 null,
                 null,
-                "receita", // Busca apenas RECEITAS
+                "receita",
                 (e, result) -> {
                     if (e != null) return;
 
@@ -172,7 +182,6 @@ public class HomeFragmento extends Fragment {
                         List<ExtratoItem> receitasFiltradas = new ArrayList<>();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-                        // 2. Filtra por data (últimos 15 dias)
                         for (ExtratoItem item : result) {
                             try {
                                 Date dataItem = sdf.parse(item.getDataTransacao());
@@ -184,19 +193,14 @@ public class HomeFragmento extends Fragment {
                             }
                         }
 
-                        // 3. ORDENAÇÃO PELO ID (Decrescente: Maior ID primeiro)
-                        // Isso garante que o último cadastrado apareça no topo
                         receitasFiltradas.sort((item1, item2) ->
                                 Integer.compare(item2.getIdTransacao(), item1.getIdTransacao())
                         );
 
-                        // 4. Limita a 5 itens
-                        // 4. Limita a 5 itens
                         if (receitasFiltradas.size() > 5) {
                             receitasFiltradas = receitasFiltradas.subList(0, 5);
                         }
 
-                        // Atualiza a tela
                         adapterDespesas.atualizarLista(receitasFiltradas);
 
                         if (receitasFiltradas.isEmpty()) {
@@ -392,6 +396,7 @@ public class HomeFragmento extends Fragment {
         });
     }
 
+    // Método utilitário para converter Base64 em Bitmap
     private Bitmap getBitmapFromBase64(String base64String) {
         try {
             byte[] decodedBytes = Base64.decode(base64String, Base64.NO_WRAP);

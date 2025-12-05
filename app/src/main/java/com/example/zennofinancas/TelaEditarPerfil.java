@@ -1,7 +1,6 @@
 package com.example.zennofinancas;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,22 +46,27 @@ public class TelaEditarPerfil extends AppCompatActivity {
         btnTrocarFoto = findViewById(R.id.btnTrocarFoto);
         btnSalvarAlteracoes = findViewById(R.id.btnSalvarAlteracoes);
 
-        // Carrega dados atuais
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaEditarPerfil.this);
 
-        txtNomeEditPerfil.setText(usuario.getNomeUsuario());
-        txtEmailEditPerfil.setText(usuario.getEmailUsuario());
-        // txtCelularEditPerfil.setText(usuario.getNumeroUsuario()); // Descomente se tiver getter para numero
+        if (usuario != null) {
+            txtNomeEditPerfil.setText(usuario.getNomeUsuario());
+            txtEmailEditPerfil.setText(usuario.getEmailUsuario());
 
+            String fotoBase64 = usuario.getFotoUsuario();
+            boolean fotoCarregada = false;
 
-        if (usuario.getFotoUsuario() != null && !usuario.getFotoUsuario().isEmpty()) {
-            fotox = usuario.getFotoUsuario();
-            Bitmap fotoBitmap = getBitmapFromBase64(usuario.getFotoUsuario());
-            if (fotoBitmap != null) {
-                imgEditPerfil.setImageBitmap(fotoBitmap);
+            if (fotoBase64 != null && !fotoBase64.isEmpty()) {
+                fotox = fotoBase64;
+                Bitmap fotoBitmap = getBitmapFromBase64(fotoBase64);
+                if (fotoBitmap != null) {
+                    imgEditPerfil.setImageBitmap(fotoBitmap);
+                    fotoCarregada = true;
+                }
             }
-        } else {
-            imgEditPerfil.setImageResource(R.drawable.chat_bot);
+
+            if (!fotoCarregada) {
+                imgEditPerfil.setImageResource(R.drawable.foto_usuario);
+            }
         }
 
         btnTrocarFoto.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +83,8 @@ public class TelaEditarPerfil extends AppCompatActivity {
                 String nome = txtNomeEditPerfil.getText().toString();
                 String numero = txtCelularEditPerfil.getText().toString();
 
-                // 1. Salva no Banco de Dados (Nuvem)
                 clsUsuario.alterarDados(TelaEditarPerfil.this, email, nome, numero, fotox);
 
-                // 2. Atualiza Localmente (Para ver a mudança sem relogar imediatamente)
                 SharedPreferences prefs = TelaEditarPerfil.this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("nomeUsuario", nome);
@@ -103,9 +105,7 @@ public class TelaEditarPerfil extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             imagemUri = data.getData();
             try {
-
                 Bitmap bitmapOriginal = BitmapFactory.decodeStream(getContentResolver().openInputStream(imagemUri));
-
                 fotox = imagem_string(bitmapOriginal);
 
                 Bitmap bitmapParaMostrar = getBitmapFromBase64(fotox);
@@ -118,24 +118,17 @@ public class TelaEditarPerfil extends AppCompatActivity {
         }
     }
 
-
     public String imagem_string(Bitmap imagemOriginal) {
         Bitmap imagemReduzida = redimensionarImagem(imagemOriginal, 600);
-
         ByteArrayOutputStream data = new ByteArrayOutputStream();
-
-
         imagemReduzida.compress(Bitmap.CompressFormat.JPEG, 70, data);
-
         byte[] bytes = data.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
-
     public Bitmap redimensionarImagem(Bitmap imagemOriginal, int larguraMaxima) {
         int largura = imagemOriginal.getWidth();
         int altura = imagemOriginal.getHeight();
-
 
         if (largura <= larguraMaxima) return imagemOriginal;
 
