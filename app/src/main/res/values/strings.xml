@@ -153,4 +153,14 @@
     <string name="txtExtrato1">Você não possui transações registradas.</string>
     <string name="txtExtrato2">Adicione suas movimentações na home!</string>
 
+    // Detalhes Extrato
+    <string name="titulo_detalhes">Detalhes da Transação</string>
+    <string name="lbl_descricao">Descrição</string>
+    <string name="hint_descricao">Ex: Salário, Mercado...</string>
+    <string name="lbl_valor">Valor (R$)</string>
+    <string name="lbl_data">Data (DD/MM/AAAA)</string>
+    <string name="btn_salvar_alteracoes">Salvar Alterações</string>
+    <string name="btn_excluir_transacao">Excluir Transação</string>
+    <string name="desc_voltar">Voltar</string>
+
 </resources>

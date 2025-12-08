@@ -39,6 +39,7 @@ import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.example.zennofinancas.classes.clsDespesas;
 import com.example.zennofinancas.classes.clsReceitas;
 import com.example.zennofinancas.clsMetodos;
+import com.google.android.material.bottomnavigation.BottomNavigationView; // Importante para a navegação
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class HomeFragmento extends Fragment {
         btnAddDespesa = view.findViewById(R.id.btnDespesasHome);
         btnMetas = view.findViewById(R.id.Metas);
         rvExtrato = view.findViewById(R.id.rvExtrato);
-        imgFotoUsuario = view.findViewById(R.id.imgVoltar); // Referencia o ícone do perfil
+        imgFotoUsuario = view.findViewById(R.id.imgVoltar);
         btnVerNumerosHome = view.findViewById(R.id.btnVerNumerosHome);
         btnCardAnalise = view.findViewById(R.id.cardAnalise);
 
@@ -109,8 +110,6 @@ public class HomeFragmento extends Fragment {
 
         if (usuario != null) {
             idUsuario = usuario.getIdUsuario().toString();
-
-            // CORREÇÃO: Agora chamando getFotoUsuario() para bater com sua classe
             String fotoBase64 = usuario.getFotoUsuario();
 
             if (fotoBase64 != null && !fotoBase64.isEmpty()) {
@@ -119,8 +118,6 @@ public class HomeFragmento extends Fragment {
                     imgFotoUsuario.setImageBitmap(bitmapUsuario);
                 }
             }
-            // Se não tiver foto, ele mantém o src que está no XML (o ícone padrão)
-
         } else {
             Toast.makeText(requireContext(), "Falha ao carregar usuário.", Toast.LENGTH_SHORT).show();
         }
@@ -148,10 +145,25 @@ public class HomeFragmento extends Fragment {
         rvExtrato.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterDespesas = new ExtratoAdapter(listaDespesasProximas);
 
+        // --- ALTERAÇÃO: Clique leva ao Fragmento de Extrato ---
         adapterDespesas.setOnItemClickListener(item -> {
-            Toast.makeText(getContext(),
-                    "Despesa: " + item.getNomeCategoria() + " - " + item.getValorFormatado(),
-                    Toast.LENGTH_SHORT).show();
+            try {
+                // Tenta pegar a barra de navegação da MainActivity
+                // IMPORTANTE: Verifique se o ID no seu activity_main.xml é "bottomNavigationView"
+                BottomNavigationView bottomNav = requireActivity().findViewById(R.id.nav_view);
+
+                if (bottomNav != null) {
+                    // Simula o clique no botão de Extrato para trocar o fragmento
+                    // IMPORTANTE: Verifique se o ID no seu menu xml é "extrato" ou "nav_extrato"
+                    bottomNav.setSelectedItemId(R.id.navegacao_extrato);
+                } else {
+                    Toast.makeText(getContext(), "Navegação não encontrada", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Fallback caso dê erro, abre apenas um toast ou outra tela
+                Toast.makeText(getContext(), "Detalhes: " + item.getNomeCategoria(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         rvExtrato.setAdapter(adapterDespesas);
@@ -196,12 +208,14 @@ public class HomeFragmento extends Fragment {
                             }
                         }
 
+                        // ORDENAÇÃO: item2 vs item1 garante ordem DECRESCENTE (o último ID primeiro)
                         receitasFiltradas.sort((item1, item2) ->
                                 Integer.compare(item2.getIdTransacao(), item1.getIdTransacao())
                         );
 
-                        if (receitasFiltradas.size() > 5) {
-                            receitasFiltradas = receitasFiltradas.subList(0, 5);
+                        // --- ALTERAÇÃO: Mudança de 5 para 10 itens ---
+                        if (receitasFiltradas.size() > 10) {
+                            receitasFiltradas = receitasFiltradas.subList(0, 10);
                         }
 
                         adapterDespesas.atualizarLista(receitasFiltradas);
@@ -222,6 +236,7 @@ public class HomeFragmento extends Fragment {
     }
 
     private void exibirPopupReceita() {
+        // ... (MANTIDO IGUAL AO SEU CÓDIGO) ...
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_receita, null);
@@ -275,14 +290,12 @@ public class HomeFragmento extends Fragment {
             });
         });
 
-        // Inserindo numeros no spiner de repeticao
         ArrayList<String> numeros = new ArrayList<>();
-        numeros.add("1x (Não repetir)"); // Primeira opção
+        numeros.add("1x (Não repetir)");
         for (int i = 2; i <= 24; i++) {
             numeros.add(i + " Meses");
         }
 
-        // Configura adapter
         ArrayAdapter<String> adapterRepeticao = new ArrayAdapter<>(
                 requireContext(),
                 R.layout.spinner_item,
@@ -308,13 +321,11 @@ public class HomeFragmento extends Fragment {
                 return;
             }
 
-            // Pega o valor de repeticoes selecionado
             int repeticoes = 1;
             try {
                 Object sel = spRepeticao.getSelectedItem();
                 if (sel != null) {
-                    String selStr = sel.toString().trim(); // ex: "1x (Não repetir)" ou "3 Meses"
-                    // tenta extrair número no começo da string
+                    String selStr = sel.toString().trim();
                     String digits = selStr.replaceAll("^\\D*(\\d+).*$", "$1");
                     repeticoes = Integer.parseInt(digits);
                 } else {
@@ -336,12 +347,9 @@ public class HomeFragmento extends Fragment {
                         @Override
                         public void onSucesso(String mensagem, int quantidadeInserida) {
                             Log.d("SUPABASE", "Inserido: " + quantidadeInserida);
-
                             calcularSaldo();
                             carregarReceitasRecentes();
-
                         }
-
                         @Override
                         public void onErro(String erro) {
                             Log.e("SUPABASE", "Erro: " + erro);
@@ -350,12 +358,11 @@ public class HomeFragmento extends Fragment {
             );
 
             dialog.dismiss();
-
-
         });
     }
 
     private void exibirPopupDespesa() {
+        // ... (MANTIDO IGUAL AO SEU CÓDIGO) ...
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_add_despesa, null);
@@ -402,20 +409,17 @@ public class HomeFragmento extends Fragment {
                     String idCategoriaSelecionada = categorias.get(position)[0];
                     spCategoria.setTag(idCategoriaSelecionada);
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
         });
 
-        // Inserindo numeros no spiner de repeticao
         ArrayList<String> numeros = new ArrayList<>();
-        numeros.add("1x (Não repetir)"); // Primeira opção
+        numeros.add("1x (Não repetir)");
         for (int i = 2; i <= 24; i++) {
             numeros.add(i + " Meses");
         }
 
-        // Configura adapter
         ArrayAdapter<String> adapterRepeticao = new ArrayAdapter<>(
                 requireContext(),
                 R.layout.spinner_item,
@@ -441,13 +445,11 @@ public class HomeFragmento extends Fragment {
                 return;
             }
 
-            // Pega o valor de repeticoes selecionado
             int repeticoes = 1;
             try {
                 Object sel = spRepeticao.getSelectedItem();
                 if (sel != null) {
-                    String selStr = sel.toString().trim(); // ex: "1x (Não repetir)" ou "3 Meses"
-                    // tenta extrair número no começo da string
+                    String selStr = sel.toString().trim();
                     String digits = selStr.replaceAll("^\\D*(\\d+).*$", "$1");
                     repeticoes = Integer.parseInt(digits);
                 } else {
@@ -456,7 +458,6 @@ public class HomeFragmento extends Fragment {
             } catch (Exception ex) {
                 repeticoes = spRepeticao.getSelectedItemPosition() + 1;
             }
-
 
             clsDespesas.inserirDespesa(
                     requireActivity(),
@@ -487,7 +488,6 @@ public class HomeFragmento extends Fragment {
         });
     }
 
-    // Método utilitário para converter Base64 em Bitmap
     private Bitmap getBitmapFromBase64(String base64String) {
         try {
             byte[] decodedBytes = Base64.decode(base64String, Base64.NO_WRAP);
@@ -512,30 +512,23 @@ public class HomeFragmento extends Fragment {
                     isUpdating = false;
                     return;
                 }
-
                 String input = s.toString();
-
                 if (input.length() < current.length()) {
                     current = input;
                     return;
                 }
-
                 String clean = input.replaceAll("[^\\d]", "");
-
                 if (clean.isEmpty()) {
                     current = "";
                     isUpdating = true;
                     editText.setText("");
                     return;
                 }
-
                 StringBuilder formatted = new StringBuilder();
                 int length = clean.length();
-
                 if (length >= 1) {
                     String diaStr = clean.substring(0, Math.min(2, length));
                     int dia = Integer.parseInt(diaStr);
-
                     if (diaStr.length() == 1) {
                         if (dia > 3) {
                             formatted.append("0").append(dia);
@@ -550,11 +543,9 @@ public class HomeFragmento extends Fragment {
                         if (length > 2) formatted.append("/");
                     }
                 }
-
                 if (length >= 3) {
                     String mesStr = clean.substring(2, Math.min(4, length));
                     int mes = Integer.parseInt(mesStr);
-
                     if (mesStr.length() == 1) {
                         if (mes > 1) {
                             formatted.append("0").append(mes);
@@ -569,55 +560,17 @@ public class HomeFragmento extends Fragment {
                         if (length > 4) formatted.append("/");
                     }
                 }
-
                 if (length >= 5) {
                     String ano = clean.substring(4, Math.min(8, length));
                     formatted.append(ano);
-
-                    if (length == 8) {
-                        try {
-                            String diaFinal = clean.substring(0, 2);
-                            String mesFinal = clean.substring(2, 4);
-                            String anoFinal = clean.substring(4, 8);
-
-                            int d = Integer.parseInt(diaFinal);
-                            int m = Integer.parseInt(mesFinal);
-                            int a = Integer.parseInt(anoFinal);
-
-                            int diaMaximo = getDiaMaximoDoMes(m, a);
-
-                            if (d > diaMaximo) {
-                                d = diaMaximo;
-                                formatted = new StringBuilder(String.format("%02d/%02d/%s", d, m, anoFinal));
-                            }
-                        } catch (Exception e) {
-                            // Ignora erros
-                        }
-                    }
                 }
-
                 current = formatted.toString();
                 isUpdating = true;
                 editText.setText(current);
                 editText.setSelection(current.length());
             }
-
             @Override
             public void afterTextChanged(Editable s) {}
-
-            private int getDiaMaximoDoMes(int mes, int ano) {
-                switch (mes) {
-                    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-                        return 31;
-                    case 4: case 6: case 9: case 11:
-                        return 30;
-                    case 2:
-                        boolean bissexto = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
-                        return bissexto ? 29 : 28;
-                    default:
-                        return 31;
-                }
-            }
         });
     }
 }

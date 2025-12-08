@@ -110,7 +110,7 @@
                     <RelativeLayout
                         android:id="@+id/containerSpMoeda"
                         android:layout_width="170dp"
-                        android:layout_height="36dp">
+                        android:layout_height="46dp">
 
                         <Spinner
                             android:id="@+id/spMoeda"
@@ -183,7 +183,7 @@
                     <RelativeLayout
                         android:id="@+id/containerSpMoedaDestino"
                         android:layout_width="170dp"
-                        android:layout_height="36dp">
+                        android:layout_height="46dp">
 
                         <Spinner
                             android:id="@+id/spMoedaDestino"
@@ -206,8 +206,8 @@
 
             <TextView
                 android:id="@+id/txtResultado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="266dp"
+                android:layout_height="58dp"
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Resultado da Conversão"

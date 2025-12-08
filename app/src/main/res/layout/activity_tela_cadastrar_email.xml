@@ -8,16 +8,17 @@
     tools:context=".TelaCadastrarEmail">
 
     <ImageView
-        android:id="@+id/btnVoltarAnalise4"
+        android:id="@+id/btnVoltarCadastrar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="347dp"
         android:contentDescription="Voltar"
         android:padding="8dp"
         android:src="@drawable/voltar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +26,7 @@
         android:id="@+id/imgLogoCadastro"
         android:layout_width="158dp"
         android:layout_height="47dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,27 +34,11 @@
         app:srcCompat="@drawable/logo_3" />
 
     <TextView
-        android:id="@+id/txtEntrarConta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="118dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginBottom="23dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/subtituloCriarConta"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/tituloCadastro"
         android:layout_width="278dp"
         android:layout_height="38dp"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="86dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/tituloCriarContaEmail"
@@ -80,6 +65,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tituloCadastro" />
 
+    <TextView
+        android:id="@+id/lblNomeCriarConta"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="100dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblNomeCompleto"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtituloCadastro" />
+
     <EditText
         android:id="@+id/txtNomeCadastro"
         android:layout_width="357dp"
@@ -100,90 +101,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblNomeCriarConta" />
 
-    <Button
-        android:id="@+id/btnCadastrar"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="31dp"
-        android:backgroundTint="#1c9d6a"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/btnCriarConta"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtEntrarConta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
-        android:id="@+id/lblNomeCriarConta"
+        android:id="@+id/lblEmailCadastro"
         android:layout_width="283dp"
         android:layout_height="27dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="100dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblNomeCompleto"
+        android:text="@string/lblEmailLogin"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtituloCadastro" />
-
-    <TextView
-        android:id="@+id/lblSenhaCadastro"
-        android:layout_width="283dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="100dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblSenhaLogin"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailCadastro" />
-
-    <EditText
-        android:id="@+id/txtConfSenhaCadastro"
-        android:layout_width="357dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/backgroud_roxo"
-        android:backgroundTint="#2F114B"
-        android:drawableRight="@drawable/nao_vizualizar_senha"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_medium"
-        android:hint="@string/hintConfSenhaCriarConta"
-        android:inputType="textPassword"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#BFBFBF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblConfSenhaCadastro" />
-
-    <TextView
-        android:id="@+id/lblConfSenhaCadastro"
-        android:layout_width="283dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="100dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblConfirmarSenha"
-        android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSenhaCadastro" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNomeCadastro" />
 
     <EditText
         android:id="@+id/txtEmailCadastro"
@@ -207,20 +139,20 @@
         app:layout_constraintTop_toBottomOf="@+id/lblEmailCadastro" />
 
     <TextView
-        android:id="@+id/lblEmailCadastro"
+        android:id="@+id/lblSenhaCadastro"
         android:layout_width="283dp"
         android:layout_height="27dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="100dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/lblEmailLogin"
+        android:text="@string/lblSenhaLogin"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNomeCadastro" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailCadastro" />
 
     <EditText
         android:id="@+id/txtSenhaCadastro"
@@ -242,5 +174,58 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblSenhaCadastro" />
+
+    <TextView
+        android:id="@+id/lblConfSenhaCadastro"
+        android:layout_width="283dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="100dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/lblConfirmarSenha"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSenhaCadastro" />
+
+    <EditText
+        android:id="@+id/txtConfSenhaCadastro"
+        android:layout_width="357dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/backgroud_roxo"
+        android:backgroundTint="#2F114B"
+        android:drawableRight="@drawable/nao_vizualizar_senha"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_medium"
+        android:hint="@string/hintConfSenhaCriarConta"
+        android:inputType="textPassword"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#BFBFBF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblConfSenhaCadastro" />
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="46dp"
+        android:backgroundTint="#1c9d6a"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/btnCriarConta"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtConfSenhaCadastro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

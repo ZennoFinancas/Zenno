@@ -9,9 +9,7 @@ import com.example.zennofinancas.classes.clsDadosUsuario;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-/**
- * Tela inicial do app: responsável por exibir os botões de entrada e cadastro, além de verificar se o usuário já está logado.
- */
+/* Tela inicial do app: responsável por exibir os botões de entrada e cadastro, além de verificar se o usuário já está logado */
 
 public class MainActivity extends ActivityBase
 {
@@ -51,7 +49,7 @@ public class MainActivity extends ActivityBase
 
         // Botão "Cadastrar" → direciona para tela de cadastro
         btnCadastrar.setOnClickListener(view -> {
-            Intent it = new Intent(MainActivity.this, TelaCadastrar.class);
+            Intent it = new Intent(MainActivity.this, TelaCadastrarEmail.class);
             startActivity(it);
         });
 

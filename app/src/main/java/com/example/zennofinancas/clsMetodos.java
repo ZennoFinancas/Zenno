@@ -770,7 +770,6 @@ public class clsMetodos
                 });
     }
 
-
     public static void deletarObjetivo(Context contexto, String idObjetivo) {
 
         String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_objetivo=eq." + idObjetivo;
@@ -794,8 +793,123 @@ public class clsMetodos
                 });
     }
 
+    // Interface para retorno simples (Sucesso/Erro)
+    public interface CallbackSimples {
+        void onSucesso();
+        void onErro(String erro);
+    }
 
+    // --- MÉTODO ATUALIZAR CORRIGIDO COM O BANCO ---
+    public static void atualizarTransacao(Context contexto, String tabela, int idTransacao, String novaDescricao, String novoValor, String novaData, CallbackSimples callback) {
 
+        String nomeTabelaBanco;
+        String colunaId;
+        String colunaDescricao;
+        String colunaValor;
+        String colunaData;
 
+        // Verifica se é RECEITA ou DESPESA e ajusta os nomes das colunas conforme seu banco
+        if (tabela.equalsIgnoreCase("receitas") || tabela.equalsIgnoreCase("receita")) {
+            nomeTabelaBanco = "receitas";
+            colunaId = "id_receita";          // Nome no banco
+            colunaDescricao = "descricao_receita";
+            colunaValor = "valor_receita";
+            colunaData = "data_receita";
+        } else {
+            // AQUI ESTAVA O ERRO: A tabela é 'despesas', mas o ID é 'id_gasto'
+            nomeTabelaBanco = "despesas";
+            colunaId = "id_gasto";            // <--- CORREÇÃO IMPORTANTE
+            colunaDescricao = "descricao_despesa";
+            colunaValor = "valor_despesa";
+            colunaData = "data_despesa";
+        }
 
+        // URL montada com o nome da coluna correta
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + nomeTabelaBanco + "?" + colunaId + "=eq." + idTransacao;
+
+        JsonObject json = new JsonObject();
+        json.addProperty(colunaDescricao, novaDescricao);
+        try {
+            json.addProperty(colunaValor, Double.parseDouble(novoValor));
+        } catch (Exception e) {
+            json.addProperty(colunaValor, 0.0);
+        }
+        json.addProperty(colunaData, novaData);
+
+        Ion.with(contexto)
+                .load("PATCH", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .setJsonObjectBody(json)
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        if (e != null) {
+                            callback.onErro(e.getMessage());
+                            return;
+                        }
+                        callback.onSucesso();
+                    }
+                });
+    }
+
+    // --- MÉTODO EXCLUIR CORRIGIDO COM O BANCO ---
+    public static void excluirTransacao(Context contexto, String tabela, int idTransacao, CallbackSimples callback) {
+
+        String nomeTabelaBanco;
+        String colunaId;
+
+        // Configura os nomes baseados no seu esquema SQL
+        if (tabela.equalsIgnoreCase("receitas") || tabela.equalsIgnoreCase("receita")) {
+            nomeTabelaBanco = "receitas";
+            colunaId = "id_receita";
+        } else {
+            nomeTabelaBanco = "despesas";
+            colunaId = "id_gasto";  // <--- CORREÇÃO IMPORTANTE: No seu banco é id_gasto
+        }
+
+        // Monta a URL: DELETE FROM tabela WHERE id_gasto = idTransacao
+        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/" + nomeTabelaBanco + "?" + colunaId + "=eq." + idTransacao;
+
+        Ion.with(contexto)
+                .load("DELETE", url)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        if (e != null) {
+                            callback.onErro(e.getMessage());
+                            return;
+                        }
+                        callback.onSucesso();
+                    }
+                });
+    }
+
+    // Converte de YYYY-MM-DD (Banco) para DD/MM/YYYY (App)
+    public static String converterDataParaBR(String dataISO) {
+        if (dataISO == null || dataISO.trim().isEmpty()) {
+            return "";
+        }
+
+        try {
+            // Verifica se a data tem pelo menos 10 caracteres (yyyy-MM-dd)
+            if (dataISO.length() < 10) return "";
+
+            String ano = dataISO.substring(0, 4);
+            String mes = dataISO.substring(5, 7);
+            String dia = dataISO.substring(8, 10);
+
+            return dia + "/" + mes + "/" + ano;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 }

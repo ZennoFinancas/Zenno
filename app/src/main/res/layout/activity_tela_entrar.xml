@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Tela de Login do aplicativo.
-    Contém logo, título, campos de email/senha, botão de login
-    e opção de cadastro.
--->
+<!--Tela de Login do aplicativo. Contém logo, título, campos de email/senha, botão de login -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,12 +15,13 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="347dp"
         android:contentDescription="Voltar"
         android:padding="8dp"
         android:src="@drawable/voltar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,30 +39,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_3" />
 
-    <!-- Texto exibido no rodapé, direcionando para criar conta -->
-    <TextView
-        android:id="@+id/txtCadastrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="95dp"
-        android:layout_marginEnd="94dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/subtituloSemConta"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Entrada de texto para o email do usuário -->
+    <!-- Campo de entrada de texto para email -->
     <EditText
         android:id="@+id/txtEmailLogin"
         android:layout_width="357dp"
         android:layout_height="48dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginEnd="51dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="25dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1C9D6A"
         android:drawableTint="#FFFFFF"
@@ -81,12 +62,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmailLogin" />
 
-    <!-- Texto indicando o campo de senha -->
+    <!-- Texto exibindo o label "Senha" do campo de senha -->
     <TextView
         android:id="@+id/lblSenhaLogin"
         android:layout_width="283dp"
         android:layout_height="27dp"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="82dp"
         android:fontFamily="@font/montserrat_medium"
@@ -95,16 +75,16 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEmailLogin" />
 
-    <!-- Texto indicando o campo de email -->
+    <!-- Texto exibindo o label "Email" do campo de email -->
     <TextView
         android:id="@+id/lblEmailLogin"
         android:layout_width="283dp"
         android:layout_height="27dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="82dp"
         android:fontFamily="@font/montserrat_medium"
@@ -114,10 +94,10 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtEmailLogin"
         app:layout_constraintTop_toBottomOf="@+id/subtituloLogin" />
 
-    <!-- Link de recuperação de senha -->
+    <!-- Link para redefinir a senha -->
     <TextView
         android:id="@+id/lblEsqSenha"
         android:layout_width="320dp"
@@ -135,7 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSenhaLogin" />
 
-    <!-- Botão que realiza o login do usuário -->
+    <!-- Botão para fazer login -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="315dp"
@@ -143,23 +123,25 @@
         android:layout_marginStart="45dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="51dp"
+        android:layout_marginBottom="111dp"
         android:backgroundTint="#712aaf"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/btnEntrarInicial"
         android:textSize="20sp"
         app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEsqSenha" />
 
-    <!-- Entrada de texto para a senha do usuário -->
+    <!-- Campo de entrada de senha com ícone para visualizar -->
     <EditText
         android:id="@+id/txtSenhaLogin"
         android:layout_width="357dp"
         android:layout_height="48dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginEnd="51dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="25dp"
         android:background="@drawable/backgroud_verde"
         android:backgroundTint="#1C9D6A"
         android:drawableRight="@drawable/vizualizar_senha"
@@ -195,7 +177,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoLogin" />
 
-    <!-- Subtítulo explicativo logo abaixo -->
+    <!-- Subtítulo com mensagem complementar -->
     <TextView
         android:id="@+id/subtituloLogin"
         android:layout_width="283dp"

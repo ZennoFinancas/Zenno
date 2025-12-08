@@ -14,45 +14,24 @@
         tools:context=".TelaPoliticaPrivacidade">
 
         <ImageView
-            android:id="@+id/btnVoltarAnalise10"
+            android:id="@+id/btnVoltarPolitica"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="34dp"
-            android:layout_marginEnd="347dp"
             android:contentDescription="Voltar"
             android:padding="8dp"
             android:src="@drawable/voltar"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnCadastrar2"
-            android:layout_width="315dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="#1c9d6a"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/btnPoliticaPrivac"
-            android:textSize="20sp"
-            app:cornerRadius="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblDadosColetados5"
-            app:layout_constraintVertical_bias="1.0" />
-
         <TextView
             android:id="@+id/tituloPoliticaPrivac5"
-            android:layout_width="306dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="48dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="33dp"
-            android:layout_marginEnd="41dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/tituloPoliticaPrivac"
             android:textAlignment="center"
@@ -60,9 +39,8 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnVoltarAnalise10" />
+            app:layout_constraintTop_toBottomOf="@+id/btnVoltarPolitica" />
 
         <TextView
             android:id="@+id/lblDadosColetados5"
@@ -70,13 +48,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/lblPoliticaPrivac"
             android:textAlignment="textStart"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tituloPoliticaPrivac5" />
 

@@ -139,6 +139,7 @@
             android:hint="ex: 12/12/2012"
             android:inputType="date"
             android:textColorHint="#BFBFBF"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class TelaNotificacoes extends AppCompatActivity {
+public class TelaNotificacoes extends ActivityBase {
 
     private Switch swtDesativarNotif;
     private Switch swtSonsNotif;

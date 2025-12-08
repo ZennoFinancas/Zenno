@@ -25,16 +25,6 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/logoApp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/logo"
-            app:layout_constraintEnd_toStartOf="@+id/Metas"
-            app:layout_constraintStart_toEndOf="@+id/imgVoltar"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
             android:id="@+id/Metas"
             android:layout_width="56dp"
             android:layout_height="43dp"

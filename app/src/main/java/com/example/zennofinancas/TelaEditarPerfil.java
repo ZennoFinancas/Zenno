@@ -22,10 +22,11 @@ import com.example.zennofinancas.classes.clsUsuario;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
-public class TelaEditarPerfil extends AppCompatActivity {
+public class TelaEditarPerfil extends ActivityBase {
 
     EditText txtNomeEditPerfil, txtEmailEditPerfil, txtCelularEditPerfil;
-    ImageView imgEditPerfil;
+    // Adicionei a variável btnVoltar aqui
+    ImageView imgEditPerfil, btnVoltar;
     Button btnTrocarFoto, btnSalvarAlteracoes;
 
     Uri imagemUri;
@@ -43,8 +44,19 @@ public class TelaEditarPerfil extends AppCompatActivity {
         txtCelularEditPerfil = findViewById(R.id.txtCelularEditPerfil);
         imgEditPerfil = findViewById(R.id.imgFotoEditPerfil);
 
+        // Vínculo do botão voltar com o XML
+        btnVoltar = findViewById(R.id.btnVoltarEditarPerfil);
+
         btnTrocarFoto = findViewById(R.id.btnTrocarFoto);
         btnSalvarAlteracoes = findViewById(R.id.btnSalvarAlteracoes);
+
+        // Ação do Botão Voltar
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish(); // Fecha essa tela e retorna automaticamente para a anterior (TelaMeuPerfil)
+            }
+        });
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaEditarPerfil.this);
 
@@ -90,6 +102,9 @@ public class TelaEditarPerfil extends AppCompatActivity {
                 editor.putString("nomeUsuario", nome);
                 editor.putString("fotoUsuario", fotox);
                 editor.apply();
+
+                // Opcional: Se quiser voltar automaticamente após salvar, descomente a linha abaixo
+                // finish();
             }
         });
     }

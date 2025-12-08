@@ -53,6 +53,13 @@ public class ExtratoFragmento extends Fragment {
 
     private String idUsuario = "";
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Recarrega os dados quando volta para o fragmento (caso tenha editado/excluído)
+        carregarExtratoDoBanco();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -97,9 +104,17 @@ public class ExtratoFragmento extends Fragment {
 
         // Ação ao clicar no item
         adapter.setOnItemClickListener(item -> {
-            Toast.makeText(getContext(),
-                    "Clicou em: " + item.getNomeCategoria(),
-                    Toast.LENGTH_SHORT).show();
+            // Cria a intenção de abrir a nova tela
+            Intent intent = new Intent(getContext(), com.example.zennofinancas.TelaDetalhesExtrato.class);
+
+            // Passa os dados do item clicado para a nova tela
+            intent.putExtra("ID", item.getIdTransacao());
+            intent.putExtra("DESCRICAO", item.getDescricao() != null ? item.getDescricao() : item.getNomeCategoria());
+            intent.putExtra("VALOR", item.getValorNumerico());
+            intent.putExtra("DATA", item.getDataTransacao()); // Passa yyyy-MM-dd
+            intent.putExtra("TIPO", item.getTipoTransacao()); // receita ou despesa
+
+            startActivity(intent);
         });
 
         rvExtrato.setAdapter(adapter);
@@ -189,7 +204,7 @@ public class ExtratoFragmento extends Fragment {
     }
 
     /**
-     * Aplica filtro local baseado no spinner e atualiza o saldo
+     * Aplica filtro local baseado no spinner (Só visual)
      */
     private void aplicarFiltroLocal(String filtro) {
         listaFiltrada.clear();
@@ -218,18 +233,21 @@ public class ExtratoFragmento extends Fragment {
 
         adapter.atualizarLista(listaFiltrada);
         mostrarMensagemVazia(listaFiltrada.isEmpty());
-        atualizarSaldo(); // Atualiza o saldo após aplicar o filtro
+
+        // O saldo deve ser calculado sempre, independente do filtro
+        atualizarSaldo();
     }
 
     /**
-     * Calcula e exibe o saldo da lista filtrada
+     * Calcula e exibe o saldo DO MÊS (baseado na lista completa)
      */
     private void atualizarSaldo() {
         double totalReceitas = 0.0;
         double totalDespesas = 0.0;
 
-        // Calcula o total de receitas e despesas da lista filtrada
-        for (ExtratoItem item : listaFiltrada) {
+        // CORREÇÃO: Usamos listaCompleta aqui em vez de listaFiltrada
+        // Isso garante que o saldo mostre a realidade do mês, mesmo se estiver filtrando só despesas
+        for (ExtratoItem item : listaCompleta) {
             if (item.isReceita()) {
                 totalReceitas += item.getValorNumerico();
             } else if (item.isDespesa()) {
@@ -247,7 +265,7 @@ public class ExtratoFragmento extends Fragment {
         // Exibe o saldo
         txtReceitaHome2.setText(saldoFormatado);
 
-        // Opcional: Mudar cor do texto baseado no saldo
+        // Muda cor do texto baseado no saldo
         if (saldo >= 0) {
             txtReceitaHome2.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
         } else {

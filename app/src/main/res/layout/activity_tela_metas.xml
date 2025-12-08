@@ -8,7 +8,7 @@
     tools:context=".TelaMetas">
 
     <ImageView
-        android:id="@+id/btnVoltarAnalise8"
+        android:id="@+id/btnVoltarMetas"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/subtituloMetas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVoltarAnalise8" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVoltarMetas" />
 
     <TextView
         android:id="@+id/subtituloMetas"

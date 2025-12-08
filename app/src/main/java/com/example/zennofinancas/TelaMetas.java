@@ -20,6 +20,7 @@ import com.example.zennofinancas.classes.clsMetas;
 public class TelaMetas extends ActivityBase {
 
     Button btnAbrirCadastro;
+    ImageView btnVoltar; // 1. Variável para o botão voltar
     LinearLayout containerMetas;
     String idUsuario;
     TextView subtituloMetas;
@@ -31,9 +32,15 @@ public class TelaMetas extends ActivityBase {
         setContentView(R.layout.activity_tela_metas);
 
         btnAbrirCadastro = findViewById(R.id.btnMetas);
+        btnVoltar = findViewById(R.id.btnVoltarMetas); // 2. Vincular ID
         containerMetas = findViewById(R.id.containerMetas);
         subtituloMetas = findViewById(R.id.subtituloMetas);
         scrollMetas = findViewById(R.id.scrollMetas);
+
+        // 3. Ação do botão voltar
+        btnVoltar.setOnClickListener(v -> {
+            finish(); // Fecha a tela de metas e volta para a Home
+        });
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaMetas.this);
         if (usuario != null) {
@@ -76,12 +83,9 @@ public class TelaMetas extends ActivityBase {
                     Toast.makeText(this, "Erro ao salvar meta!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 buscarMetas();
-
                 dialog.dismiss();
             });
-
             dialog.dismiss();
         });
 
@@ -90,6 +94,7 @@ public class TelaMetas extends ActivityBase {
 
     private void adicionarMetaNaTela(String idMeta, String nome, String valorStr) {
         LayoutInflater inflater = LayoutInflater.from(this);
+        // Inflamos o cardView
         View cardView = inflater.inflate(R.layout.item_meta, containerMetas, false);
 
         cardView.setTag("meta_id_" + idMeta);
@@ -115,12 +120,8 @@ public class TelaMetas extends ActivityBase {
                 Toast.makeText(TelaMetas.this, "Erro ao buscar aportes", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             int progressoAtual = (int) Math.round(totalAportes * 100.0);
-
-            // NÃO LIMITAR UI (pode passar 100%)
             progressoMetas.setProgress(Math.min(progressoAtual, finalMaxCents));
-
             double valorGuardado = totalAportes;
             valorMeta.setText(String.format(java.util.Locale.getDefault(), "R$%.2f  |  %s", valorGuardado, valorFormatado));
         });
@@ -131,9 +132,20 @@ public class TelaMetas extends ActivityBase {
         tituloNomedaMeta.setOnClickListener(v -> abrirDialogEditarMeta(
                 tituloNomedaMeta, valorMeta, progressoMetas, valorNecessario, idMeta));
 
+        // 4. LÓGICA DE EXCLUSÃO VISUAL IMEDIATA
         imgExcluirMeta.setOnClickListener(v -> {
+            // Manda excluir no banco
             clsMetas.excluirObjetivo(TelaMetas.this, idMeta);
-            buscarMetas();
+
+            // Remove visualmente da tela NA HORA, sem esperar recarregar
+            containerMetas.removeView(cardView);
+            Toast.makeText(TelaMetas.this, "Meta excluída!", Toast.LENGTH_SHORT).show();
+
+            // Verifica se não sobrou nenhuma meta para mostrar o texto "Nenhuma meta cadastrada"
+            if (containerMetas.getChildCount() == 0) {
+                subtituloMetas.setVisibility(View.VISIBLE);
+                scrollMetas.setVisibility(View.GONE);
+            }
         });
 
         subtituloMetas.setVisibility(View.GONE);
@@ -169,21 +181,17 @@ public class TelaMetas extends ActivityBase {
             int progressoAtual = progressoMetas.getProgress();
             int progressoMaximo = progressoMetas.getMax();
 
-            // Validação não permitir ultrapassar a meta
             if (progressoAtual + aporteCents > progressoMaximo) {
                 double valorPermitido = (progressoMaximo - progressoAtual) / 100.0;
                 Toast.makeText(this, "Você só pode guardar até R$" + String.format("%.2f", valorPermitido), Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Atualizar barra
             progressoAtual += aporteCents;
             progressoMetas.setProgress(progressoAtual);
 
-            // Salvar no banco
             clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorStr);
 
-            // Atualizar texto do card
             double valorGuardado = progressoAtual / 100.0;
             valorMeta.setText(String.format("R$%.2f  |  R$%.2f", valorGuardado, valorNecessario));
 

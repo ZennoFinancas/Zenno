@@ -136,6 +136,7 @@
             android:backgroundTint="#1C9D6A"
             android:fontFamily="@font/montserrat_medium"
             android:hint="ex: 12/12/2012"
+            android:textColor="#FFFFFF"
             android:inputType="date"
             android:textColorHint="#BFBFBF"
             android:textSize="15sp"

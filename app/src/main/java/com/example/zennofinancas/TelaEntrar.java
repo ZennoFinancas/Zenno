@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zennofinancas.classes.clsUsuario;
 
-/**
- * Tela de Login: responsável pela autenticação do usuário e pela navegação para recuperação de senha.
- */
+/* Tela de Login: responsável pela autenticação do usuário e pela navegação para recuperação de senha */
 
 public class TelaEntrar extends ActivityBase
 {
@@ -19,6 +18,7 @@ public class TelaEntrar extends ActivityBase
     EditText txtEmail, txtSenha;
     TextView lblEsqSenha;
     Button btnEntrar;
+    ImageView btnVoltarEntrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +31,10 @@ public class TelaEntrar extends ActivityBase
         txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
         txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
         lblEsqSenha = (TextView) findViewById(R.id.lblEsqSenha);
+        btnVoltarEntrar = (ImageView) findViewById(R.id.btnVoltarEntrar);
+
+        // Definição do estado inicial do ícone
+        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar_senha, 0);
 
         // Detecta toque no ícone de "ver senha" dentro do EditText
         txtSenha.setOnTouchListener((v, event) ->
@@ -44,7 +48,7 @@ public class TelaEntrar extends ActivityBase
                         - txtSenha.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()))
                 {
 
-                    // Verifica se a senha está oculta ou visível
+                    // Verifica se a senha está oculta
                     boolean senhaOculta =
                             txtSenha.getInputType() ==
                                     (android.text.InputType.TYPE_CLASS_TEXT |
@@ -52,29 +56,30 @@ public class TelaEntrar extends ActivityBase
 
                     if (senhaOculta)
                     {
-                        // Mostrar senha
+                        // AÇÃO: MOSTRAR A SENHA
                         txtSenha.setInputType(
                                 android.text.InputType.TYPE_CLASS_TEXT |
                                         android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar_senha, 0);
 
+                        // Troca para o ícone de olho aberto
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar_senha, 0);
                     }
-
                     else
                     {
-                        // Ocultar senha novamente
+                        // AÇÃO: OCULTAR A SENHA
                         txtSenha.setInputType(
                                 android.text.InputType.TYPE_CLASS_TEXT |
                                         android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vizualizar_senha, 0);
+
+                        // Troca para o ícone de olho fechado
+                        txtSenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.nao_vizualizar_senha, 0);
                     }
 
-                    // Mantém o cursor sempre no final do texto
+                    // Mantém o cursor sempre no final do texto para não atrapalhar a digitação
                     txtSenha.setSelection(txtSenha.getText().length());
                     return true;
                 }
             }
-
             return false;
         });
 
@@ -94,9 +99,15 @@ public class TelaEntrar extends ActivityBase
             }
         });
 
-        // Label "Esqueceu a senha" → direciona para tela de esqueceu a senha
+        // Label "Esqueceu a senha"
         lblEsqSenha.setOnClickListener(view -> {
             Intent it = new Intent(TelaEntrar.this, TelaEsqueceuASenha.class);
+            startActivity(it);
+        });
+
+        // Evento do botão Voltar
+        btnVoltarEntrar.setOnClickListener(view -> {
+            Intent it = new Intent(TelaEntrar.this, MainActivity.class);
             startActivity(it);
         });
     }

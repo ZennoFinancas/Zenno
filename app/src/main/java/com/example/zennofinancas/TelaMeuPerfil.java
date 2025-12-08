@@ -1,6 +1,5 @@
 package com.example.zennofinancas;
 
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.zennofinancas.classes.clsDadosUsuario;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TelaMeuPerfil extends AppCompatActivity {
+public class TelaMeuPerfil extends ActivityBase {
 
     TextView lblEditarPerfil, lblNotificacoes, lblSuporte, lblSairConta, lblTermosPoliticas, lblSobreApp, lblNomeMeuPerfil, lblEmailMeuPerfil;
     ImageView imgFotoMeuPerfil, imgEditarPerfil, imgNotificacoes, imgSuporte, imgTermosPoliticas, imgSobreApp, imgSairConta;
@@ -39,7 +38,7 @@ public class TelaMeuPerfil extends AppCompatActivity {
         imgSobreApp = findViewById(R.id.imgSobreApp);
         imgTermosPoliticas = findViewById(R.id.imgTermosPoliticas);
         imgSairConta = findViewById(R.id.imgSairConta);
-        btnVoltar = findViewById(R.id.btnVoltarAnalise2);
+        btnVoltar = findViewById(R.id.btnVoltarMeuPerfil);
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaMeuPerfil.this);
 

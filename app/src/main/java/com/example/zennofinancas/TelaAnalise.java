@@ -61,7 +61,6 @@ import okhttp3.Response;
 
 public class TelaAnalise extends ActivityBase implements OnChartValueSelectedListener {
 
-    // UI Components
     private PieChart pieChart;
     private ImageView btnVoltar;
     private TextView txtSemDados;
@@ -298,7 +297,7 @@ public class TelaAnalise extends ActivityBase implements OnChartValueSelectedLis
     private void gerarAnaliseComIA(List<ExtratoItem> lista) {
         cardIA.setVisibility(View.VISIBLE);
 
-        // 1. Calcula o total exato para usar como parte da "assinatura" (Hash) dos dados
+        // 1. Calcula o total e mapeia categorias
         HashMap<String, Float> categorias = new HashMap<>();
         float totalCalculado = 0;
 
@@ -309,26 +308,29 @@ public class TelaAnalise extends ActivityBase implements OnChartValueSelectedLis
             totalCalculado += val;
         }
 
-        // 2. Cria a CHAVE DO CACHE: "analise_ID_MES_ANO_TOTAL"
-        // Se o total mudar (ex: adicionou despesa), a chave muda e força nova busca.
+        // 2. CRIAÇÃO DA CHAVE DE CACHE INTELIGENTE
         int mes = calendario.get(Calendar.MONTH) + 1;
         int ano = calendario.get(Calendar.YEAR);
-        String chaveCache = "analise_" + idUsuario + "_" + mes + "_" + ano + "_" + totalCalculado;
+        int quantidadeItens = lista.size(); // <--- NOVIDADE: Conta quantos itens tem
+
+        // A chave agora depende do ID + DATA + VALOR TOTAL + QUANTIDADE DE ITENS
+        // Se qualquer coisa mudar (adicionar, remover, editar valor), a chave muda.
+        String chaveCache = "analise_" + idUsuario + "_" + mes + "_" + ano + "_" + totalCalculado + "_" + quantidadeItens;
 
         // 3. Tenta recuperar do SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_ANALISE, Context.MODE_PRIVATE);
         String analiseSalva = prefs.getString(chaveCache, null);
 
         if (analiseSalva != null) {
-            // SUCESSO! TEMOS CACHE!
-            // Mostra direto sem loading e sem gastar API
+            // CENÁRIO 1: Nada mudou desde a última vez.
+            // Usa o texto salvo instantaneamente.
             progressBarIA.setVisibility(View.GONE);
             txtAnaliseIA.setText(analiseSalva);
             return;
         }
 
-        // 4. Se não tem cache, mostra Loading e chama a API
-        txtAnaliseIA.setText("Analisando gastos...");
+        // CENÁRIO 2: Algo mudou (Valor ou Quantidade). Chama a IA.
+        txtAnaliseIA.setText("Identificando mudanças nos gastos...");
         progressBarIA.setVisibility(View.VISIBLE);
 
         StringBuilder resumoGastos = new StringBuilder();
@@ -340,7 +342,6 @@ public class TelaAnalise extends ActivityBase implements OnChartValueSelectedLis
         resumoGastos.append("Total: R$ ").append(String.format("%.2f", totalCalculado));
         resumoGastos.append("\n\nInstrução: Aja como um consultor financeiro. Faça uma análise curta (máximo 3 frases) e motivadora. Diga onde gastei mais e dê 1 dica rápida. Use emojis.");
 
-        // Passamos a chaveCache para salvar depois que voltar
         chamadaApiGemini(resumoGastos.toString(), chaveCache);
     }
 
