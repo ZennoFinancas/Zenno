@@ -81,7 +81,7 @@ public class TelaMeuPerfil extends ActivityBase {
         imgNotificacoes.setOnClickListener(notificacoesClickListener);
 
         View.OnClickListener suporteClickListener = v -> {
-            String url = "http://tcc3edsmodetecgr5.hospedagemdesites.ws/SitezenoFinancas/fale-conosco.php";
+            String url = "https://zennofinancas.xo.je/fale-conosco.php";
             Intent it = new Intent(Intent.ACTION_VIEW);
             it.setData(android.net.Uri.parse(url));
             startActivity(it);

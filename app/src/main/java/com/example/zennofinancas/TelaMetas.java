@@ -2,6 +2,7 @@ package com.example.zennofinancas;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,8 @@ public class TelaMetas extends ActivityBase {
 
         // 3. Ação do botão voltar
         btnVoltar.setOnClickListener(v -> {
-            finish(); // Fecha a tela de metas e volta para a Home
+            Intent intent = new Intent(TelaMetas.this, TelaInicial.class);
+            startActivity(intent); // Fecha a tela de metas e volta para a Home
         });
 
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaMetas.this);
@@ -190,12 +192,11 @@ public class TelaMetas extends ActivityBase {
             progressoAtual += aporteCents;
             progressoMetas.setProgress(progressoAtual);
 
-            clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorStr);
+            clsMetas.inserirAporteObjetivo(TelaMetas.this, idMeta, valorStr, idUsuario);
 
             double valorGuardado = progressoAtual / 100.0;
             valorMeta.setText(String.format("R$%.2f  |  R$%.2f", valorGuardado, valorNecessario));
 
-            Toast.makeText(this, "Valor guardado com sucesso!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 

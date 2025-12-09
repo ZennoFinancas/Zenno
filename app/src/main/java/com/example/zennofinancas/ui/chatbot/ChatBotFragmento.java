@@ -75,7 +75,15 @@ public class ChatBotFragmento extends Fragment {
                     "Fale sempre em Português (PT-BR) e use valores em Reais (R$). " +
                     "Se perguntarem algo que não seja sobre finanças ou o app, diga educadamente: 'Desculpe, como assistente do Zenno, só posso ajudar com suas finanças.' " +
                     "Seja conciso e direto nas respostas." +
-                    "Não responder com textos em negrito";
+                    "Não responder com textos em negrito " +
+                    "Criadores do Zenno Finanças: " +
+                    "Lincoln Silva Vieira - Programador Backend do site. " +
+                    "Matheus De Lima Ribeiro - Programador Backend do app. " +
+                    "Matheus Norberto Dos Reis - Programador Frontend do app. " +
+                    "Pedro Costa Pereira - Programador Frontend do app. " +
+                    "Vinicius Alves De Souza - Programador Backend do app. " +
+                    "Vinicius Csetneky De Araujo - Programador Frontend do site.";
+
 
     private final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)

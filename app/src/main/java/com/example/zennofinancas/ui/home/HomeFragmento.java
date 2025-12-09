@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -251,6 +252,7 @@ public class HomeFragmento extends Fragment {
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoReceita);
         Spinner spRepeticao = view.findViewById(R.id.spRepeticao);
+        Switch swRepetir = view.findViewById(R.id.swtRepetirReceita);
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
@@ -303,6 +305,29 @@ public class HomeFragmento extends Fragment {
         );
         adapterRepeticao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRepeticao.setAdapter(adapterRepeticao);
+
+
+        // Estado inicial
+        spRepeticao.setEnabled(false);
+        spRepeticao.setSelection(0);
+        spRepeticao.setAlpha(0.5f);
+
+        swRepetir.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // ATIVA o spinner de repetição
+                spRepeticao.setEnabled(true);
+                spRepeticao.setAlpha(1.0f); // Restaura opacidade normal
+
+                // Opcional: Seleciona um valor padrão (ex: 3 meses)
+                // spRepeticao.setSelection(2); // Índice 2 = "3 Meses"
+
+            } else {
+                // DESATIVA o spinner de repetição
+                spRepeticao.setEnabled(false);
+                spRepeticao.setSelection(0); // Volta para "1x (Não repetir)"
+                spRepeticao.setAlpha(0.5f); // Deixa opaco para indicar desabilitado
+            }
+        });
 
 
         btnSalvar.setOnClickListener(v -> {
@@ -377,6 +402,7 @@ public class HomeFragmento extends Fragment {
         Button btnSalvar = view.findViewById(R.id.btnSalvar);
         Spinner spCategoria = view.findViewById(R.id.spTipoDespesa);
         Spinner spRepeticao = view.findViewById(R.id.spRepeticao);
+        Switch swRepetir = view.findViewById(R.id.swtRepetirDespesa);
         ImageView imgSetaCategoria = view.findViewById(R.id.imgCategorias);
 
         AnimacaoUtils.configurarSetaSpinner(spCategoria, imgSetaCategoria);
@@ -428,6 +454,27 @@ public class HomeFragmento extends Fragment {
         adapterRepeticao.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRepeticao.setAdapter(adapterRepeticao);
 
+        // Estado inicial
+        spRepeticao.setEnabled(false);
+        spRepeticao.setSelection(0);
+        spRepeticao.setAlpha(0.5f);
+
+        swRepetir.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // ATIVA o spinner de repetição
+                spRepeticao.setEnabled(true);
+                spRepeticao.setAlpha(1.0f); // Restaura opacidade normal
+
+                // Opcional: Seleciona um valor padrão (ex: 3 meses)
+                // spRepeticao.setSelection(2); // Índice 2 = "3 Meses"
+
+            } else {
+                // DESATIVA o spinner de repetição
+                spRepeticao.setEnabled(false);
+                spRepeticao.setSelection(0); // Volta para "1x (Não repetir)"
+                spRepeticao.setAlpha(0.5f); // Deixa opaco para indicar desabilitado
+            }
+        });
 
         btnSalvar.setOnClickListener(v -> {
             String nomeDespesa = txtNomeDespesa.getText().toString().trim();
@@ -475,15 +522,25 @@ public class HomeFragmento extends Fragment {
     }
 
     private void calcularSaldo() {
+        // Busca Receitas
         clsMetodos.buscarSaldo(requireContext(), idUsuario, receitas -> {
+
+            // Busca Despesas
             clsMetodos.buscarDespesas(requireContext(), idUsuario, despesas -> {
-                txtReceitasHome.setText("R$" + receitas);
-                txtDespesasHome.setText("R$" + despesas);
 
-                double saldoFinal = receitas - despesas;
-                String saldoFormatado = String.format("R$ %.2f", saldoFinal);
+                // ✅ NOVO: Busca Total de Aportes
+                clsMetodos.buscarAportesTotal(requireContext(), idUsuario, aportes -> {
 
-                txtSaldoAtual.setText(saldoFormatado);
+                    // Exibe valores
+                    txtReceitasHome.setText(String.format("R$ %.2f", receitas));
+                    txtDespesasHome.setText(String.format("R$ %.2f", despesas));
+
+                    // Receitas - Despesas - Aportes
+                    double saldoFinal = receitas - despesas - aportes;
+                    String saldoFormatado = String.format("R$ %.2f", saldoFinal);
+
+                    txtSaldoAtual.setText(saldoFormatado);
+                });
             });
         });
     }

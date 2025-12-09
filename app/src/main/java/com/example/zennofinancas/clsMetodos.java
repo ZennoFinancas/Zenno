@@ -692,44 +692,61 @@ public class clsMetodos
                 });
     }
 
-    public static void inserirAporteObjetivo(Context contexto,
-                                       String idObjetivo,
-                                       String valorDesejado)
-    {
+    // Adicione este método na classe clsMetodos (ou no controlador apropriado)
 
-        String url = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo";
+    public interface AportesTotalCallback {
+        void onResultado(double totalAportes);
+    }
 
-        // Converter o valor desejado para padrão numérico
-        float valor = 0;
-        try {
-            valor = Float.parseFloat(valorDesejado.replace(",", "."));
-        } catch (Exception e) {
-            Toast.makeText(contexto, "Valor inválido!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Criar JSON
-        JsonObject json = new JsonObject();
-        json.addProperty("id_objetivo", idObjetivo);
-        json.addProperty("valor", valor);
+    public static void buscarAportesTotal(Context contexto, String idUsuario, AportesTotalCallback callback) {
+        // Primeiro busca todos os objetivos do usuário
+        String urlObjetivos = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/objetivos?id_usuario=eq." + idUsuario + "&select=id_objetivo";
 
         Ion.with(contexto)
-                .load("POST", url)
+                .load("GET", urlObjetivos)
                 .addHeader("Authorization", "Bearer " + API_KEY)
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
-                .setJsonObjectBody(json)
-                .asString()
-                .setCallback((e, result) -> {
-
-                    if (e != null) {
-                        e.printStackTrace();
-                        Toast.makeText(contexto, "Erro ao cadastrar objetivo: " + e.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                .asJsonArray()
+                .setCallback((e, objetivos) -> {
+                    if (e != null || objetivos == null || objetivos.size() == 0) {
+                        callback.onResultado(0.0);
                         return;
                     }
 
-                    Toast.makeText(contexto, "Dinheiro guardado com sucesso!", Toast.LENGTH_LONG).show();
+                    // Monta lista de IDs dos objetivos
+                    StringBuilder idsObjetivos = new StringBuilder();
+                    for (int i = 0; i < objetivos.size(); i++) {
+                        JsonObject obj = objetivos.get(i).getAsJsonObject();
+                        if (i > 0) idsObjetivos.append(",");
+                        idsObjetivos.append(obj.get("id_objetivo").getAsInt());
+                    }
+
+                    // Busca todos os aportes desses objetivos
+                    String urlAportes = "https://kdsuvlaeepwjzqnfvxxr.supabase.co/rest/v1/aportes_objetivo?id_objetivo=in.(" + idsObjetivos.toString() + ")";
+
+                    Ion.with(contexto)
+                            .load("GET", urlAportes)
+                            .addHeader("Authorization", "Bearer " + API_KEY)
+                            .addHeader("apikey", API_KEY)
+                            .addHeader("Content-Type", "application/json")
+                            .asJsonArray()
+                            .setCallback((e2, aportes) -> {
+                                if (e2 != null || aportes == null) {
+                                    callback.onResultado(0.0);
+                                    return;
+                                }
+
+                                double somaAportes = 0.0;
+                                for (int i = 0; i < aportes.size(); i++) {
+                                    JsonObject item = aportes.get(i).getAsJsonObject();
+                                    if (item.has("valor") && !item.get("valor").isJsonNull()) {
+                                        somaAportes += item.get("valor").getAsDouble();
+                                    }
+                                }
+
+                                callback.onResultado(somaAportes);
+                            });
                 });
     }
 

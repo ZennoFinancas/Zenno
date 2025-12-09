@@ -15,7 +15,7 @@ import com.example.zennofinancas.model.clsEnviarEmail;
 public class TelaChecarCodigo extends ActivityBase
 {
     Button btnChecarCod;
-    TextView subtituloChecarCod;
+    TextView subtituloChecarCod, titleReenviarCodigo;
     EditText txtChecarCod;
 
     @Override
@@ -30,6 +30,7 @@ public class TelaChecarCodigo extends ActivityBase
 
         btnChecarCod = (Button) findViewById(R.id.btnChecarCod);
         subtituloChecarCod = (TextView) findViewById(R.id.subtituloChecarCod);
+        titleReenviarCodigo = (TextView) findViewById(R.id.titleReenviarCodigo);
         txtChecarCod = (EditText) findViewById(R.id.txtChecarCod);
 
         // Recebe os valores enviados via Intent
@@ -46,6 +47,37 @@ public class TelaChecarCodigo extends ActivityBase
 
         codigoVerificacao = Integer.parseInt(intent.getString("codigoVerificacao"));
 
+
+        // Reenviar cod no email
+        titleReenviarCodigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int codigoVerificacao = Integer.parseInt(intent.getString("codigoVerificacao"));
+
+                if ("cadastrar".equals(controleChecarCod)) {
+                    subtituloChecarCod.setText("Nós enviamos um código de verificação para " + emailUsuario);
+                    email.enviar(
+                            TelaChecarCodigo.this,
+                            emailUsuario,
+                            "Validação de Conta - Zenno Finanças",
+                            "Validação de Conta",
+                            "Digite o código abaixo no aplicativo para validar o seu acesso.",
+                            codigoVerificacao
+                    );
+                } else {
+                    subtituloChecarCod.setText("Nós enviamos um código de recuperação para " + emailUsuario);
+                    email.enviar(
+                            TelaChecarCodigo.this,
+                            emailUsuario,
+                            "Recuperação de Senha - Zenno Finanças",
+                            "Recuperação de Senha",
+                            "Digite o código abaixo no aplicativo para recuperar sua senha.",
+                            codigoVerificacao
+                    );
+                }
+            }
+        });
 
 
         // Define mensagem e envia email

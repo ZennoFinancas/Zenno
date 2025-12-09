@@ -61,6 +61,8 @@ public class TelaEditarPerfil extends ActivityBase {
         clsDadosUsuario usuario = clsDadosUsuario.getUsuarioAtual(TelaEditarPerfil.this);
 
         if (usuario != null) {
+            SharedPreferences prefs = TelaEditarPerfil.this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+            txtCelularEditPerfil.setText(prefs.getString("numeroUsuario", null));
             txtNomeEditPerfil.setText(usuario.getNomeUsuario());
             txtEmailEditPerfil.setText(usuario.getEmailUsuario());
 
@@ -100,6 +102,7 @@ public class TelaEditarPerfil extends ActivityBase {
                 SharedPreferences prefs = TelaEditarPerfil.this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("nomeUsuario", nome);
+                editor.putString("numeroUsuario", numero);
                 editor.putString("fotoUsuario", fotox);
                 editor.apply();
 

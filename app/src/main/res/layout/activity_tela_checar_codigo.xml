@@ -75,6 +75,23 @@
         app:layout_constraintTop_toBottomOf="@+id/tituloChecarCod" />
 
     <TextView
+        android:id="@+id/titleReenviarCodigo"
+        android:layout_width="332dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="226dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Reenviar código no email"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChecarCod" />
+
+    <TextView
         android:id="@+id/tituloChecarCod"
         android:layout_width="278dp"
         android:layout_height="38dp"

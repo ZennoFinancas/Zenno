@@ -59,9 +59,8 @@ public class TelaRedefinirSenha extends ActivityBase
                     Toast.makeText(TelaRedefinirSenha.this, "Senha deve conter ao menos 7 caracteres!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(TelaRedefinirSenha.this, "AQUIIII" , Toast.LENGTH_SHORT).show();
                     // Método alterar a senha
-                    clsUsuario.alterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
+                    clsMetodos.alterarSenha(TelaRedefinirSenha.this, emailUsuario, senha);
 
                 }
             }

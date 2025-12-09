@@ -164,12 +164,13 @@ public class clsMetas {
     }
 
     // Inserir aporte
-    public static void inserirAporteObjetivo(Context contexto, String idObjetivo, String valorDesejado) {
+    public static void inserirAporteObjetivo(Context contexto, String idObjetivo, String valorDesejado, String idUsuario) {
         float valor = Float.parseFloat(valorDesejado.replace(",", "."));
 
         JsonObject json = new JsonObject();
         json.addProperty("id_objetivo", idObjetivo);
         json.addProperty("valor", valor);
+        json.addProperty("id_usuario", idUsuario);
 
         Ion.with(contexto)
                 .load("POST", BASE_URL + "aportes_objetivo")
